@@ -27,9 +27,13 @@
     "@types/node": "^20.10.1",
     "chalk": "^4.1.2",
     "commander": "^9.4.0",
+    "consola": "^2.15.3",
+    "escape-html": "^1.0.3",
     "gray-matter": "^4.0.3",
     "lodash": "^4.17.21",
+    "markdown-it-container": "^3.0.0",
     "open": "^8.4.0",
+    "prismjs": "^1.28.0",
     "simple-git": "^2.48.0",
     "terser": "^5.14.2",
     "zhlint": "^0.8.1"
