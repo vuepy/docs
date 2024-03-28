@@ -3,7 +3,6 @@ import MarkdownIt from 'markdown-it'
 import mdContainer, { ContainerOpts } from 'markdown-it-container'
 import fs from 'fs'
 import path from 'path'
-import { highlight } from '../utils/highlight'
 import crypto from 'node:crypto'
 
 export function IpynbMarkdownTransform(): Plugin {
@@ -35,13 +34,13 @@ let WIDGET_STATE_MIMETYPE = /** @type {const} */ (
 /** @param {WidgetStateData} widgetState */
 function widgetClientHtml(widgetState) {
   return `\
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-	<script src="https://unpkg.com/@jupyter-widgets/html-manager@*/dist/embed-amd.js"></script>\n
-	<script type="application/vnd.jupyter.widget-state+json">${
+	<component :is="'script'" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></component>
+	<component :is="'script'" src="https://unpkg.com/@jupyter-widgets/html-manager@*/dist/embed-amd.js"></component>\n
+	<component :is="'script'" type="application/vnd.jupyter.widget-state+json">${
     JSON.stringify(
       widgetState,
     )
-  }</script>\n`;
+  }</component>\n`;
 }
 
 /** @param {Cell | undefined} cell */
@@ -56,23 +55,23 @@ function extractCellSource(cell) {
  */
 function outputWidget(output, widgetState) {
   let widgetStateIds = new Set(Object.keys(widgetState?.state ?? {}));
-  let widgetData = output.data[WIDGET_VIEW_MIMETYPE];
+  let widgetData = output?.data[WIDGET_VIEW_MIMETYPE];
 
   if (widgetData && widgetStateIds.has(widgetData.model_id)) {
     let uuid = crypto.randomUUID();
     return `\
 		<div id="${uuid}" class="jupyter-widgets jp-OutputArea-output jp-OutputArea-executeResult">
-			<script type="text/javascript">
+			<component :is="'script'" type="text/javascript">
 				var element = document.getElementById("${uuid}");
-			</script>
-			<script type="application/vnd.jupyter.widget-view+json">
+			</component>
+			<component :is="'script'" type="application/vnd.jupyter.widget-view+json">
 				${JSON.stringify(widgetData)}
-			</script>
+			</component>
 		</div>
 		`;
   }
 
-  if (output.data["text/plain"]) {
+  if (output?.data["text/plain"]) {
     return `<pre>${output.data["text/plain"]}</pre>`;
   }
 
@@ -93,7 +92,7 @@ export const mdPlugin = (md: MarkdownIt) => {
         const sourceFile = sourceFileToken.children?.[0].content ?? ''
 
         // TODO
-        let fileId = path.resolve('..', 'examples', `${sourceFile}.vue`)
+        let fileId = path.resolve(`${sourceFile}.ipynb`)
         if (sourceFileToken.type === 'inline') {
           nbContent = fs.readFileSync(
             fileId,
@@ -108,43 +107,52 @@ export const mdPlugin = (md: MarkdownIt) => {
           // frontmatter = parseFrontmatter(rawSource, id).data;
         }
 
-        let md = ''
+        let html = ''
+        let mdContent = ''
         let widgetState = nb.metadata?.widgets?.[WIDGET_STATE_MIMETYPE];
+        let widgetHtml = ''
         if (widgetState) {
-          md = widgetClientHtml(widgetState) + md;
+          widgetHtml = widgetClientHtml(widgetState);
         }
         for (let cell of nb.cells) {
           if (cell.cell_type == 'markdown') {
-            md += extractCellSource(cell)
+            mdContent = extractCellSource(cell)
+            html += md.render(mdContent)
           }
           else if (cell.cell_type == 'raw') {
-            md += `\`\`\`\n${extractCellSource(cell)}\n\`\`\`\n`;
+            mdContent = `\`\`\`\n${extractCellSource(cell)}\n\`\`\`\n`;
+            html += md.render(mdContent)
           }
           else if (cell.cell_type == 'code') {
-            let codeOutput = cell.outputs[0]
             let widgetOutput = cell.outputs[1]
-            let widgetHtml = outputWidget(widgetOutput, widgetState);
-            let code = JSON.parse(codeOutput.text[0])
+            widgetHtml += outputWidget(widgetOutput, widgetState);
+
+            let codeOutput = cell.outputs[0]
+            let code
+            try {
+              code = JSON.parse(codeOutput.text[0])
+            } catch (e) {
+              console.error(e)
+              continue
+            }
             let vueCode = code['vue']
             let setupCode = code['setup']
-            md += `\
+            let vueHtml = md.render(`\`\`\`vue\n${vueCode}\n\`\`\`\n`)
+            let setupHtml = md.render(`\`\`\`python\n${setupCode}\n\`\`\`\n`);
+            html += `\
+            <IpywuiDemo>
+            <slot>
             ${widgetHtml}\n
-            \`\`\`vue\n${vueCode}\n\`\`\`\n
-            \`\`\`python\n${setupCode}\n\`\`\`\n;
+            ${vueHtml}\n
+            ${setupHtml}\n
+            </slot>
+            </IpywuiDemo>
             `;
           }
         }
-
-
-        return md
-        // return `<IPyWuiDemo source="${encodeURIComponent(
-        //   highlight(source, 'vue')
-        // )}" path="${sourceFile}" raw-source="${encodeURIComponent(
-        //   source
-        // // )}" description="${encodeURIComponent(localMd.render(description))}">`
-        // )}" description="${encodeURIComponent(description)}">`
+        return html
     } else {
-        return '</IPyWuiDemo>'
+        return ''
       }
     },
   } as ContainerOpts)
