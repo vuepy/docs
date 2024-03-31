@@ -3,5 +3,5 @@
 # Test
 
 :::ipywui-demo test
-src/test
+src/examples/test
 :::

@@ -17,6 +17,7 @@
   "dependencies": {
     "@vue/repl": "^3.0.0",
     "@vue/theme": "^2.2.5",
+    "@vueuse/core": "^9.13.0",
     "dynamics.js": "^1.1.5",
     "gsap": "^3.9.0",
     "vitepress": "1.0.0-rc.33",
@@ -34,6 +35,7 @@
     "markdown-it-container": "^3.0.0",
     "open": "^8.4.0",
     "prismjs": "^1.28.0",
+    "sass": "^1.72.0",
     "simple-git": "^2.48.0",
     "terser": "^5.14.2",
     "zhlint": "^0.8.1"
