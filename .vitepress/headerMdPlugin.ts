@@ -25,6 +25,9 @@ export const headerPlugin = (md: MarkdownIt) => {
         child.content = child.content.replace(/\s*\*+$/, '')
       }
     }
+    if (tokens[i].tag === 'h2' && tokens[i+1].content === '#header-mark#') {
+      tokens[i].attrs.push(['style', 'display: none'])
+    }
     return self.renderToken(tokens, i, options)
   }
 

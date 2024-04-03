@@ -93,14 +93,14 @@ function widgetOutputHtml(output, widgetState) {
   return "";
 }
 
-function cellToMarkdown(cell, md) {
+function cellToMarkdown(cell, md, env) {
     let mdContent = extractCellSource(cell)
-    return md.render(mdContent)
+    return md.render(mdContent, env)
 }
 
-function cellToRawCode(cell, md) {
+function cellToRawCode(cell, md, env) {
     let mdContent = `\`\`\`\n${extractCellSource(cell)}\n\`\`\`\n`;
-    return md.render(mdContent)
+    return md.render(mdContent, env)
 }
 
 function cellToIpynbDemo(cell, md, widgetState) {
@@ -138,7 +138,7 @@ export const mdPlugin = (md: MarkdownIt) => {
     validate(params: string) {
       return !!params.trim().match(/^ipywui-demo\s*(.*)$/)
     },
-    render(tokens, idx) {
+    render(tokens, idx, options, env, self) {
       const m = tokens[idx].info.trim().match(/^ipywui-demo\s*(.*)$/)
       if (tokens[idx].nesting !== 1 /* 1 means the tag is opening */) {
         return ''
@@ -167,18 +167,42 @@ export const mdPlugin = (md: MarkdownIt) => {
         _widgetStateHtml += widgetStateHtml(widgetState)
       }
       let demosMarkdown = ''
+      let append = {
+        headers: [],
+        title: '',
+      }
       for (let cell of nb.cells) {
+        let appendBLock = {
+          headers: [],
+          title: '',
+        }
         switch (cell.cell_type) {
           case 'markdown':
-            demosMarkdown += cellToMarkdown(cell, md)
+            demosMarkdown += cellToMarkdown(cell, md, appendBLock)
             break
           case 'raw':
-            demosMarkdown += cellToRawCode(cell, md)
+            demosMarkdown += cellToRawCode(cell, md, appendBLock)
             break
           case 'code':
             demosMarkdown += cellToIpynbDemo(cell, md, widgetState)
             break
         }
+        if (appendBLock.headers) {
+          append.headers = append.headers.concat(appendBLock.headers)
+        }
+        if (appendBLock.title) {
+          append.title = appendBLock.title
+        }
+      }
+
+      if (append.headers) {
+        let idx = env.headers.findIndex((e) => e.title === "#header-mark#")
+        if (idx !== -1) {
+          env.headers.splice(idx, 1, ...append.headers)
+        }
+      }
+      if (append.title) {
+        env.title = append.title
       }
 
       return `
