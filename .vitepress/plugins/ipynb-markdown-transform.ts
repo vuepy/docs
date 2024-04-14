@@ -116,7 +116,7 @@ function cellToIpynbDemo(cell, md, widgetState) {
   }
   const { vue, setup} = code;
   let vueHtml = md.render(`\`\`\`vue\n${vue}\n\`\`\`\n`)
-  let setupHtml = md.render(`\`\`\`python\n${setup}\n\`\`\`\n`);
+  let setupHtml = !!setup ? md.render(`\`\`\`python\n${setup}\n\`\`\`\n`) : '';
 
   return `
     <IpywuiDemo>
