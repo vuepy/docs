@@ -52,7 +52,7 @@ function widgetStateHtml(widgetState) {
 	  ${JSON.stringify(widgetState)}
 	</component>\n
 	<component :is="'script'"
-  src="/html-manager.js">
+  src="/html-manager.min.js">
 	</component>\n
 	`;
   // src="https://unpkg.com/@jupyter-widgets/html-manager@1.0.10/dist/embed-amd.js">
