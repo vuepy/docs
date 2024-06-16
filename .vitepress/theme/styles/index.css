@@ -5,3 +5,36 @@
 @import "./inline-demo.css";
 @import "./utilities.css";
 @import "./style-guide.css";
+@import "./table-wrapper.scss";
+@import "./fontawesome.all.min.css";
+
+
+:root {
+  --vt-c-green: #42b883;
+  --vt-c-green-light: #42d392;
+  --vt-c-green-lighter: #35eb9a;
+  --vt-c-green-dark: #33a06f;
+  --vt-c-green-darker: #155f3e;
+
+  /*--vt-c-brand: #c4490c !important;*/
+  /*--vt-c-brand: #179fb0 !important*/
+  /*--vt-c-brand: #18bbf7 !important; !* zima blue *!*/
+  --vt-c-brand: #16B8F3 !important; /* zima blue */
+  /*--vt-c-brand: #329ed3 !important; !* zima blue *!*/
+
+  --vt-c-green: #5a5a5a !important;
+  --vt-c-green: #0968DB !important;
+  --vt-c-green: #16B8F3 !important;
+
+  --vt-c-green-light: #42d392 !important;
+  --vt-c-green-light: #16B8F3 !important;
+
+  --vt-c-green-lighter: #35eb9a !important;
+  --vt-c-green-lighter: #16B8F3 !important;
+
+  --vt-c-green-dark: #0A38FA !important;
+  --vt-c-green-dark: #0968DB !important;
+
+  --vt-c-green-darker: #155f3e !important;
+  --vt-c-green-darker: #0968DB !important;
+}
