@@ -11,9 +11,10 @@ import {
 import PreferenceTooltip from './PreferenceTooltip.vue'
 
 const route = useRoute()
-const show = computed(() =>
-  /^\/(guide|tutorial|examples|style-guide)\//.test(route.path)
-)
+const show = ref(false)
+// const show = computed(() =>
+//   /^\/(guide|tutorial|examples|style-guide)\//.test(route.path)
+// )
 const showSFC = computed(() => !/^\/guide|style-guide/.test(route.path))
 
 let isOpen = ref(true)

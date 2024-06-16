@@ -5,10 +5,12 @@ const { frontmatter } = useData()
 </script>
 
 <template>
+  <!-- todo 暂不支持 本页目录
   <div v-if="frontmatter.sponsors !== false">
     <a class="sponsors-aside-text" href="/sponsor/">赞助位</a>
     <SponsorsGroup tier="platinum_china" />
   </div>
+  -->
 </template>
 
 <style>

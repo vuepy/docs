@@ -16,11 +16,11 @@ onMounted(async () => {
 <template>
   <section id="hero">
     <h1 class="tagline">
-      <span class="accent">渐进式</span>
-      <br />JavaScript 框架
+      <span class="accent">响应式</span>
+      <br />Python 框架
     </h1>
     <p class="description">
-      易学易用，性能出色，适用场景丰富的 Web 前端框架。
+      易学易用，性能出色，适用场景丰富的 Jupyter Web 前端框架。
     </p>
     <p class="actions">
       <!-- NOTE: hide the home video -->
@@ -43,6 +43,7 @@ onMounted(async () => {
     </p>
   </section>
 
+  <!-- todo 暂不支持 赞助位
   <section id="special-sponsor">
     <template v-if="data && data.platinum_china">
       <h3>中国区铂金赞助</h3>
@@ -90,13 +91,14 @@ onMounted(async () => {
       >中国区铂金赞助位 点击了解更多</a
     >
   </section>
+  -->
 
   <section id="highlights" class="vt-box-container">
     <div class="vt-box">
       <h2>易学易用</h2>
       <p>
-        基于标准 HTML、CSS 和 JavaScript 构建，提供容易上手的 API
-        和一流的文档。
+        基于 ipywidgets 或基于标准 HTML、CSS 和 JavaScript + Python 构建，
+        提供容易上手的 API 和一流的文档。
       </p>
     </div>
     <div class="vt-box">
@@ -111,12 +113,14 @@ onMounted(async () => {
     </div>
   </section>
 
+  <!-- todo 暂不支持 赞助位
   <section id="sponsors">
     <h2>Platinum Sponsors</h2>
     <SponsorsGroup tier="platinum" placement="landing" />
     <h2>Gold Sponsors</h2>
     <SponsorsGroup tier="gold" placement="landing" />
   </section>
+  -->
 
   <SiteMap />
   <!-- <NewsLetter /> -->
@@ -143,7 +147,9 @@ section {
 
 html:not(.dark) .accent,
 .dark .tagline {
-  background: -webkit-linear-gradient(315deg, #42d392 25%, #647eff);
+  /*background: -webkit-linear-gradient(315deg, #42d392 25%, #647eff);*/
+  /*background: -webkit-radial-gradient(circle, #16B8F3 45%, #0968DB);*/
+  background: -webkit-linear-gradient(100deg, #16B8F3 45%, #0968DB);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;

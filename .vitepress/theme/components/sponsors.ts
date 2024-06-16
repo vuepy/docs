@@ -29,7 +29,9 @@ export interface SponsorData {
 export const data = ref<SponsorData>()
 export const pending = ref<boolean>(false)
 
-export const base = `https://sponsors.vuejs.org`
+// 赞助商广告 <!-- todo 暂不支持 赞助位
+export const base = `https://sponsors.vuepy.org`
+// export const base = `https://sponsors.vuejs.org`
 
 export const load = async () => {
   if (!pending.value) {

@@ -2,10 +2,11 @@
 import { onMounted } from 'vue'
 
 onMounted(() => {
-  const s = document.createElement('script')
-  s.async = true
-  s.src = `https://cdn.wwads.cn/js/makemoney.js`
-  document.querySelector('.wwads-container')!.appendChild(s)
+  // <!-- todo 暂不支持 赞助 -->
+  // const s = document.createElement('script')
+  // s.async = true
+  // s.src = `https://cdn.wwads.cn/js/makemoney.js`
+  // document.querySelector('.wwads-container')!.appendChild(s)
 })
 </script>
 
