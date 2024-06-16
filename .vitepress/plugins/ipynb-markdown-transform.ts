@@ -31,6 +31,13 @@ let WIDGET_STATE_MIMETYPE = /** @type {const} */ (
   "application/vnd.jupyter.widget-state+json"
 );
 
+
+function escapeHTML(html) {
+  return html.replace(/[\u00A0-\u9999<>\&]/g, function(i) {
+    return '&#' + i.charCodeAt(0) + ';';
+  })
+}
+
 // requirejs.s.contexts._.config
 /** @param {WidgetStateData} widgetState */
 function widgetStateHtml(widgetState) {
@@ -49,11 +56,9 @@ function widgetStateHtml(widgetState) {
   </component>
 	<component :is="'script'" src="/require.min.js"></component>\n
 	<component :is="'script'" type="application/vnd.jupyter.widget-state+json">
-	  ${JSON.stringify(widgetState)}
+	  ${escapeHTML(JSON.stringify(widgetState))}
 	</component>\n
-	<component :is="'script'"
-  src="/html-manager.min.js">
-	</component>\n
+	<component :is="'script'" src="/html-manager.min.js"></component>\n
 	`;
   // src="https://unpkg.com/@jupyter-widgets/html-manager@1.0.10/dist/embed-amd.js">
 }
@@ -111,6 +116,7 @@ function cellToIpynbDemo(cell, md, widgetState) {
   try {
     code = JSON.parse(codeOutput.text[0])
   } catch (e) {
+    // for empty ipynb cell
     console.error(e)
     return ''
   }
@@ -126,7 +132,7 @@ function cellToIpynbDemo(cell, md, widgetState) {
 
       <template #src>
         ${vueHtml}\n
-        <hr>
+        <hr/>
         ${setupHtml}\n
       </template>
     </IpywuiDemo>
