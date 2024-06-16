@@ -698,6 +698,7 @@ export default defineConfigWithTheme<ThemeConfig>({
 
   lang: 'zh-CN',
   title: 'Vue.py',
+  base: '/docs/',
   description: 'Vue.py - 渐进式的 Python 框架',
   srcDir: 'src',
   srcExclude: ['tutorial/**/description.md'],
