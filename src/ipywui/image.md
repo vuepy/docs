@@ -4,5 +4,5 @@ outline: deep
 
 ## #header-mark#
 :::ipywui-demo test
-src/examples/ipywui/component/image
+src/examples/ipywui/component/Image
 :::
