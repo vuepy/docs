@@ -54,11 +54,11 @@ function widgetStateHtml(widgetState) {
    }
    console.info('require')
   </component>
-	<component :is="'script'" src="/require.min.js"></component>\n
+	<component :is="'script'" src="/docs/require.min.js"></component>\n
 	<component :is="'script'" type="application/vnd.jupyter.widget-state+json">
 	  ${escapeHTML(JSON.stringify(widgetState))}
 	</component>\n
-	<component :is="'script'" src="/html-manager.min.js"></component>\n
+	<component :is="'script'" src="/docs/html-manager.min.js"></component>\n
 	`;
   // src="https://unpkg.com/@jupyter-widgets/html-manager@1.0.10/dist/embed-amd.js">
 }
