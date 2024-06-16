@@ -20,7 +20,7 @@ onMounted(async () => {
       <br />Python 框架
     </h1>
     <p class="description">
-      易学易用，性能出色，适用场景丰富的 Jupyter Web 前端框架。
+      易学易用，性能出色，适用场景丰富的 IPython Notebook UI 框架。
     </p>
     <p class="actions">
       <!-- NOTE: hide the home video -->
@@ -97,7 +97,7 @@ onMounted(async () => {
     <div class="vt-box">
       <h2>易学易用</h2>
       <p>
-        基于 ipywidgets 或基于标准 HTML、CSS 和 JavaScript + Python 构建，
+        基于 ipywidgets、HTML、CSS 和 Python 构建，
         提供容易上手的 API 和一流的文档。
       </p>
     </div>
