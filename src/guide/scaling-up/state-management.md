@@ -1,4 +1,9 @@
-# 状态管理 {#state-management}
+# 状态管理 <sup class="vt-badge dev-only" data-text="Reserved" /> {#state-management}
+
+:::warning
+请注意，这是一个预留的语法，当前版本未实现。
+:::
+<!-- end revered_text -->
 
 ## 什么是状态管理？ {#what-is-state-management}
 

@@ -9,19 +9,19 @@ sponsors: false
 import SponsorsGroup from '@theme/components/SponsorsGroup.vue'
 </script>
 
-# 成为 Vue.js 的赞助者 {#become-a-vue-js-sponsor}
+# 成为 Vue.py 的赞助者 {#become-a-vue-py-sponsor}
 
-Vue.js 是采用 MIT 许可的开源项目，使用完全免费。
+Vue.py 是采用 MIT 许可的开源项目，使用完全免费。
 
 维护这样一个庞大的生态系统和为项目开发新功能所需的巨大努力，只有在我们的赞助者慷慨的财务支持下才得以持续。
 
 ## 中国区赞助渠道
 
-来自国内的开发者或公司可以通过[爱发电](https://afdian.net/a/evanyou)平台来支持 Vue.js 的开发。爱发电上的赞助等级和本页下面列出的赞助等级是一一对应的。
+来自国内的开发者或公司可以通过[爱发电](https://afdian.net/a/evanyou)平台来支持 Vue.py 的开发。爱发电上的赞助等级和本页下面列出的赞助等级是一一对应的。
 
-其中**中国区铂金赞助商**是仅针对本站 (cn.vuejs.org) 的赞助位级别，包含以下权益：
+其中**中国区铂金赞助商**是仅针对本站 (cn.vuepy.org) 的赞助位级别，包含以下权益：
 
-1. [cn.vuejs.org](/) 首屏无需滚动可见的 logo 展示位：
+1. [cn.vuepy.org](/) 首屏无需滚动可见的 logo 展示位：
 
 ![首页放置位](./sponsor-placement-1.png)
 

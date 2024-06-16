@@ -8,13 +8,19 @@
 
 - **示例**
 
-  ```js
-  import { version } from 'vue'
+  ```py
+  import vuepy
+  
 
-  console.log(version)
+  console.log(vuepy.__version__)
   ```
 
-## nextTick() {#nexttick}
+## <sup class=""/> nextTick() <sup class="vt-badge dev-only" data-text="Reserved" /> {#nexttick}
+
+:::warning
+请注意，这是一个预留的语法，当前版本未实现。
+:::
+<!-- end revered_text -->
 
 等待下一次 DOM 更新刷新的工具方法。
 
@@ -94,7 +100,12 @@
 
 - **参考** [`this.$nextTick()`](/api/component-instance#nexttick)
 
-## defineComponent() {#definecomponent}
+## <sup class=""/> defineComponent() <sup class="vt-badge dev-only" data-text="Reserved" /> {#definecomponent}
+
+:::warning
+请注意，这是一个预留的语法，当前版本未实现。
+:::
+<!-- end revered_text -->
 
 在定义 Vue 组件时提供类型推导的辅助函数。
 
@@ -193,7 +204,12 @@
 
 - **参考**[指南 - 配合 TypeScript 使用 Vue](/guide/typescript/overview#general-usage-notes)
 
-## defineAsyncComponent() {#defineasynccomponent}
+## <sup class=""/> defineAsyncComponent() <sup class="vt-badge dev-only" data-text="Reserved" /> {#defineasynccomponent}
+
+:::warning
+请注意，这是一个预留的语法，当前版本未实现。
+:::
+<!-- end revered_text -->
 
 定义一个异步组件，它在运行时是懒加载的。参数可以是一个异步加载函数，或是对加载行为进行更具体定制的一个选项对象。
 
@@ -224,7 +240,12 @@
 
 - **参考**[指南 - 异步组件](/guide/components/async)
 
-## defineCustomElement() {#definecustomelement}
+## <sup class=""/> defineCustomElement() <sup class="vt-badge dev-only" data-text="Reserved" /> {#definecustomelement}
+
+:::warning
+请注意，这是一个预留的语法，当前版本未实现。
+:::
+<!-- end revered_text -->
 
 这个方法和 [`defineComponent`](#definecomponent) 接受的参数相同，不同的是会返回一个原生[自定义元素](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements)类的构造器。
 

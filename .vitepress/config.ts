@@ -4,6 +4,9 @@ import { defineConfigWithTheme } from 'vitepress'
 import type { Config as ThemeConfig } from '@vue/theme'
 import baseConfig from '@vue/theme/config'
 import { headerPlugin } from './headerMdPlugin'
+import { mdPlugin } from './plugins/ipynb-markdown-transform'
+import tableWrapper from './plugins/table-wrapper'
+import tooltip from './plugins/tooltip'
 // import { textAdPlugin } from './textAdMdPlugin'
 
 const nav: ThemeConfig['nav'] = [
@@ -12,20 +15,20 @@ const nav: ThemeConfig['nav'] = [
     activeMatch: `^/(guide|style-guide|cookbook|examples)/`,
     items: [
       { text: '深度指南', link: '/guide/introduction' },
-      { text: '互动教程', link: '/tutorial/' },
-      { text: '示例', link: '/examples/' },
+      // { text: '互动教程', link: '/tutorial/' },
       { text: '快速上手', link: '/guide/quick-start' },
+      { text: '示例', link: '/examples/' },  // todo 仅用于提供思路，添加python部分的实现
       // { text: '风格指南', link: '/style-guide/' },
       { text: '术语表', link: '/glossary/' },
-      { text: '错误码参照表', link: '/error-reference/' },
-      {
-        text: 'Vue 2 文档',
-        link: 'https://v2.cn.vuejs.org'
-      },
-      {
-        text: '从 Vue 2 迁移',
-        link: 'https://v3-migration.vuejs.org/'
-      }
+      // { text: '错误码参照表', link: '/error-reference/' },
+      // {
+      //   text: 'Vue 2 文档',
+      //   link: 'https://v2.cn.vuejs.org'
+      // },
+      // {
+      //   text: '从 Vue 2 迁移',
+      //   link: 'https://v3-migration.vuejs.org/'
+      // }
     ]
   },
   {
@@ -34,9 +37,14 @@ const nav: ThemeConfig['nav'] = [
     link: '/api/'
   },
   {
-    text: '演练场',
-    link: 'https://play.vuejs.org'
+    text: 'UI 组件',
+    activeMatch: `^/ipywui/`,
+    link: '/ipywui/overview'
   },
+  // {
+  //   text: '演练场',
+  //   link: 'https://play.vuejs.org'
+  // },
   {
     text: '生态系统',
     activeMatch: `^/ecosystem/`,
@@ -44,58 +52,63 @@ const nav: ThemeConfig['nav'] = [
       {
         text: '资源',
         items: [
+
+          /*
+          <!-- todo 暂不支持
           { text: '合作伙伴', link: '/partners/' },
+           */
           { text: '主题', link: '/ecosystem/themes' },
-          { text: 'UI 组件', link: 'https://ui-libs.vercel.app/' },
-          {
-            text: '证书',
-            link: 'https://certification.vuejs.org/?ref=vuejs-nav'
-          },
-          { text: '找工作', link: 'https://vuejobs.com/?ref=vuejs' },
-          { text: 'T-Shirt 商店', link: 'https://vue.threadless.com/' }
+          // { text: 'UI 组件', link: 'https://ui-libs.vercel.app/' },
+          // {
+          //   text: '证书',
+          //   link: 'https://certification.vuejs.org/?ref=vuejs-nav'
+          // },
+          // { text: '找工作', link: 'https://vuejobs.com/?ref=vuejs' },
+          // { text: 'T-Shirt 商店', link: 'https://vue.threadless.com/' }
         ]
       },
       {
         text: '官方库',
         items: [
-          { text: 'Vue Router', link: 'https://router.vuejs.org/zh/' },
-          { text: 'Pinia', link: 'https://pinia.vuejs.org/zh/' },
-          { text: '工具链指南', link: '/guide/scaling-up/tooling.html' }
+          { text: 'IPywUI', link: '/ipywui/overview' },
+          // { text: 'Vue Router', link: 'https://router.vuejs.org/zh/' },
+          // { text: 'Pinia', link: 'https://pinia.vuejs.org/zh/' },
+          // { text: '工具链指南', link: '/guide/scaling-up/tooling.html' }
         ]
       },
-      {
-        text: '视频课程',
-        items: [
-          {
-            text: 'Vue Mastery',
-            link: 'https://www.vuemastery.com/courses/'
-          },
-          {
-            text: 'Vue School',
-            link: 'https://vueschool.io/?friend=vuejs&utm_source=Vuejs.org&utm_medium=Link&utm_content=Navbar%20Dropdown'
-          }
-        ]
-      },
+      // {
+      //   text: '视频课程',
+      //   items: [
+      //     {
+      //       text: 'Vue Mastery',
+      //       link: 'https://www.vuemastery.com/courses/'
+      //     },
+      //     {
+      //       text: 'Vue School',
+      //       link: 'https://vueschool.io/?friend=vuejs&utm_source=Vuejs.org&utm_medium=Link&utm_content=Navbar%20Dropdown'
+      //     }
+      //   ]
+      // },
       {
         text: '帮助',
         items: [
-          {
-            text: 'Discord 聊天室',
-            link: 'https://discord.com/invite/HBherRA'
-          },
+          // {
+          //   text: 'Discord 聊天室',
+          //   link: 'https://discord.com/invite/HBherRA'
+          // },
           {
             text: 'GitHub 论坛',
-            link: 'https://github.com/vuejs/core/discussions'
+            link: 'https://github.com/vuepy/vuepy/discussions'
           },
-          { text: 'DEV Community', link: 'https://dev.to/t/vue' }
+          // { text: 'DEV Community', link: 'https://dev.to/t/vue' }
         ]
       },
       {
         text: '动态',
         items: [
-          { text: '博客', link: 'https://blog.vuejs.org/' },
-          { text: 'Twitter', link: 'https://twitter.com/vuejs' },
-          { text: '活动', link: 'https://events.vuejs.org/' },
+          { text: '博客', link: 'https://blog.vuepy.org/' },
+          // { text: 'Twitter', link: 'https://twitter.com/vuejs' },
+          // { text: '活动', link: 'https://events.vuejs.org/' },
           { text: '新闻简报', link: '/ecosystem/newsletters' }
         ]
       }
@@ -107,27 +120,37 @@ const nav: ThemeConfig['nav'] = [
     items: [
       { text: '常见问题', link: '/about/faq' },
       { text: '团队', link: '/about/team' },
+      /*
+      <!-- todo 暂不支持
       { text: '版本发布', link: '/about/releases' },
       {
         text: '社区指南',
         link: '/about/community-guide'
       },
+      */
       { text: '行为规范', link: '/about/coc' },
-      {
-        text: '纪录片',
-        link: 'https://www.youtube.com/watch?v=OrxmtDw4pVI'
-      }
+      // {
+      //   text: '纪录片',
+      //   link: 'https://www.youtube.com/watch?v=OrxmtDw4pVI'
+      // }
     ]
   },
+  /*
+  <!-- todo 暂不支持
   {
     text: '赞助',
     link: '/sponsor/'
   },
+  */
+
+  /*
+  <!-- todo 暂不支持
   {
     text: '合作伙伴',
     link: '/partners/',
     activeMatch: `^/partners/`
   }
+   */
 ]
 
 export const sidebar: ThemeConfig['sidebar'] = {
@@ -229,14 +252,15 @@ export const sidebar: ThemeConfig['sidebar'] = {
     {
       text: '内置组件',
       items: [
-        { text: 'Transition', link: '/guide/built-ins/transition' },
-        {
-          text: 'TransitionGroup',
-          link: '/guide/built-ins/transition-group'
-        },
-        { text: 'KeepAlive', link: '/guide/built-ins/keep-alive' },
-        { text: 'Teleport', link: '/guide/built-ins/teleport' },
-        { text: 'Suspense', link: '/guide/built-ins/suspense' }
+        { text: 'ipywui', link: '/ipywui/overview' },
+        // { text: 'Transition', link: '/guide/built-ins/transition' },
+        // {
+        //   text: 'TransitionGroup',
+        //   link: '/guide/built-ins/transition-group'
+        // },
+        // { text: 'KeepAlive', link: '/guide/built-ins/keep-alive' },
+        // { text: 'Teleport', link: '/guide/built-ins/teleport' },
+        // { text: 'Suspense', link: '/guide/built-ins/suspense' }
       ]
     },
     {
@@ -250,47 +274,48 @@ export const sidebar: ThemeConfig['sidebar'] = {
           link: '/guide/scaling-up/state-management'
         },
         { text: '测试', link: '/guide/scaling-up/testing' },
-        {
-          text: '服务端渲染 (SSR)',
-          link: '/guide/scaling-up/ssr'
-        }
+        // {
+        //   text: '服务端渲染 (SSR)',
+        //   link: '/guide/scaling-up/ssr'
+        // }
       ]
     },
     {
       text: '最佳实践',
       items: [
-        {
-          text: '生产部署',
-          link: '/guide/best-practices/production-deployment'
-        },
-        {
-          text: '性能优化',
-          link: '/guide/best-practices/performance'
-        },
-        {
-          text: '无障碍访问',
-          link: '/guide/best-practices/accessibility'
-        },
+        // {
+        //   text: '生产部署',
+        //   link: '/guide/best-practices/production-deployment'
+        // },
+        // {
+        //   text: '性能优化',
+        //   link: '/guide/best-practices/performance'
+        // },
+        // {
+        //   text: '无障碍访问',
+        //   link: '/guide/best-practices/accessibility'
+        // },
         {
           text: '安全',
           link: '/guide/best-practices/security'
         }
       ]
     },
-    {
-      text: 'TypeScript',
-      items: [
-        { text: '总览', link: '/guide/typescript/overview' },
-        {
-          text: 'TS 与组合式 API',
-          link: '/guide/typescript/composition-api'
-        },
-        {
-          text: 'TS 与选项式 API',
-          link: '/guide/typescript/options-api'
-        }
-      ]
-    },
+    // {
+    //   text: 'TypeScript',
+    //   items: [
+    //     { text: '总览', link: '/guide/typescript/overview' },
+    //     {
+    //       text: 'TS 与组合式 API',
+    //       link: '/guide/typescript/composition-api'
+    //     },
+    //     {
+    //       text: 'TS 与选项式 API',
+    //       link: '/guide/typescript/options-api'
+    //     }
+    //   ]
+    // },
+    /*
     {
       text: '进阶主题',
       items: [
@@ -332,6 +357,7 @@ export const sidebar: ThemeConfig['sidebar'] = {
         // }
       ]
     }
+     */
   ],
   '/api/': [
     {
@@ -341,7 +367,9 @@ export const sidebar: ThemeConfig['sidebar'] = {
         {
           text: '通用',
           link: '/api/general'
-        }
+        },
+        { text: '日志系统', link: '/api/log' },
+        { text: 'IPython Magic', link: '/api/ipython-magic' },
       ]
     },
     {
@@ -370,26 +398,26 @@ export const sidebar: ThemeConfig['sidebar'] = {
         }
       ]
     },
-    {
-      text: '选项式 API',
-      items: [
-        { text: '状态选项', link: '/api/options-state' },
-        { text: '渲染选项', link: '/api/options-rendering' },
-        {
-          text: '生命周期选项',
-          link: '/api/options-lifecycle'
-        },
-        {
-          text: '组合选项',
-          link: '/api/options-composition'
-        },
-        { text: '其他杂项', link: '/api/options-misc' },
-        {
-          text: '组件实例',
-          link: '/api/component-instance'
-        }
-      ]
-    },
+    // {
+    //   text: '选项式 API',
+    //   items: [
+    //     { text: '状态选项', link: '/api/options-state' },
+    //     { text: '渲染选项', link: '/api/options-rendering' },
+    //     {
+    //       text: '生命周期选项',
+    //       link: '/api/options-lifecycle'
+    //     },
+    //     {
+    //       text: '组合选项',
+    //       link: '/api/options-composition'
+    //     },
+    //     { text: '其他杂项', link: '/api/options-misc' },
+    //     {
+    //       text: '组件实例',
+    //       link: '/api/component-instance'
+    //     }
+    //   ]
+    // },
     {
       text: '内置内容',
       items: [
@@ -409,20 +437,96 @@ export const sidebar: ThemeConfig['sidebar'] = {
       text: '单文件组件',
       items: [
         { text: '语法定义', link: '/api/sfc-spec' },
-        { text: '<script setup>', link: '/api/sfc-script-setup' },
-        { text: 'CSS 功能', link: '/api/sfc-css-features' }
+        { text: '<script lang="py">', link: '/api/sfc-script-setup' },
+        { text: 'CSS 功能', link: '/api/sfc-css-features' },
+        { text: '作为 Python 模块导入', link: '/api/sfc-import-sfc' },
       ]
     },
     {
       text: '进阶 API',
       items: [
-        { text: '渲染函数', link: '/api/render-function' },
-        { text: '服务端渲染', link: '/api/ssr' },
-        { text: 'TypeScript 工具类型', link: '/api/utility-types' },
+        // { text: '渲染函数', link: '/api/render-function' },
+        // { text: '服务端渲染', link: '/api/ssr' },
+        // { text: 'TypeScript 工具类型', link: '/api/utility-types' },
         { text: '自定义渲染', link: '/api/custom-renderer' },
-        { text: '编译时标志', link: '/api/compile-time-flags' },
+        // { text: '编译时标志', link: '/api/compile-time-flags' },
       ]
     }
+  ],
+  '/ipywui/': [
+    {
+      text: 'Overview 组件总揽',
+      items: [
+        {text: 'IPywUI UI 组件', link: '/ipywui/overview'},
+      ]
+    },
+    {
+      text: 'Basic 基础组件',
+      items: [
+        {text: 'Button 按钮', link: '/ipywui/button'},
+        {text: 'Layout 布局', link: '/ipywui/layout'},
+        {text: 'App Layout 应用布局容器', link: '/ipywui/layout-app'},
+        {text: 'Box Layout 基本布局', link: '/ipywui/layout-box'},
+      ]
+    },
+    {
+      text: 'Form 表单组件',
+      items: [
+        {text: 'Checkbox 多选框', link: '/ipywui/checkbox'},
+        {text: 'ColorPicker 颜色选择器', link: '/ipywui/color-picker'},
+        {text: 'ComboBox 选择输入框', link: '/ipywui/combobox'},
+        {text: 'Date Picker 日期选择器', link: '/ipywui/date-picker'},
+        {text: 'DateTime Picker 日期时间选择', link: '/ipywui/datetime-picker'},
+        {text: 'Time Picker 时间选择器', link: '/ipywui/time-picker'},
+        {text: 'Input 输入框', link: '/ipywui/input'},
+        {text: 'Input Number 数字输入框', link: '/ipywui/input-number'},
+        {text: 'Radio 单选框', link: '/ipywui/radio'},
+        {text: 'Select 选择器', link: '/ipywui/select'},
+        {text: 'Select Colors 颜色列表选择器', link: '/ipywui/select-colors'},
+        {text: 'Select Numbers 数字列表选择', link: '/ipywui/select-numbers'},
+        {text: 'Select Tags 标签列表选择器', link: '/ipywui/select-tags'},
+        {text: 'Slider 滑块', link: '/ipywui/slider'},
+        {text: 'Toggle Button 开关', link: '/ipywui/toggle-button'},
+        {text: 'Toggle Buttons 切换按钮', link: '/ipywui/toggle-buttons'},
+      ]
+    },
+    {
+      text: 'Data 数据展示',
+      items: [
+        {text: 'Accordion 折叠面板', link: '/ipywui/accordion'},
+        {text: 'Display 组件展示器', link: '/ipywui/display'},
+        {text: 'Image 图片', link: '/ipywui/image'},
+        {text: 'Label 标签', link: '/ipywui/label'},
+        {text: 'Markdown 查看器', link: '/ipywui/markdown-viewer'},
+        {text: 'Play 播放器', link: '/ipywui/play'},
+        {text: 'Progress 进度条', link: '/ipywui/progress'},
+        {text: 'Valid 状态指示器', link: '/ipywui/valid'},
+      ]
+    },
+    {
+      text: 'Navigation 导航',
+      items: [
+        {text: 'Dropdown 下拉菜单', link: '/ipywui/dropdown'},
+        {text: 'File Upload 上传', link: '/ipywui/file-upload'},
+        {text: 'Stack 组件栈', link: '/ipywui/stack'},
+        {text: 'Tabs 标签页', link: '/ipywui/tabs'},
+      ]
+    },
+    {
+      text: 'Feedback 反馈组件',
+      items: [
+        {text: 'Dialog 对话框', link: '/ipywui/dialog'},
+        {text: 'Message 消息提示', link: '/ipywui/message'},
+      ]
+    },
+    {
+      text: 'Other 其他',
+      items: [
+        {text: 'Clipboard 剪贴板组件', link: '/ipywui/clipboard'},
+        {text: 'Controller 游戏控制器', link: '/ipywui/controller'},
+        {text: '集成第三方小组件', link: '/ipywui/display'},
+      ]
+    },
   ],
   '/examples/': [
     {
@@ -593,8 +697,8 @@ export default defineConfigWithTheme<ThemeConfig>({
   extends: baseConfig,
 
   lang: 'zh-CN',
-  title: 'Vue.js',
-  description: 'Vue.js - 渐进式的 JavaScript 框架',
+  title: 'Vue.py',
+  description: 'Vue.py - 渐进式的 Python 框架',
   srcDir: 'src',
   srcExclude: ['tutorial/**/description.md'],
 
@@ -634,6 +738,7 @@ export default defineConfigWithTheme<ThemeConfig>({
         'utf-8'
       )
     ],
+    /* todo  暂不支持 网站分析
     [
       'script',
       {
@@ -643,6 +748,8 @@ export default defineConfigWithTheme<ThemeConfig>({
         defer: ''
       }
     ],
+    */
+    /* <!-- todo 暂不支持 赞助位 头部的广告
     [
       'script',
       {
@@ -650,6 +757,7 @@ export default defineConfigWithTheme<ThemeConfig>({
         async: 'true'
       }
     ]
+     */
   ],
 
   themeConfig: {
@@ -658,6 +766,8 @@ export default defineConfigWithTheme<ThemeConfig>({
     i18n,
 
     localeLinks: [
+      /*
+       <!-- todo 暂不支持
       {
         link: 'https://vuejs.org',
         text: 'English',
@@ -698,6 +808,7 @@ export default defineConfigWithTheme<ThemeConfig>({
         text: 'Italiano',
         repo: 'https://github.com/vuejs-translations/docs-it'
       },
+       */
       {
         link: '/translations/',
         text: '帮助我们翻译！',
@@ -758,13 +869,13 @@ export default defineConfigWithTheme<ThemeConfig>({
     // },
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/vuejs/' },
-      { icon: 'twitter', link: 'https://twitter.com/vuejs' },
-      { icon: 'discord', link: 'https://discord.com/invite/HBherRA' }
+      { icon: 'github', link: 'https://github.com/vuepy/' },
+      { icon: 'twitter', link: 'https://twitter.com/vuepy-org' },
+      { icon: 'discord', link: 'https://discord.com/' }
     ],
 
     editLink: {
-      repo: 'vuejs-translations/docs-zh-cn',
+      repo: 'vuepy/docs',
       text: '在 GitHub 上编辑此页'
     },
 
@@ -780,6 +891,10 @@ export default defineConfigWithTheme<ThemeConfig>({
   markdown: {
     theme: 'github-dark',
     config(md) {
+      // @ts-ignore
+      md.use(tableWrapper)
+      md.use(tooltip)
+      mdPlugin(md)
       md.use(headerPlugin)
       // .use(textAdPlugin)
     }

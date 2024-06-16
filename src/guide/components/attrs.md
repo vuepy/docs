@@ -2,7 +2,12 @@
 outline: deep
 ---
 
-# 透传 Attributes {#fallthrough-attributes}
+# 透传 Attributes <sup class="vt-badge dev-only" data-text="Reserved" /> {#fallthrough-attributes}
+
+:::warning
+请注意，这是一个预留的语法，当前版本未实现。
+:::
+<!-- end revered_text -->
 
 > 此章节假设你已经看过了[组件基础](/guide/essentials/component-basics)。若你还不了解组件是什么，请先阅读该章节。
 

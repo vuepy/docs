@@ -1,9 +1,9 @@
 <template>
   <div class="divider"></div>
   <div class="join-container">
-    <h2>通过 Vue 发展你的业务</h2>
+    <h2>通过 Vue.py 发展你的业务</h2>
     <p>
-      引领新的项目，赢得客户的信任，并支持 Vue.js 及其生态系统的长期可持续性。
+      引领新的项目，赢得客户的信任，并支持 Vue.py 及其生态系统的长期可持续性。
     </p>
     <a class="join" href="https://airtable.com/shrCQhat57SApJI2l" target="_blank">成为合作伙伴</a>
   </div>

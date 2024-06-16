@@ -10,43 +10,69 @@
 
 - **类型**
 
-  ```ts
-  function onMounted(callback: () => void): void
+  ```py
+  def onMounted(callback: Callback[[], None]) -> None:
   ```
 
 - **详细信息**
 
   组件在以下情况下被视为已挂载：
 
-  - 其所有同步子组件都已经被挂载 (不包含异步组件或 `<Suspense>` 树内的组件)。
+  - 其所有同步子组件都已经被挂载<!-- todo 暂不支持 (不包含异步组件或 `<Suspense>` 树内的组件)  -->。
 
-  - 其自身的 DOM 树已经创建完成并插入了父容器中。注意仅当根容器在文档中时，才可以保证组件 DOM 树也在文档中。
+  - 其自身的 Widget 树已经创建完成并插入了父容器中。注意仅当根容器在文档中时，才可以保证组件 Widget 树也在文档中。
 
-  这个钩子通常用于执行需要访问组件所渲染的 DOM 树相关的副作用，或是在[服务端渲染应用](/guide/scaling-up/ssr)中用于确保 DOM 相关代码仅在客户端执行。
+  这个钩子通常用于执行需要访问组件所渲染的 Widget 树相关的副作用<!-- todo 暂不支持 ，或是在[服务端渲染应用](/guide/scaling-up/ssr)中用于确保 DOM 相关代码仅在客户端执行  -->。
 
+<!-- todo 暂不支持
   **这个钩子在服务器端渲染期间不会被调用。**
+-->
 
 - **示例**
 
   通过模板引用访问一个元素：
 
   ```vue
-  <script setup>
-  import { ref, onMounted } from 'vue'
-
-  const el = ref()
-
-  onMounted(() => {
-    el.value // <div>
-  })
-  </script>
-
   <template>
     <div ref="el"></div>
   </template>
+  
+  <script lang='py'>
+  from vuepy import ref, onMounted
+
+  const el = ref()
+
+  @onMounted
+  def handle():
+      el.value  # <div>
+  
+  </script>
   ```
 
-## onUpdated() {#onupdated}
+## onBeforeMount() {#onbeforemount}
+
+注册一个钩子，在组件被挂载之前被调用。
+
+- **类型**
+
+  ```py
+  def onBeforeMount(callback: Callback[[], None]) -> None:
+  ```
+
+- **详细信息**
+
+  当这个钩子被调用时，组件已经完成了其响应式状态的设置，但还没有创建 DOM 节点。它即将首次执行 Widget 渲染过程。
+
+<!-- todo 暂不支持
+  **这个钩子在服务器端渲染期间不会被调用。**
+-->
+
+## <sup class=''/> onUpdated() <sup class="vt-badge dev-only" data-text="Reserved" /> {#onupdated}
+
+:::warning
+请注意，这是一个预留的语法，当前版本未实现。
+:::
+<!-- end revered_text -->
 
 注册一个回调函数，在组件因为响应式状态变更而更新其 DOM 树之后调用。
 
@@ -89,7 +115,12 @@
   </template>
   ```
 
-## onUnmounted() {#onunmounted}
+## <sup class=''/> onUnmounted() <sup class="vt-badge dev-only" data-text="Reserved" /> {#onunmounted}
+
+:::warning
+请注意，这是一个预留的语法，当前版本未实现。
+:::
+<!-- end revered_text -->
 
 注册一个回调函数，在组件实例被卸载之后调用。
 
@@ -128,23 +159,12 @@
   </script>
   ```
 
-## onBeforeMount() {#onbeforemount}
+## <sup class=''/> onBeforeUpdate() <sup class="vt-badge dev-only" data-text="Reserved" /> {#onbeforeupdate}
 
-注册一个钩子，在组件被挂载之前被调用。
-
-- **类型**
-
-  ```ts
-  function onBeforeMount(callback: () => void): void
-  ```
-
-- **详细信息**
-
-  当这个钩子被调用时，组件已经完成了其响应式状态的设置，但还没有创建 DOM 节点。它即将首次执行 DOM 渲染过程。
-
-  **这个钩子在服务器端渲染期间不会被调用。**
-
-## onBeforeUpdate() {#onbeforeupdate}
+:::warning
+请注意，这是一个预留的语法，当前版本未实现。
+:::
+<!-- end revered_text -->
 
 注册一个钩子，在组件即将因为响应式状态变更而更新其 DOM 树之前调用。
 
@@ -160,7 +180,12 @@
 
   **这个钩子在服务器端渲染期间不会被调用。**
 
-## onBeforeUnmount() {#onbeforeunmount}
+## <sup class=''/> onBeforeUnmount() <sup class="vt-badge dev-only" data-text="Reserved" /> {#onbeforeunmount}
+
+:::warning
+请注意，这是一个预留的语法，当前版本未实现。
+:::
+<!-- end revered_text -->
 
 注册一个钩子，在组件实例被卸载之前调用。
 
@@ -176,7 +201,12 @@
 
   **这个钩子在服务器端渲染期间不会被调用。**
 
-## onErrorCaptured() {#onerrorcaptured}
+## <sup class=''/> onErrorCaptured() <sup class="vt-badge dev-only" data-text="Reserved" /> {#onerrorcaptured}
+
+:::warning
+请注意，这是一个预留的语法，当前版本未实现。
+:::
+<!-- end revered_text -->
 
 注册一个钩子，在捕获了后代组件传递的错误时调用。
 
@@ -224,7 +254,12 @@
 
   - `errorCaptured` 钩子可以通过返回 `false` 来阻止错误继续向上传递。即表示“这个错误已经被处理了，应当被忽略”，它将阻止其他的 `errorCaptured` 钩子或 `app.config.errorHandler` 因这个错误而被调用。
 
-## onRenderTracked() <sup class="vt-badge dev-only" /> {#onrendertracked}
+## <sup class=''/> onRenderTracked() <sup class="vt-badge dev-only" /> <sup class="vt-badge dev-only" data-text="Reserved" /> {#onrendertracked}
+
+:::warning
+请注意，这是一个预留的语法，当前版本未实现。
+:::
+<!-- end revered_text -->
 
 注册一个调试钩子，当组件渲染过程中追踪到响应式依赖时调用。
 
@@ -247,7 +282,12 @@
 
 - **参考**[深入响应式系统](/guide/extras/reactivity-in-depth)
 
-## onRenderTriggered() <sup class="vt-badge dev-only" /> {#onrendertriggered}
+## <sup class=''/> onRenderTriggered() <sup class="vt-badge dev-only" /> <sup class="vt-badge dev-only" data-text="Reserved" /> {#onrendertriggered}
+
+:::warning
+请注意，这是一个预留的语法，当前版本未实现。
+:::
+<!-- end revered_text -->
 
 注册一个调试钩子，当响应式依赖的变更触发了组件渲染时调用。
 
@@ -273,7 +313,12 @@
 
 - **参考**[深入响应式系统](/guide/extras/reactivity-in-depth)
 
-## onActivated() {#onactivated}
+## <sup class=''/> onActivated() <sup class="vt-badge dev-only" data-text="Reserved" /> {#onactivated}
+
+:::warning
+请注意，这是一个预留的语法，当前版本未实现。
+:::
+<!-- end revered_text -->
 
 注册一个回调函数，若组件实例是 [`<KeepAlive>`](/api/built-in-components#keepalive) 缓存树的一部分，当组件被插入到 DOM 中时调用。
 
@@ -287,7 +332,12 @@
 
 - **参考**[指南 - 缓存实例的生命周期](/guide/built-ins/keep-alive#lifecycle-of-cached-instance)
 
-## onDeactivated() {#ondeactivated}
+## <sup class=''/> onDeactivated() <sup class="vt-badge dev-only" data-text="Reserved" /> {#ondeactivated}
+
+:::warning
+请注意，这是一个预留的语法，当前版本未实现。
+:::
+<!-- end revered_text -->
 
 注册一个回调函数，若组件实例是 [`<KeepAlive>`](/api/built-in-components#keepalive) 缓存树的一部分，当组件从 DOM 中被移除时调用。
 
@@ -301,7 +351,12 @@
 
 - **参考**[指南 - 缓存实例的生命周期](/guide/built-ins/keep-alive#lifecycle-of-cached-instance)
 
-## onServerPrefetch() <sup class="vt-badge" data-text="SSR only" /> {#onserverprefetch}
+## <sup class=''/> onServerPrefetch() <sup class="vt-badge" data-text="SSR only" /> <sup class="vt-badge dev-only" data-text="Reserved" /> {#onserverprefetch}
+
+:::warning
+请注意，这是一个预留的语法，当前版本未实现。
+:::
+<!-- end revered_text -->
 
 注册一个异步函数，在组件实例在服务器上被渲染之前调用。
 

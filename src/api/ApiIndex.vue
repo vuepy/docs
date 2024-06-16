@@ -56,15 +56,18 @@ const filtered = computed(() => {
 
 <template>
   <div id="api-index">
-    <div class="header">
+<!--    <div class="header">-->
+    <div>
       <h1>API 参考</h1>
+      <p style='margin: 2.5em 0 1em 0;'>以下是 Vue.py 提供的 API。 </p>
       <div class="api-filter">
-        <label for="api-filter">过滤</label>
+<!--        <label for="api-filter">过滤</label>-->
         <input
           ref="search"
           type="search"
-          placeholder="Enter keyword"
+          placeholder="Search API"
           id="api-filter"
+          style='width: 100%'
           v-model="query"
         />
       </div>
@@ -75,7 +78,7 @@ const filtered = computed(() => {
       :key="section.text"
       class="api-section"
     >
-      <h2 :id="section.anchor">{{ section.text }}</h2>
+      <h2 :id="section.anchor" style='border-top: none'>{{ section.text }}</h2>
       <div class="api-groups">
         <div
           v-for="item of section.items"
@@ -190,7 +193,8 @@ h3 {
 }
 
 #api-filter:focus {
-  box-shadow: 0 0 4pt #00d47499;
+  /*box-shadow: 0 0 4pt #00d47499;*/
+  box-shadow: 0 0 4pt #16B8F399;
 }
 
 .api-filter:focus {

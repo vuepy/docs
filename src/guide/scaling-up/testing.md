@@ -2,7 +2,12 @@
 import { VTCodeGroup, VTCodeGroupTab } from '@vue/theme'
 </script>
 
-# 测试 {#testing}
+# 测试 <sup class="vt-badge dev-only" data-text="Reserved" /> {#testing}
+
+:::warning
+请注意，这是一个预留的语法，当前版本未实现。
+:::
+<!-- end revered_text -->
 
 ## 为什么需要测试 {#why-test}
 

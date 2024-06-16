@@ -1,4 +1,7 @@
-# 依赖注入 {#provide-inject}
+# 依赖注入 <sup class="vt-badge dev-only" data-text="Reserved" /> {#provide-inject}
+
+:::warning
+请注意，这是一个预留的语法，当前版本未实现。
 
 > 此章节假设你已经看过了[组件基础](/guide/essentials/component-basics)。若你还不了解组件是什么，请先阅读该章节。
 
@@ -389,3 +392,6 @@ __译者注__
 <a id="footnote-1"></a>[1] 在本章及后续章节中，“**提供**”将成为对应 Provide 的一个专有概念
 
 </small>
+
+:::
+<!-- end revered_text -->

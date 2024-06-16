@@ -1,4 +1,9 @@
-# 路由 {#routing}
+# 路由 <sup class="vt-badge dev-only" data-text="Reserved" /> {#routing}
+
+:::warning
+请注意，这是一个预留的语法，当前版本未实现。
+:::
+<!-- end revered_text -->
 
 ## 客户端 vs. 服务端路由 {#client-side-vs-server-side-routing}
 

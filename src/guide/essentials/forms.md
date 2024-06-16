@@ -18,26 +18,32 @@ const multiSelected = ref([])
 在前端处理表单时，我们常常需要将表单输入框的内容同步给 JavaScript 中相应的变量。手动连接值绑定和更改事件监听器可能会很麻烦：
 
 ```vue-html
-<input
+<Input
   :value="text"
   @input="event => text = event.target.value">
+</Input>
 ```
 
 `v-model` 指令帮我们简化了这一步骤：
 
+::: tip 注意
+`Input` 是 `ipywui` 提供的输入组件, 原生的 `input` 元素当前并不支持。
+:::
+
 ```vue-html
-<input v-model="text">
+<Input v-model="text"></Input>
 ```
 
-另外，`v-model` 还可以用于各种不同类型的输入，`<textarea>`、`<select>` 元素。它会根据所使用的元素自动使用对应的 DOM 属性和事件组合：
+另外，`v-model` 还可以用于各种不同类型的输入，`<Dropdown>`、`<Select>` 组件。它会根据所使用的元素自动使用对应的 DOM 属性和事件组合：
 
-- 文本类型的 `<input>` 和 `<textarea>` 元素会绑定 `value` property 并侦听 `input` 事件；
-- `<input type="checkbox">` 和 `<input type="radio">` 会绑定 `checked` property 并侦听 `change` 事件；
-- `<select>` 会绑定 `value` property 并侦听 `change` 事件。
+- 文本类型的 `<Input>` 组件会绑定 `value` property 并侦听 `input` 事件；
+- `<Select>` 会绑定 `value` property 并侦听 `change` 事件。
 
+<!--
 ::: tip 注意
 `v-model` 会忽略任何表单元素上初始的 `value`、`checked` 或 `selected` attribute。它将始终将当前绑定的 JavaScript 状态视为数据的正确来源。你应该在 JavaScript 中使用<span class="options-api"> [`data`](/api/options-state.html#data) 选项</span><span class="composition-api">[响应式系统的 API](/api/reactivity-core.html#reactivity-api-core) </span>来声明该初始值。
 :::
+-->
 
 ## 基本用法 {#basic-usage}
 
@@ -45,7 +51,7 @@ const multiSelected = ref([])
 
 ```vue-html
 <p>Message is: {{ message }}</p>
-<input v-model="message" placeholder="edit me" />
+<Input v-model="message" placeholder="edit me" /></Input>
 ```
 
 <div class="demo">
@@ -53,28 +59,30 @@ const multiSelected = ref([])
   <input v-model="message" placeholder="edit me" />
 </div>
 
+<!-- todo 暂不支持
 <div class="composition-api">
 
 [在演练场中尝试一下](https://play.vuejs.org/#eNo9jUEOgyAQRa8yYUO7aNkbNOkBegM2RseWRGACoxvC3TumxuX/+f+9ql5Ez31D1SlbpuyJoSBvNLjoA6XMUCHjAg2WnAJomWoXXZxSLAwBSxk/CP2xuWl9d9GaP0YAEhgDrSOjJABLw/s8+NJBrde/NWsOpWPrI20M+yOkGdfeqXPiFAhowm9aZ8zS4+wPv/RGjtZcJtV+YpNK1g==)
 
 </div>
-<div class="options-api">
+-->
 
-[在演练场中尝试一下](https://play.vuejs.org/#eNo9jdEKwjAMRX8l9EV90L2POvAD/IO+lDVqoetCmw6h9N/NmBuEJPeSc1PVg+i2FFS90nlMnngwEb80JwaHL1sCQzURwFm258u2AyTkkuKuACbM2b6xh9Nps9o6pEnp7ggWwThRsIyiADQNz40En3uodQ+C1nRHK8HaRyoMy3WaHYa7Uf8To0CCRvzMwWESH51n4cXvBNTd8Um1H0FuTq0=)
-
-</div>
-
+<!-- todo 暂不支持
 <span id="vmodel-ime-tip"></span>
 ::: tip 注意
 对于需要使用 [IME](https://en.wikipedia.org/wiki/Input_method) 的语言 (中文，日文和韩文等)，你会发现 `v-model` 不会在 IME 输入还在拼字阶段时触发更新。如果你的确想在拼字阶段也触发更新，请直接使用自己的 `input` 事件监听器和 `value` 绑定而不要使用 `v-model`。
 :::
+-->
 
 ### 多行文本 {#multiline-text}
 
 ```vue-html
 <span>Multiline message is:</span>
 <p style="white-space: pre-line;">{{ message }}</p>
-<textarea v-model="message" placeholder="add multiple lines"></textarea>
+<Input v-model="message" 
+       placeholder="add multiple lines" 
+       type='textarea'>
+</Input>
 ```
 
 <div class="demo">
@@ -83,27 +91,25 @@ const multiSelected = ref([])
   <textarea v-model="multilineText" placeholder="add multiple lines"></textarea>
 </div>
 
+<!-- todo 暂不支持
 <div class="composition-api">
 
 [在演练场中尝试一下](https://play.vuejs.org/#eNo9jktuwzAMRK9CaON24XrvKgZ6gN5AG8FmGgH6ECKdJjB891D5LYec9zCb+SH6Oq9oRmN5roEEGGWlyeWQqFSBDSoeYYdjLQk6rXYuuzyXzAIJmf0fwqF1Prru02U7PDQq0CCYKHrBlsQy+Tz9rlFCDBnfdOBRqfa7twhYrhEPzvyfgmCvnxlHoIp9w76dmbbtDe+7HdpaBQUv4it6OPepLBjV8Gw5AzpjxlOJC1a9+2WB1IZQRGhWVqsdXgb1tfDcbvYbJDRqLQ==)
 
 </div>
-<div class="options-api">
+-->
 
-[在演练场中尝试一下](https://play.vuejs.org/#eNo9jk2OwyAMha9isenMIpN9hok0B+gN2FjBbZEIscDpj6LcvaZpKiHg2X6f32L+mX+uM5nO2DLkwNK7RHeesoCnE85RYHEJwKPg1/f2B8gkc067AhipFDxTB4fDVlrro5ce237AKoRGjihUldjCmPqjLgkxJNoxEEqnrtp7TTEUeUT6c+Z2CUKNdgbdxZmaavt1pl+Wj3ldbcubUegumAnh2oyTp6iE95QzoDEGukzRU9Y6eg9jDcKRoFKLUm27E5RXxTu7WZ89/G4E)
+[//]: # (注意在 `<textarea>` 中是不支持插值表达式的。请使用 `v-model` 来替代：)
+[//]: # ()
+[//]: # (```vue-html)
+[//]: # (<!-- 错误 -->)
+[//]: # (<textarea>{{ text }}</textarea>)
+[//]: # ()
+[//]: # (<!-- 正确 -->)
+[//]: # (<textarea v-model="text"></textarea>)
+[//]: # (```)
 
-</div>
-
-注意在 `<textarea>` 中是不支持插值表达式的。请使用 `v-model` 来替代：
-
-```vue-html
-<!-- 错误 -->
-<textarea>{{ text }}</textarea>
-
-<!-- 正确 -->
-<textarea v-model="text"></textarea>
-```
-
+<!--
 ### 复选框 {#checkbox}
 
 单一的复选框，绑定布尔类型值：
@@ -123,11 +129,6 @@ const multiSelected = ref([])
 [在演练场中尝试一下](https://play.vuejs.org/#eNpVjssKgzAURH/lko3tonVfotD/yEaTKw3Ni3gjLSH/3qhUcDnDnMNk9gzhviRkD8ZnGXUgmJFS6IXTNvhIkCHiBAWm6C00ddoIJ5z0biaQL5RvVNCtmwvFhFfheLuLqqIGQhvMQLgm4tqFREDfgJ1gGz36j2Cg1TkvN+sVmn+JqnbtrjDDiAYmH09En/PxphTebqsK8PY4wMoPslBUxQ==)
 
 </div>
-<div class="options-api">
-
-[在演练场中尝试一下](https://play.vuejs.org/#eNpVjtEKgzAMRX8l9Gl72Po+OmH/0ZdqI5PVNnSpOEr/fVVREEKSc0kuN4sX0X1KKB5Cfbs4EDfa40whMljsTXIMWXsAa9hcrtsOEJFT9DsBdG/sPmgfwDHhJpZl1FZLycO6AuNIzjAuxGrwlBj4R/jUYrVpw6wFDPbM020MFt0uoq2a3CycadFBH+Lpo8l5jwWlKLle1QcljwCi/AH7gFic)
-
-</div>
 
 我们也可以将多个复选框绑定到同一个数组或[集合](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set)的值：
 
@@ -135,19 +136,6 @@ const multiSelected = ref([])
 
 ```js
 const checkedNames = ref([])
-```
-
-</div>
-<div class="options-api">
-
-```js
-export default {
-  data() {
-    return {
-      checkedNames: []
-    }
-  }
-}
 ```
 
 </div>
@@ -185,11 +173,6 @@ export default {
 [在演练场中尝试一下](https://play.vuejs.org/#eNqVkUtqwzAURbfy0CTtoNU8KILSWaHdQNWBIj8T1fohyybBeO+RbOc3i2e+vHvuMWggHyG89x2SLWGtijokaDF1gQunbfAxwQARaxihjt7CJlc3wgmnvGsTqAOqBqsfabGFXSm+/P69CsfovJVXckhog5EJcwJgle7558yBK+AWhuFxaRwZLbVCZ0K70CVIp4A7Qabi3h8FAV3l/C9Vk797abpy/lrim/UVmkt/Gc4HOv+EkXs0UPt4XeCFZHQ6lM4TZn9w9+YlrjFPCC/kKrPVDd6Zv5e4wjwv8ELezIxeX4qMZwHduAs=)
 
 </div>
-<div class="options-api">
-
-[在演练场中尝试一下](https://play.vuejs.org/#eNqVUc1qxCAQfpXBU3tovS9WKL0V2hdoenDjLGtjVNwxbAl592rMpru3DYjO5/cnOLLXEJ6HhGzHxKmNJpBsHJ6DjwQaDypZgrFxAFqRenisM0BEStFdEEB7xLZD/al6PO3g67veT+XIW16Cr+kZEPbBKsKMAIQ2g3yrAeBqwjjeRMI0CV5kxZ0dxoVEQL8BXxo2C/f+3DAwOuMf1XZ5HpRNhX5f4FPvNdqLfgnOBK+PsGqPFg4+rgmyOAWfiaK5o9kf3XXzArc0zxZZnJuae9PhVfPHAjc01wRZnP/Ngq8/xaY/yMW74g==)
-
-</div>
 
 ### 单选按钮 {#radio}
 
@@ -216,11 +199,6 @@ export default {
 <div class="composition-api">
 
 [在演练场中尝试一下](https://play.vuejs.org/#eNqFkDFuwzAMRa9CaHE7tNoDxUBP0A4dtTgWDQiRJUKmHQSG7x7KhpMMAbLxk3z/g5zVD9H3NKI6KDO02RPDgDxSbaPvKWWGGTJ2sECXUw+VrFY22timODCQb8/o4FhWPqrfiNWnjUZvRmIhgrGn0DCKAjDOT/XfCh1gnnd+WYwukwJYNj7SyMBXwqNVuXE+WQXeiUgRpZyaMJaR5BX11SeHQfTmJi1dnNiE5oQBupR3shbC6LX9Posvpdyz/jf1OksOe85ayVqIR5bR9z+o5Qbc6oCk)
-
-</div>
-<div class="options-api">
-
-[在演练场中尝试一下](https://play.vuejs.org/#eNqNkEEOAiEMRa/SsFEXyt7gJJ5AFy5ng1ITIgLBMmomc3eLOONSEwJ9Lf//pL3YxrjqMoq1ULdTspGa1uMjhkRg8KyzI+hbD2A06fmi1gAJKSc/EkC0pwuaNcx2Hme1OZSHLz5KTtYMhNfoNGEhUsZ2zf6j7vuPEQyDkmVSBPzJ+pgJ6Blx04qkjQ2tAGsYgkcuO+1yGXF6oeU1GHTM1Y1bsoY5fUQH55BGZcMKJd/t31l0L+WYdaj0V9Zb2bDim6XktAcxvADR+YWb)
 
 </div>
 
@@ -252,11 +230,6 @@ export default {
 <div class="composition-api">
 
 [在演练场中尝试一下](https://play.vuejs.org/#eNp1j7EOgyAQhl/lwmI7tO4Nmti+QJOuLFTPxASBALoQ3r2H2jYOjvff939wkTXWXucJ2Y1x37rBBvAYJlsLPYzWuAARHPaQoHdmhILQQmihW6N9RhW2ATuoMnQqirPQvFw9ZKAh4GiVDEgTAPdW6hpeW+sGMf4VKVEz73Mvs8sC5stoOlSVYF9SsEVGiLFhMBq6wcu3IsUs1YREEvFUKD1udjAaebnS+27dHOT3g/yxy+nHywM08PJ3KksfXwJ2dA==)
-
-</div>
-<div class="options-api">
-
-[在演练场中尝试一下](https://play.vuejs.org/#eNp1j1ELgyAUhf/KxZe2h633cEHbHxjstReXdxCYSt5iEP333XIJPQSinuN3jjqJyvvrOKAohAxN33oqa4tf73oCjR81GIKptgBakTqd4x6gRxp6uymAgAYbQl1AlkVvXhaeeMg8NbMg7LxRhKwAZPDKlvBK8WlKXTDPnFzOI7naMF46p9HcarFxtVgBRpyn1lnQbVBvwwWjMgMyycTToAr47wZnUeaR3mfL6sC/H/iPnc/vXS9gIfP0UTH/ACgWeYE=)
 
 </div>
 
@@ -291,11 +264,6 @@ export default {
 [在演练场中尝试一下](https://play.vuejs.org/#eNp1kL2OwjAQhF9l5Ya74i7QBhMJeARKTIESIyz5Z5VsAsjyu7NOQEBB5xl/M7vaKNaI/0OvRSlkV7cGCTpNPVbKG4ehJYjQ6hMkOLXBwYzRmfLK18F3GbW6Jt3AKkM/+8Ov8rKYeriBBWmH9kiaFYBszFDtHpkSYnwVpCSL/JtDDE4+DH8uNNqulHiCSoDrLRm0UyWzAckEX61l8Xh9+psv/vbD563HCSxk8bY0y45u47AJ2D/HHyDm4MU0dC5hMZ/jdal8Gg8wJkS6A3nRew4=)
 
 </div>
-<div class="options-api">
-
-[在演练场中尝试一下](https://play.vuejs.org/#eNp1UEEOgjAQ/MqmJz0oeMVKgj7BI3AgdI1NCjSwIIbwdxcqRA4mTbsznd2Z7CAia49diyIQsslrbSlMSuxtVRMofGStIRiSEkBllO32rgaokdq6XBBAgwZzQhVAnDpunB6++EhvncyAsLAmI2QEIJXuwvvaPAzrJBhH6U2/UxMLHQ/doagUmksiFmEioOCU2ho3krWVJV2VYSS9b7Xlr3/424bn1LMDA+n9hGbY0Hs2c4J4sU/dPl5a0TOAk+/b/rwsYO4Q4wdtRX7l)
-
-</div>
 
 选择器的选项可以使用 `v-for` 动态渲染：
 
@@ -309,24 +277,6 @@ const options = ref([
   { text: 'Two', value: 'B' },
   { text: 'Three', value: 'C' }
 ])
-```
-
-</div>
-<div class="options-api">
-
-```js
-export default {
-  data() {
-    return {
-      selected: 'A',
-      options: [
-        { text: 'One', value: 'A' },
-        { text: 'Two', value: 'B' },
-        { text: 'Three', value: 'C' }
-      ]
-    }
-  }
-}
 ```
 
 </div>
@@ -346,24 +296,21 @@ export default {
 [在演练场中尝试一下](https://play.vuejs.org/#eNplkMFugzAQRH9l5YtbKYU7IpFoP6CH9lb3EMGiWgLbMguthPzvXduEJMqNYUazb7yKxrlimVFUop5arx3BhDS7kzJ6dNYTrOCxhwC9tyNIjkpllGmtmWJ0wJawg2MMPclGPl9N60jzx+Z9KQPcRfhHFch3g/IAy3mYkVUjIRzu/M9fe+O/Pvo/Hm8b3jihzDdfr8s8gwewIBzdcCZkBVBnXFheRtvhcFTiwq9ECnAkQ3Okt54Dm9TmskYJqNLR3SyS3BsYct3CRYSFwGCpusx/M0qZTydKRXWnl9PHBlPFhv1lQ6jL6MZl+xoR/gFjPZTD)
 
 </div>
-<div class="options-api">
+-->
 
-[在演练场中尝试一下](https://play.vuejs.org/#eNp1kMFqxCAQhl9l8JIWtsk92IVtH6CH9lZ7COssDbgqZpJdCHn3nWiUXBZE/Mdvxv93Fifv62lE0Qo5nEPv6ags3r0LBBov3WgIZmUBdEfdy2s6AwSkMdisAAY0eCbULVSn6pCrzlPv7NDCb64AzEB4J+a+LFYHmDozYuyCpfTtqJ+b21Efz6j/gPtpn8xl7C8douaNl2xKUhaEV286QlYAMgWB6e3qNJp3JXIyJSLASErFyMUFBjbZ2xxXCWijkXJZR1kmsPF5g+s1ACybWdmkarLSpKejS0VS99Pxu3wzT8jOuF026+2arKQRywOBGJfE)
-
-</div>
-
+<!--
 ## 值绑定 {#value-bindings}
 
 对于单选按钮，复选框和选择器选项，`v-model` 绑定的值通常是静态的字符串 (或者对复选框是布尔值)：
 
 ```vue-html
-<!-- `picked` 在被选择时是字符串 "a" -->
+<!- `picked` 在被选择时是字符串 "a" ->
 <input type="radio" v-model="picked" value="a" />
 
-<!-- `toggle` 只会为 true 或 false -->
+<!- `toggle` 只会为 true 或 false ->
 <input type="checkbox" v-model="toggle" />
 
-<!-- `selected` 在第一项被选中时为字符串 "abc" -->
+<!- `selected` 在第一项被选中时为字符串 "abc" ->
 <select v-model="selected">
   <option value="abc">ABC</option>
 </select>
@@ -408,7 +355,7 @@ export default {
 
 ```vue-html
 <select v-model="selected">
-  <!-- 内联对象字面量 -->
+  <!- 内联对象字面量 ->
   <option :value="{ number: 123 }">123</option>
 </select>
 ```
@@ -422,7 +369,7 @@ export default {
 默认情况下，`v-model` 会在每次 `input` 事件后更新数据 ([IME 拼字阶段的状态](#vmodel-ime-tip)例外)。你可以添加 `lazy` 修饰符来改为在每次 `change` 事件后更新数据：
 
 ```vue-html
-<!-- 在 "change" 事件后同步更新而不是 "input" -->
+<!- 在 "change" 事件后同步更新而不是 "input" ->
 <input v-model.lazy="msg" />
 ```
 
@@ -445,9 +392,10 @@ export default {
 ```vue-html
 <input v-model.trim="msg" />
 ```
+-->
 
 ## 组件上的 `v-model` {#v-model-with-components}
 
-> 如果你还不熟悉 Vue 的组件，那么现在可以跳过这个部分。
+> 如果你还不熟悉 Vue.py 的组件，那么现在可以跳过这个部分。
 
-HTML 的内置表单输入类型并不总能满足所有需求。幸运的是，我们可以使用 Vue 构建具有自定义行为的可复用输入组件，并且这些输入组件也支持 `v-model`！要了解更多关于此的内容，请在组件指引中阅读[配合 `v-model` 使用](/guide/components/v-model)。
+HTML 的内置表单输入类型并不总能满足所有需求。幸运的是，我们可以使用 Vue.py 构建具有自定义行为的可复用输入组件，并且这些输入组件也支持 `v-model`！要了解更多关于此的内容，请在组件指引中阅读[配合 `v-model` 使用](/guide/components/v-model)。

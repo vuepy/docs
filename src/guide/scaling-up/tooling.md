@@ -4,6 +4,7 @@ import { VTCodeGroup, VTCodeGroupTab } from '@vue/theme'
 
 # 工具链 {#tooling}
 
+<!-- todo 暂不支持
 ## 在线尝试 {#try-it-online}
 
 你不需要在机器上安装任何东西，也可以尝试基于单文件组件的 Vue 开发体验。我们提供了一个在线的演练场，可以在浏览器中访问：
@@ -16,9 +17,11 @@ import { VTCodeGroup, VTCodeGroupTab } from '@vue/theme'
   - 和本地开发效果更接近
 
 在报告 Bug 时，我们也建议使用这些在线演练场来提供最小化重现。
+-->
 
 ## 项目脚手架 {#project-scaffolding}
 
+<!-- todo 暂不支持
 ### Vite {#vite}
 
 [Vite](https://cn.vitejs.dev/) 是一个轻量级的、速度极快的构建工具，对 Vue SFC 提供第一优先级支持。作者是尤雨溪，同时也是 Vue 的作者！
@@ -56,22 +59,26 @@ import { VTCodeGroup, VTCodeGroupTab } from '@vue/theme'
   </VTCodeGroupTab>
 </VTCodeGroup>
 
+
 这个命令会安装和执行 [create-vue](https://github.com/vuejs/create-vue)，它是 Vue 提供的官方脚手架工具。跟随命令行的提示继续操作即可。
 
 - 要学习更多关于 Vite 的知识，请查看 [Vite 官方文档](https://cn.vitejs.dev)。
 - 若要了解如何为一个 Vite 项目配置 Vue 相关的特殊行为，比如向 Vue 编译器传递相关选项，请查看 [@vitejs/plugin-vue](https://github.com/vitejs/vite-plugin-vue/tree/main/packages/plugin-vue#readme) 的文档。
 
 上面提到的两种在线演练场也支持将文件作为一个 Vite 项目下载。
+-->
 
-### Vue CLI {#vue-cli}
+### Vue.py CLI {#vue-cli}
 
-[Vue CLI](https://cli.vuejs.org/zh/) 是官方提供的基于 Webpack 的 Vue 工具链，它现在处于维护模式。我们建议使用 Vite 开始新的项目，除非你依赖特定的 Webpack 的特性。在大多数情况下，Vite 将提供更优秀的开发体验。
+这是一个轻量级的工具，用来创建一个 Vue.py 项目，非常简单：
 
-关于从 Vue CLI 迁移到 Vite 的资源：
+```sh
+python -m vuepy create
+```
 
-- [VueSchool.io 的 Vue CLI -> Vite 迁移指南](https://vueschool.io/articles/vuejs-tutorials/how-to-migrate-from-vue-cli-to-vite/)
-- [迁移支持工具 / 插件](https://github.com/vitejs/awesome-vite#vue-cli)
+之后跟随命令行的提示继续操作即可。
 
+<!-- todo 暂不支持
 ### 浏览器内模板编译注意事项 {#note-on-in-browser-template-compilation}
 
 当以无构建步骤方式使用 Vue 时，组件模板要么是写在页面的 HTML 中，要么是内联的 JavaScript 字符串。在这些场景中，为了执行动态模板编译，Vue 需要将模板编译器运行在浏览器中。相对的，如果我们使用了构建步骤，由于提前编译了模板，那么就无须再在浏览器中运行了。为了减小打包出的客户端代码体积，Vue 提供了[多种格式的“构建文件”](https://unpkg.com/browse/vue@3/dist/)以适配不同场景下的优化需求。
@@ -83,17 +90,17 @@ import { VTCodeGroup, VTCodeGroupTab } from '@vue/theme'
 默认的工具链中都会使用仅含运行时的版本，因为所有 SFC 中的模板都已经被预编译了。如果因为某些原因，在有构建步骤时，你仍需要浏览器内的模板编译，你可以更改构建工具配置，将 `vue` 改为相应的版本 `vue/dist/vue.esm-bundler.js`。
 
 如果你需要一种更轻量级，不依赖构建步骤的替代方案，也可以看看 [petite-vue](https://github.com/vuejs/petite-vue)。
+-->
 
 ## IDE 支持 {#ide-support}
 
-- 推荐使用的 IDE 是 [VSCode](https://code.visualstudio.com/)，配合 [Vue - Official 扩展](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (之前是 Volar)。该插件提供了语法高亮、TypeScript 支持，以及模板内表达式与组件 props 的智能提示。
+:::warning
+当前并没有完全支持 Vue.py 的方案，不过可以使用支持 Vue.js 的 IDE 进行开发，因为 Vue.py 的 SFC 语法大部分兼容 Vue.js。
+:::
+<!-- end revered_text -->
 
-  :::tip
-  Vue - Official 取代了我们之前为 Vue 2 提供的官方 VSCode 扩展 [Vetur](https://marketplace.visualstudio.com/items?itemName=octref.vetur)。如果你之前已经安装了 Vetur，请确保在 Vue 3 的项目中禁用它。
-  :::
-
-- [WebStorm](https://www.jetbrains.com/webstorm/) 同样也为 Vue 的单文件组件提供了很好的内置支持。
-
+- 推荐的 IDE 配置是 [Visual Studio Code](https://code.visualstudio.com/) + [Vue - Official 扩展](https://marketplace.visualstudio.com/items?itemName=Vue.volar)。
+- 另一个推荐的 IDE 配置是 PyCharm + [Vue 插件](https://plugins.jetbrains.com/plugin/9442-vue-js)。
 - 其他支持[语言服务协议](https://microsoft.github.io/language-server-protocol/) (LSP) 的 IDE 也可以通过 LSP 享受到 Volar 所提供的核心功能：
 
   - Sublime Text 通过 [LSP-Volar](https://github.com/sublimelsp/LSP-volar) 支持。
@@ -102,6 +109,7 @@ import { VTCodeGroup, VTCodeGroupTab } from '@vue/theme'
 
   - emacs 通过 [lsp-mode](https://emacs-lsp.github.io/lsp-mode/page/lsp-volar/) 支持。
 
+<!-- todo 暂不支持
 ## 浏览器开发者插件 {#browser-devtools}
 
 <VueSchoolLink href="https://vueschool.io/lessons/using-vue-dev-tools-with-vuejs-3" title="免费的 Vue.js Devtools 课程"/>
@@ -154,7 +162,12 @@ Vue 团队维护着 [eslint-plugin-vue](https://github.com/vuejs/eslint-plugin-v
 
 - 除此之外，[Prettier](https://prettier.io/) 也提供了内置的 Vue SFC 格式化支持。
 
-## SFC 自定义块集成 {#sfc-custom-block-integrations}
+-->
+
+## SFC 自定义块集成 <sup class="vt-badge dev-only" data-text="Reserved" /> {#sfc-custom-block-integrations}
+
+:::warning
+请注意，这是一个预留的语法，当前版本未实现。
 
 自定义块被编译成导入到同一 Vue 文件的不同请求查询。这取决于底层构建工具如何处理这类导入请求。
 
@@ -162,6 +175,10 @@ Vue 团队维护着 [eslint-plugin-vue](https://github.com/vuejs/eslint-plugin-v
 
 - 如果使用 Vue CLI 或只是 webpack，需要使用一个 loader 来配置如何转换匹配到的自定义块。[示例](https://vue-loader.vuejs.org/zh/guide/custom-blocks.html)。
 
+  :::
+<!-- end revered_text -->
+
+<!-- todo 暂不支持
 ## 底层库 {#lower-level-packages}
 
 ### `@vue/compiler-sfc` {#vue-compiler-sfc}
@@ -173,7 +190,7 @@ Vue 团队维护着 [eslint-plugin-vue](https://github.com/vuejs/eslint-plugin-v
 这个包本身提供了处理 Vue SFC 的底层的功能，并只适用于需要支持 Vue SFC 相关工具链的开发者。
 
 :::tip
-请始终选择通过 `vue/compiler-sfc` 的深度导入来使用这个包，因为这样可以确保其与 Vue 运行时版本同步。<!-- TODO: need check -->
+请始终选择通过 `vue/compiler-sfc` 的深度导入来使用这个包，因为这样可以确保其与 Vue 运行时版本同步。 TODO: need check
 :::
 
 ### `@vitejs/plugin-vue` {#vitejs-plugin-vue}
@@ -196,5 +213,7 @@ Vue 团队维护着 [eslint-plugin-vue](https://github.com/vuejs/eslint-plugin-v
 - [Vue on Codepen](https://codepen.io/pen/editor/vue)
 - [Vue on Components.studio](https://components.studio/create/vue3)
 - [Vue on WebComponents.dev](https://webcomponents.dev/create/cevue)
+
+-->
 
 <!-- TODO ## Backend Framework Integrations -->

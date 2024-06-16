@@ -1,6 +1,11 @@
 # 内置的特殊 Attributes {#built-in-special-attributes}
 
-## key {#key}
+## <sup class=""/> key <sup class="vt-badge dev-only" data-text="Reserved" /> {#key}
+
+:::warning
+请注意，这是一个预留的语法，当前版本未实现。
+:::
+<!-- end revered_text -->
 
 `key` 这个特殊的 attribute 主要作为 Vue 的虚拟 DOM 算法提示，在比较新旧节点列表时用于识别 vnode。
 
@@ -45,47 +50,45 @@
 
 - **详细信息**
 
-  `ref` 用于注册元素或子组件的引用。
-
-  使用选项式 API，引用将被注册在组件的 `this.$refs` 对象里：
-
-  ```vue-html
-  <!-- 存储为 this.$refs.p -->
-  <p ref="p">hello</p>
-  ```
-
   使用组合式 API，引用将存储在与名字匹配的 ref 里：
 
   ```vue
-  <script setup>
-  import { ref } from 'vue'
-
-  const p = ref()
-  </script>
-
   <template>
-    <p ref="p">hello</p>
+    <p ref="p.value">hello</p>
   </template>
+  <script lang='py'>
+  from vuepy import ref
+
+  p = ref(None)
+  </script>
   ```
 
-  如果用于普通 DOM 元素，引用将是元素本身；如果用于子组件，引用将是子组件的实例。
+  如果用于普通 DOM 元素(暂不支持)，引用将是元素本身；如果用于子组件，引用将是子组件的实例。
 
+<!-- todo 暂不支持
   或者 `ref` 可以接收一个函数值，用于对存储引用位置的完全控制：
 
   ```vue-html
   <ChildComponent :ref="(el) => child = el" />
   ```
+-->
 
   关于 ref 注册时机的重要说明：因为 ref 本身是作为渲染函数的结果来创建的，必须等待组件挂载后才能对它进行访问。
 
-  `this.$refs` 也是非响应式的，因此你不应该尝试在模板中使用它来进行数据绑定。
 
 - **参考**
   - [指南 - 模板引用](/guide/essentials/template-refs)
+  <!-- todo 暂不支持
   - [指南 - 为模板引用标注类型](/guide/typescript/composition-api#typing-template-refs) <sup class="vt-badge ts" />
   - [指南 - 为组件模板引用标注类型](/guide/typescript/composition-api#typing-component-template-refs) <sup class="vt-badge ts" />
+  -->
 
-## is {#is}
+## <sup class=""/> is <sup class="vt-badge dev-only" data-text="Reserved" /> {#is}
+
+:::warning
+请注意，这是一个预留的语法，当前版本未实现。
+:::
+<!-- end revered_text -->
 
 用于绑定[动态组件](/guide/essentials/component-basics#dynamic-components)。
 

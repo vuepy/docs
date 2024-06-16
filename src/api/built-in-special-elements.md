@@ -4,7 +4,12 @@
 `<component>`、`<slot>` 和 `<template>` 具有类似组件的特性，也是模板语法的一部分。但它们并非真正的组件，同时在模板编译期间会被编译掉。因此，它们通常在模板中用小写字母书写。
 :::
 
-## `<component>` {#component}
+## <sup class=""/> `<component>` <sup class="vt-badge dev-only" data-text="Reserved" /> {#component}
+
+:::warning
+请注意，这是一个预留的语法，当前版本未实现。
+:::
+<!-- end revered_text -->
 
 一个用于渲染动态组件或元素的“元组件”。
 

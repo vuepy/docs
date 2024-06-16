@@ -13,12 +13,11 @@
 
 - **类型**
 
-  ```ts
-  function ref<T>(value: T): Ref<UnwrapRef<T>>
+  ```py
+  def ref(value: Any, debug_msg='') -> Ref:
 
-  interface Ref<T> {
-    value: T
-  }
+  class Ref(RefImpl):
+    value: Any
   ```
 
 - **详细信息**
@@ -31,17 +30,19 @@
 
 - **示例**
 
-  ```js
-  const count = ref(0)
-  console.log(count.value) // 0
+  ```py
+  count = ref(0)
+  print(count.value) # 0
 
   count.value = 1
-  console.log(count.value) // 1
+  print(count.value) # 1
   ```
 
 - **参考**
   - [指南 - `ref()` 的响应式基础](/guide/essentials/reactivity-fundamentals#reactive-variables-with-ref)
+<!-- todo 暂不支持
   - [指南 - 为 `ref()` 标注类型](/guide/typescript/composition-api#typing-ref) <sup class="vt-badge ts" />
+-->
 
 ## computed() {#computed}
 
@@ -49,38 +50,56 @@
 
 - **类型**
 
-  ```ts
-  // 只读
-  function computed<T>(
-    getter: (oldValue: T | undefined) => T,
-    // 查看下方的 "计算属性调试" 链接
-    debuggerOptions?: DebuggerOptions
-  ): Readonly<Ref<Readonly<T>>>
+  ```py
+  # 只读
+  def computed(
+    getter: Callable[[], Any] | DebuggerOptions
+    # 查看下方的 "计算属性调试" 链接
+    debuggerOptions: DebuggerOptions | None
+  ) -> ComputedRefImpl:
 
-  // 可写的
-  function computed<T>(
-    options: {
-      get: (oldValue: T | undefined) => T
-      set: (value: T) => void
-    },
-    debuggerOptions?: DebuggerOptions
-  ): Ref<T>
+  # 可写的(暂不支持)
+  def computed(
+    options: WritableComputedOptions | DebuggerOptions,
+    debuggerOptions: DebuggerOptions | None
+  ) -> Ref:
+
+  class WritableComputedOptions:
+    def get(self) -> Any:
+    def set(self, val: Any) -> None:
   ```
 
 - **示例**
 
   创建一个只读的计算属性 ref：
 
-  ```js
-  const count = ref(1)
-  const plusOne = computed(() => count.value + 1)
+  ```py
+  count = ref(1)
+  def plusOne():
+     return count.value + 1
+  
+  plusOne = computed(plusOne)
 
-  console.log(plusOne.value) // 2
+  print(plusOne.value) # 2
 
-  plusOne.value++ // 错误
+  plusOne.value += 1 # 错误
   ```
 
-  创建一个可写的计算属性 ref：
+  computed也可以作为装饰器使用(推荐),创建一个只读的计算属性 ref：
+
+  ```py
+  count = ref(1)
+  
+  @computed
+  def plusOne():
+     return count.value + 1
+
+  print(plusOne.value) # 2
+
+  plusOne.value += 1 # 错误
+  ```
+
+  创建一个可写的计算属性 ref：(暂不支持)
 
   ```js
   const count = ref(1)
@@ -97,54 +116,92 @@
 
   调试：
 
-  ```js
-  const plusOne = computed(() => count.value + 1, {
-    onTrack(e) {
-      debugger
-    },
-    onTrigger(e) {
-      debugger
-    }
-  })
+  ```py
+  from vuepy.reactivity.computed import DebuggerOptions
+  from vuepy.reactivity.effect import IgnoreTracking
+
+  count = ref(1)
+  
+  def onTrack(info):
+    with IgnoreTracking():
+        print(f"track: {info}")
+
+  def onTrigger(info):
+      with IgnoreTracking():
+          print(f"trigger: {info}")
+  
+  @computed(DebuggerOptions(onTrack, onTrigger))
+  def plusOne():
+     return count.value + 1
+
+  print(plusOne.value) # 2
+
+  plusOne.value += 1 # 错误
+  
   ```
 
 - **参考**
   - [指南 - 计算属性](/guide/essentials/computed)
   - [指南 - 计算属性调试](/guide/extras/reactivity-in-depth#computed-debugging)
+  <!-- todo 暂不支持
   - [指南 - 为 `computed()` 标注类型](/guide/typescript/composition-api#typing-computed) <sup class="vt-badge ts" />
   - [指南 - 性能优化 - 计算属性稳定性](/guide/best-practices/performance#computed-stability) <sup class="vt-badge" data-text="3.4+" />
+  -->
 
 ## reactive() {#reactive}
 
 返回一个对象的响应式代理。
 
 - **类型**
-
-  ```ts
+  <!-- 
   function reactive<T extends object>(target: T): UnwrapNestedRefs<T>
+  -->
+  ```py
+  def reactive(target: dict | list) -> "ReactiveProxy" | "DictProxy" | "ListProxy":
   ```
 
 - **详细信息**
 
   响应式转换是“深层”的：它会影响到所有嵌套的属性。一个响应式对象也将深层地解包任何 [ref](#ref) 属性，同时保持响应性。
 
+<!-- todo 暂不支持
   值得注意的是，当访问到某个响应式数组或 `Map` 这样的原生集合类型中的 ref 元素时，不会执行 ref 的解包。
+-->
 
   若要避免深层响应式转换，只想保留对这个对象顶层次访问的响应性，请使用 [shallowReactive()](./reactivity-advanced#shallowreactive) 作替代。
 
-  返回的对象以及其中嵌套的对象都会通过 [ES Proxy](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy) 包裹，因此**不等于**源对象，建议只使用响应式代理，避免使用原始对象。
+  返回的对象以及其中嵌套的对象都会通过 `ReactiveProxy` <!-- todo 暂不支持 [ES Proxy](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy) -->包裹，因此**不等于**源对象，建议只使用响应式代理，避免使用原始对象。
 
 - **示例**
 
   创建一个响应式对象：
 
-  ```js
-  const obj = reactive({ count: 0 })
-  obj.count++
+  ```py
+  obj = reactive({ 'count': 0 })
+  obj.count += 1
   ```
 
   ref 的解包：
 
+  ```py
+  count = ref(1)
+  obj = reactive({ 'count': count })
+
+  # ref 需要手动解包
+  print(obj.count.value == count.value) // True
+
+  # 会更新 `obj.count`
+  count.value += 1
+  print(count.value) # 2
+  print(obj.count.value) # 2
+
+  # 也会更新 `count` ref
+  obj.count.value += 1
+  print(obj.count.value) # 3
+  print(count.value) # 3
+  ```
+  
+<!-- todo 暂不支持
   ```ts
   const count = ref(1)
   const obj = reactive({ count })
@@ -161,12 +218,23 @@
   obj.count++
   console.log(obj.count) // 3
   console.log(count.value) // 3
+  ``
+-->
+
+  注意当访问到某个响应式数组或 `dict` 这样的原生集合类型中的 ref 元素时，**不会**执行 ref 的解包：
+
+  ```py
+  books = reactive([ref('Vue.py Guide')])
+  # 这里需要 .value
+  print(books[0].value)
+
+  d = reactive({'count': ref(0)})
+  # 这里需要 .value
+  print(d['count'].value)
   ```
-
-	注意当访问到某个响应式数组或 `Map` 这样的原生集合类型中的 ref 元素时，**不会**执行 ref 的解包：
-
+<!-- todo 暂不支持
   ```js
-  const books = reactive([ref('Vue 3 Guide')])
+  const books = reactive([ref('Vue.py Guide')])
   // 这里需要 .value
   console.log(books[0].value)
 
@@ -174,9 +242,20 @@
   // 这里需要 .value
   console.log(map.get('count').value)
   ```
+-->
 
-  将一个 [ref](#ref) 赋值给一个 `reactive` 属性时，该 ref 会被自动解包：
+  将一个 [ref](#ref) 赋值给一个 `reactive` 属性时，ref 需要手动解包：
 
+  ```py
+  count = ref(1)
+  obj = reactive({})
+
+  obj.count = count.value
+
+  print(obj.count) # 1
+  obj.count == count.value # true
+  ```
+<!-- todo 暂不支持
   ```ts
   const count = ref(1)
   const obj = reactive({})
@@ -186,12 +265,18 @@
   console.log(obj.count) // 1
   console.log(obj.count === count.value) // true
   ```
+-->
 
 - **参考**
   - [指南 - 响应式基础](/guide/essentials/reactivity-fundamentals)
+  <!-- todo 暂不支持
   - [指南 - 为 `reactive()` 标注类型](/guide/typescript/composition-api#typing-reactive) <sup class="vt-badge ts" />
+  -->
 
-## readonly() {#readonly}
+## <sup class=''/> readonly() <sup class="vt-badge dev-only" data-text="Reserved" /> {#readonly}
+
+:::warning
+请注意，这是一个预留的语法，当前版本未实现。
 
 接受一个对象 (不论是响应式还是普通的) 或是一个 [ref](#ref)，返回一个原值的只读代理。
 
@@ -227,6 +312,8 @@
   // 更改该只读副本将会失败，并会得到一个警告
   copy.count++ // warning!
   ```
+:::
+<!-- end revered_text -->
 
 ## watchEffect() {#watcheffect}
 
@@ -234,6 +321,32 @@
 
 - **类型**
 
+  ```py
+  def watchEffect(
+      effect_or_options: WatchEffect | WatchOptionsBase = None,
+      debuggerOptions: DebuggerOptions = None
+  ) -> WatchStopHandle:
+  
+  # (cleanupFn: () => void) => void
+  OnCleanUp = Callable[[Callable[[], None]], None]  
+  # (onCleanup: OnCleanup) => void
+  WatchEffect = Callable[[OnCleanUp], None]  
+  WatchStopHandle = Callable[[], None]  # () => void
+
+  @dataclasses.dataclass
+  class WatchOptionsBase:
+    flush: FlushEnum = FlushEnum.PRE
+    onTrack: Callable[[DebuggerEvent], None] = None
+    onTrigger: Callable[[DebuggerEvent], None] = None
+  
+  class FlushEnum(enum.Enum):
+    PRE = 'pre'    # 暂不支持
+    POST = 'post'  # 暂不支持
+    SYNC = 'sync'
+
+  ```
+  
+<!--
   ```ts
   function watchEffect(
     effect: (onCleanup: OnCleanup) => void,
@@ -250,6 +363,7 @@
 
   type StopHandle = () => void
   ```
+-->
 
 - **详细信息**
 
@@ -257,44 +371,71 @@
 
   第二个参数是一个可选的选项，可以用来调整副作用的刷新时机或调试副作用的依赖。
 
-  默认情况下，侦听器将在组件渲染之前执行。设置 `flush: 'post'` 将会使侦听器延迟到组件渲染之后再执行。详见[回调的触发时机](/guide/essentials/watchers#callback-flush-timing)。在某些特殊情况下 (例如要使缓存失效)，可能有必要在响应式依赖发生改变时立即触发侦听器。这可以通过设置 `flush: 'sync'` 来实现。然而，该设置应谨慎使用，因为如果有多个属性同时更新，这将导致一些性能和数据一致性的问题。
-
   返回值是一个用来停止该副作用的函数。
+ 
+<!-- todo 暂不支持
+  默认情况下，侦听器将在组件渲染之前执行。设置 `flush: 'post'` 将会使侦听器延迟到组件渲染之后再执行。详见[回调的触发时机](/guide/essentials/watchers#callback-flush-timing)。在某些特殊情况下 (例如要使缓存失效)，可能有必要在响应式依赖发生改变时立即触发侦听器。这可以通过设置 `flush: 'sync'` 来实现。然而，该设置应谨慎使用，因为如果有多个属性同时更新，这将导致一些性能和数据一致性的问题。
+-->
+
 
 - **示例**
 
-  ```js
-  const count = ref(0)
+  ```py
+  count = ref(0)
+  
+  def print_val(on_cleanup):
+    print(count.value)
 
-  watchEffect(() => console.log(count.value))
-  // -> 输出 0
+  watchEffect(prin_val)
+  # -> print 0
 
-  count.value++
-  // -> 输出 1
+  count.value += 1
+  # -> print 1
+  ```
+
+  推荐使用装饰器的方式：
+ 
+  ```py
+  count = ref(0)
+  
+  @watchEffect
+  def print_val(on_cleanup):
+    print(count.value)
+  # -> print 0
+
+  count.value += 1
+  # -> print 1
   ```
 
   副作用清除：
 
-  ```js
-  watchEffect(async (onCleanup) => {
-    const { response, cancel } = doAsyncWork(id.value)
-    // `cancel` 会在 `id` 更改时调用
-    // 以便取消之前
-    // 未完成的请求
-    onCleanup(cancel)
-    data.value = await response
-  })
+  ```py
+  @watchEffect
+  def query(on_cleanup):
+    response, cancel = doAsyncWork(id.value)
+    # `cancel` 会在 `id` 更改时调用
+    # 以便取消之前
+    # 未完成的请求
+    on_cleanup(cancel)
+    data.value = response()
+  
   ```
 
   停止侦听器：
 
-  ```js
-  const stop = watchEffect(() => {})
+  ```py
+  @watchEffect
+  def f(on_cleanup):
+    pass
+  
+  # 重命名便于理解
+  stop = f
 
-  // 当不再需要此侦听器时:
+  # 当不再需要此侦听器时:
   stop()
   ```
 
+<!--
   选项：
 
   ```js
@@ -308,18 +449,31 @@
     }
   })
   ```
+-->
 
 - **参考**
   - [指南 - 侦听器](/guide/essentials/watchers#watcheffect)
   - [指南 - 侦听器调试](/guide/extras/reactivity-in-depth#watcher-debugging)
 
-## watchPostEffect() {#watchposteffect}
+## <sup class=''/> watchPostEffect() <sup class="vt-badge dev-only" data-text="Reserved" /> {#watchposteffect}
+
+:::warning
+请注意，这是一个预留的语法，当前版本未实现。
 
 [`watchEffect()`](#watcheffect) 使用 `flush: 'post'` 选项时的别名。
 
-## watchSyncEffect() {#watchsynceffect}
+:::
+<!-- end revered_text -->
+
+## <sup class=''/> watchSyncEffect() <sup class="vt-badge dev-only" data-text="Reserved" /> {#watchsynceffect}
+
+:::warning
+请注意，这是一个预留的语法，当前版本未实现。
 
 [`watchEffect()`](#watcheffect) 使用 `flush: 'sync'` 选项时的别名。
+
+:::
+<!-- end revered_text -->
 
 ## watch() {#watch}
 
@@ -327,6 +481,36 @@
 
 - **类型**
 
+  ```py
+  # WatchSource 侦听单个来源
+  # MultiWatchSources 侦听多个来源
+  def watch(
+    source: WatchSource | MultiWatchSources,
+    cb_or_options: WatchCallback | WatchOptions = None,
+    options: WatchOptions = None
+  ) -> WatchStopHandle :
+  
+  WatchSource = Union[RefImpl, ComputedRefImpl, Callable[[], Any], ReactiveProxy]
+  # (val: Any, oldVal: Any, onCleanup: OnCleanup) => any
+  WatchCallback = Callable[[Any, Any, OnCleanUp], Any]
+  MultiWatchSources = List[WatchSource]
+  
+  @dataclasses.dataclass
+  class WatchOptionsBase:
+    immediate: bool = False
+    deep: bool = False
+    flush: FlushEnum = FlushEnum.PRE
+    onTrack: Callable[[DebuggerEvent], None] = None
+    onTrigger: Callable[[DebuggerEvent], None] = None
+  
+  class FlushEnum(enum.Enum):
+    PRE = 'pre'    # 暂不支持
+    POST = 'post'  # 暂不支持
+    SYNC = 'sync'
+
+  ```
+
+<!--
   ```ts
   // 侦听单个来源
   function watch<T>(
@@ -364,6 +548,7 @@
     once?: boolean // 默认：false (3.4+)
   }
   ```
+-->
 
   > 为了便于阅读，对类型进行了简化。
 
@@ -380,15 +565,15 @@
 
   第二个参数是在发生变化时要调用的回调函数。这个回调函数接受三个参数：新值、旧值，以及一个用于注册副作用清理的回调函数。该回调函数会在副作用下一次重新执行前调用，可以用来清除无效的副作用，例如等待中的异步请求。
 
-	当侦听多个来源时，回调函数接受两个数组，分别对应来源数组中的新值和旧值。
+  当侦听多个来源时，回调函数接受两个数组，分别对应来源数组中的新值和旧值。
 
   第三个可选的参数是一个对象，支持以下这些选项：
 
-  - **`immediate`**：在侦听器创建时立即触发回调。第一次调用时旧值是 `undefined`。
+  - **`immediate`**：在侦听器创建时立即触发回调。第一次调用时旧值是 `None`。
   - **`deep`**：如果源是对象，强制深度遍历，以便在深层级变更时触发回调。参考[深层侦听器](/guide/essentials/watchers#deep-watchers)。
   - **`flush`**：调整回调函数的刷新时机。参考[回调的刷新时机](/guide/essentials/watchers#callback-flush-timing)及 [`watchEffect()`](/api/reactivity-core#watcheffect)。
   - **`onTrack / onTrigger`**：调试侦听器的依赖。参考[调试侦听器](/guide/extras/reactivity-in-depth#watcher-debugging)。
-  - **`once`**：回调函数只会运行一次。侦听器将在回调函数首次运行后自动停止。 <sup class="vt-badge" data-text="3.4+" />
+  - **`once`**<sup class="vt-badge dev-only" data-text="Reserved" />：回调函数只会运行一次。侦听器将在回调函数首次运行后自动停止。
 
   与 [`watchEffect()`](#watcheffect) 相比，`watch()` 使我们可以：
 
@@ -400,88 +585,100 @@
 
   侦听一个 getter 函数：
 
-  ```js
-  const state = reactive({ count: 0 })
-  watch(
-    () => state.count,
-    (count, prevCount) => {
-      /* ... */
-    }
-  )
+  ```py
+  state = reactive({ 'count': 0 })
+  
+  def getter():
+    return state.count
+  
+  @watch(getter)
+  def handle(count, prev_count, on_cleanup):
+      ...
+
   ```
 
   侦听一个 ref：
 
-  ```js
-  const count = ref(0)
-  watch(count, (count, prevCount) => {
-    /* ... */
-  })
+  ```py
+  count = ref(0)
+  
+  @watch(count)
+  def handle(count, prevCount):
+      ...
   ```
 
   当侦听多个来源时，回调函数接受两个数组，分别对应来源数组中的新值和旧值：
 
-  ```js
-  watch([fooRef, barRef], ([foo, bar], [prevFoo, prevBar]) => {
-    /* ... */
-  })
+  ```py
+  # <!-- todo add test case -->
+  watch([fooRef, barRef])
+  def handle([foo, bar], [prevFoo, prevBar]):
+      ...
+  
   ```
 
-  当使用 getter 函数作为源时，回调只在此函数的返回值变化时才会触发。如果你想让回调在深层级变更时也能触发，你需要使用 `{ deep: true }` 强制侦听器进入深层级模式。在深层级模式时，如果回调函数由于深层级的变更而被触发，那么新值和旧值将是同一个对象。
+  当使用 getter 函数作为源时，回调只在此函数的返回值变化时才会触发。如果你想让回调在深层级变更时也能触发，你需要使用 `deep=True` 强制侦听器进入深层级模式。在深层级模式时，如果回调函数由于深层级的变更而被触发，那么新值和旧值将是同一个对象。
 
-  ```js
-  const state = reactive({ count: 0 })
-  watch(
-    () => state,
-    (newValue, oldValue) => {
-      // newValue === oldValue
-    },
-    { deep: true }
-  )
+  ```py
+  # <!-- todo add test case -->
+  state = reactive({ 'count': 0 })
+  
+  @watch(state, WatchOptions(deep=True))
+  def handle(new_val, old_val, on_cleanup):
+      # new_val is old_val 
+      ...
+  
   ```
 
   当直接侦听一个响应式对象时，侦听器会自动启用深层模式：
 
-  ```js
-  const state = reactive({ count: 0 })
-  watch(state, () => {
-    /* 深层级变更状态所触发的回调 */
-  })
+  ```py
+  state = reactive({ 'count': 0 })
+  
+  @watch(state)
+  def handle(new_val, old_val, on_cleanup):
+    # 深层级变更状态所触发的回调
+    ...
   ```
 
   `watch()` 和 [`watchEffect()`](#watcheffect) 享有相同的刷新时机和调试选项：
 
-  ```js
-  watch(source, callback, {
-    flush: 'post',
-    onTrack(e) {
-      debugger
-    },
-    onTrigger(e) {
-      debugger
-    }
-  })
+  ```py
+  def onTrack(info):
+      print(info)
+      
+  def onTrigger(info):
+      print(info)
+
+  @watch(source, WatchOptions(deep=True, onTrack=onTrack onTrigger=onTrigger))
+  def callback(new_val, old_val, on_cleanup):
+      ...
   ```
 
   停止侦听器：
 
-  ```js
-  const stop = watch(source, callback)
+  ```py
+  @watch(source)
+  def callback(new_val, old_val, on_cleanup):
+      ...
+  
+  # 重命名便于理解
+  stop = callback
 
-  // 当已不再需要该侦听器时：
+  # 当已不再需要该侦听器时：
   stop()
   ```
 
   副作用清理：
 
-  ```js
-  watch(id, async (newId, oldId, onCleanup) => {
-    const { response, cancel } = doAsyncWork(newId)
-    // 当 `id` 变化时，`cancel` 将被调用，
-    // 取消之前的未完成的请求
-    onCleanup(cancel)
-    data.value = await response
-  })
+  ```py
+  @watch(query_id)
+  def query(newId, oldId, on_cleanup):
+    response, cancel = doAsyncWork(newId)
+    # 当 `query_id` 变化时，`cancel` 将被调用，
+    # 取消之前的未完成的请求
+    on_cleanup(cancel)
+    data.value = response()
   ```
 
 - **参考**

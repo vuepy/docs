@@ -2,24 +2,12 @@
 
 ## `v-for` {#v-for}
 
-我们可以使用 `v-for` 指令基于一个数组来渲染一个列表。`v-for` 指令的值需要使用 `item in items` 形式的特殊语法，其中 `items` 是源数据的数组，而 `item` 是迭代项的**别名**：
+我们可以使用 `v-for` 指令基于一个数组来渲染一个列表。`v-for` 指令的值需要使用 `item in items` 形式的语法，其中 `items` 是源数据的数组，而 `item` 是迭代项的**别名**：
 
 <div class="composition-api">
 
 ```js
 const items = ref([{ message: 'Foo' }, { message: 'Bar' }])
-```
-
-</div>
-
-<div class="options-api">
-
-```js
-data() {
-  return {
-    items: [{ message: 'Foo' }, { message: 'Bar' }]
-  }
-}
 ```
 
 </div>
@@ -34,27 +22,15 @@ data() {
 
 <div class="composition-api">
 
-```js
-const parentMessage = ref('Parent')
-const items = ref([{ message: 'Foo' }, { message: 'Bar' }])
-```
-
-</div>
-<div class="options-api">
-
-```js
-data() {
-  return {
-    parentMessage: 'Parent',
-    items: [{ message: 'Foo' }, { message: 'Bar' }]
-  }
-}
+```py
+parentMessage = ref('Parent')
+items = ref([{ 'message': 'Foo' }, { 'message': 'Bar' }])
 ```
 
 </div>
 
 ```vue-html
-<li v-for="(item, index) in items">
+<li v-for="(index, item) in items">
   {{ parentMessage }} - {{ index }} - {{ item.message }}
 </li>
 ```
@@ -71,30 +47,27 @@ const items = [{ message: 'Foo' }, { message: 'Bar' }]
 
 <div class="composition-api">
 
+<!-- todo 暂不支持
 [在演练场中尝试一下](https://play.vuejs.org/#eNpdTsuqwjAQ/ZVDNlFQu5d64bpwJ7g3LopOJdAmIRlFCPl3p60PcDWcM+eV1X8Iq/uN1FrV6RxtYCTiW/gzzvbBR0ZGpBYFbfQ9tEi1ccadvUuM0ERyvKeUmithMyhn+jCSev4WWaY+vZ7HjH5Sr6F33muUhTR8uW0ThTuJua6mPbJEgGSErmEaENedxX3Z+rgxajbEL2DdhR5zOVOdUSIEDOf8M7IULCHsaPgiMa1eK4QcS6rOSkhdfapVeQLQEWnH)
-
-</div>
-<div class="options-api">
-
-[在演练场中尝试一下](https://play.vuejs.org/#eNpVTssKwjAQ/JUllyr0cS9V0IM3wbvxEOxWAm0a0m0phPy7m1aqhpDsDLMz48XJ2nwaUZSiGp5OWzpKg7PtHUGNjRpbAi8NQK1I7fbrLMkhjc5EJAn4WOXQ0BWHQb2whOS24CSN6qjXhN1Qwt1Dt2kufZ9ASOGXOyvH3GMNCdGdH75VsZVjwGa2VYQRUdVqmLKmdwcpdjEnBW1qnPf8wZIrBQujoff/RSEEyIDZZeGLeCn/dGJyCSlazSZVsUWL8AYme21i)
+-->
 
 </div>
 
-`v-for` 变量的作用域和下面的 JavaScript 代码很类似：
+`v-for` 变量的作用域和下面的 Python 代码很类似：
 
-```js
-const parentMessage = 'Parent'
-const items = [
-  /* ... */
+```py
+parentMessage = 'Parent'
+items = [
+  # ...
 ]
 
-items.forEach((item, index) => {
-  // 可以访问外层的 `parentMessage`
-  // 而 `item` 和 `index` 只在这个作用域可用
-  console.log(parentMessage, item.message, index)
-})
+for index, item in enumerate(items):
+  # 可以访问外层的 `parentMessage`
+  # 和Python略微不同，v-for 的 `item` 和 `index` 只在这个作用域可用
+  print(parentMessage, item.message, index)
 ```
 
+<!-- todo 暂不支持
 注意 `v-for` 是如何对应 `forEach` 回调的函数签名的。实际上，你也可以在定义 `v-for` 的变量别名时使用解构，和解构函数参数类似：
 
 ```vue-html
@@ -102,13 +75,16 @@ items.forEach((item, index) => {
   {{ message }}
 </li>
 
-<!-- 有 index 索引时 -->
 <li v-for="({ message }, index) in items">
   {{ message }} {{ index }}
 </li>
 ```
+-->
 
-对于多层嵌套的 `v-for`，作用域的工作方式和函数的作用域很类似。每个 `v-for` 作用域都可以访问到父级作用域：
+`v-for`，作用域的工作方式和函数的作用域很类似。每个 `v-for` 作用域都可以访问到父级作用域：
+:::warning
+请注意，这是一个预留的语法，当前版本未实现。
+:::
 
 ```vue-html
 <li v-for="item in items">
@@ -118,13 +94,19 @@ items.forEach((item, index) => {
 </li>
 ```
 
+<!-- todo 暂不支持
 你也可以使用 `of` 作为分隔符来替代 `in`，这更接近 JavaScript 的迭代器语法：
+-->
 
 ```vue-html
 <div v-for="item of items"></div>
 ```
 
-## `v-for` 与对象 {#v-for-with-an-object}
+## `v-for` 与对象 <sup class="vt-badge dev-only" data-text="Reserved" /> {#v-for-with-an-object}
+
+:::warning
+请注意，这是一个预留的语法，当前版本未实现。
+:::
 
 你也可以使用 `v-for` 来遍历一个对象的所有属性。遍历的顺序会基于对该对象调用 `Object.keys()` 的返回值来决定。
 
@@ -132,25 +114,10 @@ items.forEach((item, index) => {
 
 ```js
 const myObject = reactive({
-  title: 'How to do lists in Vue',
+  title: 'How to do lists in Vue.py',
   author: 'Jane Doe',
   publishedAt: '2016-04-10'
 })
-```
-
-</div>
-<div class="options-api">
-
-```js
-data() {
-  return {
-    myObject: {
-      title: 'How to do lists in Vue',
-      author: 'Jane Doe',
-      publishedAt: '2016-04-10'
-    }
-  }
-}
 ```
 
 </div>
@@ -181,7 +148,9 @@ data() {
 
 <div class="composition-api">
 
+<!-- todo 暂不支持
 [在演练场中尝试一下](https://play.vuejs.org/#eNo9jjFvgzAQhf/KE0sSCQKpqg7IqRSpQ9WlWycvBC6KW2NbcKaNEP+9B7Tx4nt33917Y3IKYT9ESspE9XVnAqMnjuFZO9MG3zFGdFTVbAbChEvnW2yE32inXe1dz2hv7+dPqhnHO7kdtQPYsKUSm1f/DfZoPKzpuYdx+JAL6cxUka++E+itcoQX/9cO8SzslZoTy+yhODxlxWN2KMR22mmn8jWrpBTB1AZbMc2KVbTyQ56yBkN28d1RJ9uhspFSfNEtFf+GfnZzjP/oOll2NQPjuM4xTftZyIaU5VwuN0SsqMqtWZxUvliq/J4jmX4BTCp08A==)
+-->
 
 </div>
 <div class="options-api">
@@ -190,6 +159,7 @@ data() {
 
 </div>
 
+<!-- todo 暂不支持
 ## 在 `v-for` 里使用范围值 {#v-for-with-a-range}
 
 `v-for` 可以直接接受一个整数值。在这种用例中，会将该模板基于 `1...n` 的取值范围重复多次。
@@ -199,6 +169,7 @@ data() {
 ```
 
 注意此处 `n` 的初值是从 `1` 开始而非 `0`。
+-->
 
 ## `<template>` 上的 `v-for` {#v-for-on-template}
 
@@ -241,13 +212,17 @@ data() {
 </template>
 ```
 
-## 通过 key 管理状态 {#maintaining-state-with-key}
+## 通过 key 管理状态 <sup class="vt-badge dev-only" data-text="Reserved" /> {#maintaining-state-with-key}
 
-Vue 默认按照“就地更新”的策略来更新通过 `v-for` 渲染的元素列表。当数据项的顺序改变时，Vue 不会随之移动 DOM 元素的顺序，而是就地更新每个元素，确保它们在原本指定的索引位置上渲染。
+:::warning
+请注意，这是一个预留的语法，当前版本未实现。
+:::
+
+Vue.py 默认按照“就地更新”的策略来更新通过 `v-for` 渲染的元素列表。当数据项的顺序改变时，Vue.py 不会随之移动 DOM 元素的顺序，而是就地更新每个元素，确保它们在原本指定的索引位置上渲染。
 
 默认模式是高效的，但**只适用于列表渲染输出的结果不依赖子组件状态或者临时 DOM 状态 (例如表单输入值) 的情况**。
 
-为了给 Vue 一个提示，以便它可以跟踪每个节点的标识，从而重用和重新排序现有的元素，你需要为每个元素对应的块提供一个唯一的 `key` attribute：
+为了给 Vue.py 一个提示，以便它可以跟踪每个节点的标识，从而重用和重新排序现有的元素，你需要为每个元素对应的块提供一个唯一的 `key` attribute：
 
 ```vue-html
 <div v-for="item in items" :key="item.id">
@@ -296,12 +271,9 @@ Vue 默认按照“就地更新”的策略来更新通过 `v-for` 渲染的元�
 
 <div class="composition-api">
 
+<!-- todo 暂不支持
 这里是一个简单的 [Todo List 的例子](https://play.vuejs.org/#eNp1U8Fu2zAM/RXCGGAHTWx02ylwgxZYB+ywYRhyq3dwLGYRYkuCJTsZjPz7KMmK3ay9JBQfH/meKA/Rk1Jp32G0jnJdtVwZ0Gg6tSkEb5RsDQzQ4h4usG9lAzGVxldoK5n8ZrAZsTQLCduRygAKUUmhDQg8WWyLZwMPtmESx4sAGkL0mH6xrMH+AHC2hvuljw03Na4h/iLBHBAY1wfUbsTFVcwoH28o2/KIIDuaQ0TTlvrwNu/TDe+7PDlKXZ6EZxTiN4kuRI3W0dk4u4yUf7bZfScqw6WAkrEf3m+y8AOcw7Qv6w5T1elDMhs7Nbq7e61gdmme60SQAvgfIhExiSSJeeb3SBukAy1D1aVBezL5XrYN9Csp1rrbNdykqsUehXkookl0EVGxlZHX5Q5rIBLhNHFlbRD6xBiUzlOeuZJQz4XqjI+BxjSSYe2pQWwRBZizV01DmsRWeJA1Qzv0Of2TwldE5hZRlVd+FkbuOmOksJLybIwtkmfWqg+7qz47asXpSiaN3lxikSVwwfC8oD+/sEnV+oh/qcxmU85mebepgLjDBD622Mg+oDrVquYVJm7IEu4XoXKTZ1dho3gnmdJhedEymn9ab3ysDPdc4M9WKp28xE5JbB+rzz/Trm3eK3LAu8/E7p2PNzYM/i3ChR7W7L7hsSIvR7L2Aal1EhqTp80vF95sw3WcG7r8A0XaeME=)，展示了如何通过 `v-for` 来渲染一个组件列表，并向每个实例中传入不同的数据。
-
-</div>
-<div class="options-api">
-
-这里是一个简单的 [Todo List 的例子](https://play.vuejs.org/#eNqNVE2PmzAQ/SsjVIlEm4C27Qmx0a7UVuqhPVS5lT04eFKsgG2BSVJF+e8d2xhIu10tihR75s2bNx9wiZ60To49RlmUd2UrtNkUUjRatQa2iquvBhvYt6qBOEmDwQbEhQQoJJ4dlOOe9bWBi7WWiuIlStNlcJlYrivr5MywxdIDAVo0fSvDDUDiyeK3eDYZxLGLsI8hI7H9DHeYQuwjeAb3I9gFCFMjUXxSYCoELroKO6fZP17Mf6jev0i1ZQcE1RtHaFrWVW/l+/Ai3zd1clQ1O8k5Uzg+j1HUZePaSFwfvdGhfNIGTaW47bV3Mc6/+zZOfaaslegS18ZE9121mIm0Ep17ynN3N5M8CB4g44AC4Lq8yTFDwAPNcK63kPTL03HR6EKboWtm0N5MvldtA8e1klnX7xphEt3ikTbpoYimsoqIwJY0r9kOa6Ag8lPeta2PvE+cA3M7k6cOEvBC6n7UfVw3imPtQ8eiouAW/IY0mElsiZWqOdqkn5NfCXxB5G6SJRvj05By1xujpJWUp8PZevLUluqP/ajPploLasmk0Re3sJ4VCMnxvKQ//0JMqrID/iaYtSaCz+xudsHjLpPzscVGHYO3SzpdixIXLskK7pcBucnTUdgg3kkmcxhetIrmH4ebr8m/n4jC6FZp+z7HTlLsVx1p4M7odcXPr6+Lnb8YOne5+C2F6/D6DH2Hx5JqOlCJ7yz7IlBTbZsf7vjXVBzjvLDrH5T0lgo=)，展示了如何通过 `v-for` 来渲染一个组件列表，并向每个实例中传入不同的数据。
+-->
 
 </div>
 
@@ -309,37 +281,31 @@ Vue 默认按照“就地更新”的策略来更新通过 `v-for` 渲染的元�
 
 ### 变更方法 {#mutation-methods}
 
-Vue 能够侦听响应式数组的变更方法，并在它们被调用时触发相关的更新。这些变更方法包括：
+Vue.py 能够侦听响应式数组的变更方法，并在它们被调用时触发相关的更新。这些变更方法包括：
 
-- `push()`
+- `append()`
+- `clear()`
+- `extend()`
+- `insert()`
 - `pop()`
-- `shift()`
-- `unshift()`
-- `splice()`
-- `sort()`
+- `remove()`
 - `reverse()`
+- `sort()`
 
 ### 替换一个数组 {#replacing-an-array}
 
-变更方法，顾名思义，就是会对调用它们的原数组进行变更。相对地，也有一些不可变 (immutable) 方法，例如 `filter()`，`concat()` 和 `slice()`，这些都不会更改原数组，而总是**返回一个新数组**。当遇到的是非变更方法时，我们需要将旧的数组替换为新的：
+变更方法，顾名思义，就是会对调用它们的原数组进行变更。相对地，也有一些不可变 (immutable) 方法，例如 `+`，不会更改原数组，而总是**返回一个新数组**。当遇到的是非变更方法时，我们需要将旧的数组替换为新的：
 
 <div class="composition-api">
 
-```js
-// `items` 是一个数组的 ref
-items.value = items.value.filter((item) => item.message.match(/Foo/))
-```
-
-</div>
-<div class="options-api">
-
-```js
-this.items = this.items.filter((item) => item.message.match(/Foo/))
+```py
+# `items` 是一个数组的 ref
+items.value = items.value + [1, 2, 3]
 ```
 
 </div>
 
-你可能认为这将导致 Vue 丢弃现有的 DOM 并重新渲染整个列表——幸运的是，情况并非如此。Vue 实现了一些巧妙的方法来最大化对 DOM 元素的重用，因此用另一个包含部分重叠对象的数组来做替换，仍会是一种非常高效的操作。
+你可能认为这将导致 Vue.py 丢弃现有的 DOM 并重新渲染整个列表——幸运的是，情况并非如此。Vue.py 实现了一些巧妙的方法来最大化对 DOM 元素的重用，因此用另一个包含部分重叠对象的数组来做替换，仍会是一种非常高效的操作。
 
 ## 展示过滤或排序后的结果 {#displaying-filtered-sorted-results}
 
@@ -349,31 +315,18 @@ this.items = this.items.filter((item) => item.message.match(/Foo/))
 
 <div class="composition-api">
 
-```js
-const numbers = ref([1, 2, 3, 4, 5])
+```py
+from vuepy import computed
 
-const evenNumbers = computed(() => {
-  return numbers.value.filter((n) => n % 2 === 0)
-})
+numbers = ref([1, 2, 3, 4, 5])
+
+@computed
+def evenNumbers():
+  return [i for i in numbers.value if n % 2 == 0]
 ```
 
 </div>
-<div class="options-api">
 
-```js
-data() {
-  return {
-    numbers: [1, 2, 3, 4, 5]
-  }
-},
-computed: {
-  evenNumbers() {
-    return this.numbers.filter(n => n % 2 === 0)
-  }
-}
-```
-
-</div>
 
 ```vue-html
 <li v-for="n in evenNumbers">{{ n }}</li>
@@ -383,31 +336,14 @@ computed: {
 
 <div class="composition-api">
 
-```js
-const sets = ref([
+```py
+sets = ref([
   [1, 2, 3, 4, 5],
   [6, 7, 8, 9, 10]
 ])
 
-function even(numbers) {
-  return numbers.filter((number) => number % 2 === 0)
-}
-```
-
-</div>
-<div class="options-api">
-
-```js
-data() {
-  return {
-    sets: [[ 1, 2, 3, 4, 5 ], [6, 7, 8, 9, 10]]
-  }
-},
-methods: {
-  even(numbers) {
-    return numbers.filter(number => number % 2 === 0)
-  }
-}
+def even(numbers):
+  return [num for num in numbers if num % 2 == 0]
 ```
 
 </div>
@@ -418,9 +354,9 @@ methods: {
 </ul>
 ```
 
-在计算属性中使用 `reverse()` 和 `sort()` 的时候务必小心！这两个方法将变更原始数组，计算函数中不应该这么做。请在调用这些方法之前创建一个原数组的副本：
+在计算属性中使用 `reverse()` 和 `sort()` 的时候务必小心！这两个方法将变更原始数组，计算函数中不应该这么做。请使用 `reversed`、`sorted` 函数替代：
 
 ```diff
 - return numbers.reverse()
-+ return [...numbers].reverse()
++ return reversed(numbers)
 ```

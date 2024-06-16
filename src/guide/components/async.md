@@ -1,4 +1,7 @@
-# 异步组件 {#async-components}
+# 异步组件 <sup class="vt-badge dev-only" data-text="Reserved" /> {#async-components}
+
+:::warning
+请注意，这是一个预留的语法，当前版本未实现。
 
 ## 基本用法 {#basic-usage}
 
@@ -111,3 +114,6 @@ const AsyncComp = defineAsyncComponent({
 ## 搭配 Suspense 使用 {#using-with-suspense}
 
 异步组件可以搭配内置的 `<Suspense>` 组件一起使用，若想了解 `<Suspense>` 和异步组件之间交互，请参阅 [`<Suspense>`](/guide/built-ins/suspense) 章节。
+
+:::
+<!-- end revered_text -->

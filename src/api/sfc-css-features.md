@@ -1,4 +1,7 @@
-# 单文件组件 CSS 功能 {#sfc-css-features}
+# <sup class=""/> 单文件组件 CSS 功能 <sup class="vt-badge dev-only" data-text="Reserved" /> {#sfc-css-features}
+
+:::warning
+请注意，这是一个预留的语法，当前版本未实现。
 
 ## 组件作用域 CSS {#scoped-css}
 
@@ -56,7 +59,8 @@
 
 :::tip
 通过 `v-html` 创建的 DOM 内容不会被作用域样式影响，但你仍然可以使用深度选择器来设置其样式。
-:::
+
+[//]: # (:::)
 
 ### 插槽选择器 {#slotted-selectors}
 
@@ -200,3 +204,6 @@ p {
 ```
 
 实际的值会被编译成哈希化的 CSS 自定义属性，因此 CSS 本身仍然是静态的。自定义属性会通过内联样式的方式应用到组件的根元素上，并且在源值变更的时候响应式地更新。
+
+:::
+<!-- end revered_text -->

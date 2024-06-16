@@ -6,10 +6,11 @@
 
 事件处理器 (handler) 的值可以是：
 
-1. **内联事件处理器**：事件被触发时执行的内联 JavaScript 语句 (与 `onclick` 类似)。
+[//]: # (1. **内联事件处理器**：事件被触发时执行的内联 JavaScript 语句 &#40;与 `onclick` 类似&#41;。)
 
-2. **方法事件处理器**：一个指向组件上定义的方法的属性名或是路径。
+1. **方法事件处理器**：一个指向组件上定义的方法的属性名或是路径。
 
+<!-- todo 暂不支持
 ## 内联事件处理器 {#inline-handlers}
 
 内联事件处理器通常用于简单场景，例如：
@@ -17,18 +18,7 @@
 <div class="composition-api">
 
 ```js
-const count = ref(0)
-```
-
-</div>
-<div class="options-api">
-
-```js
-data() {
-  return {
-    count: 0
-  }
-}
+count = ref(0)
 ```
 
 </div>
@@ -43,71 +33,41 @@ data() {
 [在演练场中尝试一下](https://play.vuejs.org/#eNo9jssKgzAURH/lko0tgrbbEqX+Q5fZaLxiqHmQ3LgJ+fdqFZcD58xMYp1z1RqRvRgP0itHEJCia4VR2llPkMDjBBkmbzUUG1oII4y0JhBIGw2hh2Znbo+7MLw+WjZ/C4TaLT3hnogPkcgaeMtFyW8j2GmXpWBtN47w5PWBHLhrPzPCKfWDXRHmPsCAaOBfgSOkdH3IGUhpDBWv9/e8vsZZ/gFFhFJN)
 
 </div>
-<div class="options-api">
-
-[在演练场中尝试一下](https://play.vuejs.org/#eNo9jcEKgzAQRH9lyKlF0PYqqdR/6DGXaLYo1RjiRgrivzepIizLzu7sm1XUzuVLIFEKObe+d1wpS183eYahtw4DY1UWMJr15ZpmxYAnDt7uF0BxOwXL5Evc0kbxlmyxxZLFyY2CaXSDZkqKZROYJ4tnO/Tt56HEgckyJaraGNxlsVt2u6teHeF40s20EDo9oyGy+CPIYF1xULBt4H6kOZeFiwBZnOFi+wH0B1hk)
-
-</div>
+-->
 
 ## 方法事件处理器 {#method-handlers}
 
-随着事件处理器的逻辑变得愈发复杂，内联代码方式变得不够灵活。因此 `v-on` 也可以接受一个方法名或对某个方法的调用。
+`v-on` 可以接受一个方法名或对某个方法的调用。
 
 举例来说：
 
 <div class="composition-api">
 
-```js
-const name = ref('Vue.js')
+```py
+name = ref('Vue.py')
 
-function greet(event) {
-  alert(`Hello ${name.value}!`)
-  // `event` 是 DOM 原生事件
-  if (event) {
-    alert(event.target.tagName)
-  }
-}
-```
-
-</div>
-<div class="options-api">
-
-```js
-data() {
-  return {
-    name: 'Vue.js'
-  }
-},
-methods: {
-  greet(event) {
-    // 方法中的 `this` 指向当前活跃的组件实例
-    alert(`Hello ${this.name}!`)
-    // `event` 是 DOM 原生事件
-    if (event) {
-      alert(event.target.tagName)
-    }
-  }
-}
+def greet(owner):
+  print(f"Hello {name.value}!")
+  # `owner` 是事件所在的 widget 对象
+  print(owner)  # Button(button_style='info', ...)
 ```
 
 </div>
 
 ```vue-html
-<!-- `greet` 是上面定义过的方法名 -->
-<button @click="greet">Greet</button>
+<!-- `greet` 是上面定义过的方法名, 只指定方法名时会自动传入当前 widget 对象-->
+<Button @click="greet" label="Greet"></Button>
 ```
 
+<!-- todo 暂不支持
 <div class="composition-api">
 
 [在演练场中尝试一下](https://play.vuejs.org/#eNpVj0FLxDAQhf/KMwjtXtq7dBcFQS/qzVMOrWFao2kSkkkvpf/dJIuCEBgm771vZnbx4H23JRJ3YogqaM+IxMlfpNWrd4GxI9CMA3NwK5psbaSVVjkbGXZaCediaJv3RN1XbE5FnZNVrJ3FEoi4pY0sn7BLC0yGArfjMxnjcLsXQrdNJtFxM+Ys0PcYa2CEjuBPylNYb4THtxdUobj0jH/YX3D963gKC5WyvGZ+xR7S5jf01yPzeblhWr2ZmErHw0dizivfK6PV91mKursUl6dSh/4qZ+vQ/+XE8QODonDi)
 
 </div>
-<div class="options-api">
+-->
 
-[在演练场中尝试一下](https://play.vuejs.org/#eNplUE1LxDAQ/StjEbYL0t5LXRQEvag3Tz00prNtNE1CMilC6X83SUkRhJDJfLz3Jm8tHo2pFo9FU7SOW2Ho0in8MdoSDHhlXhKsnQIYGLHyvL8BLJK3KmcAis3YwOnDY/XlTnt1i2G7i/eMNOnBNRkwWkQqcUFFByVAXUNPk3A9COXEgBkGRgtFDkgDTQjcWxuAwDiJBeMsMcUxszCJlsr+BaXUcLtGwiqut930579KST1IBd5Aqlgie3p/hdTIk+IK//bMGqleEbMjxjC+BZVDIv0+m9CpcNr6MDgkhLORjDBm1H56Iq3ggUvBv++7IhnUFZfnGNt6b4fRtj5wxfYL9p+Sjw==)
-
-</div>
-
+<!-- todo 暂不支持
 方法事件处理器会自动接收原生 DOM 事件并触发执行。在上面的例子中，我们能够通过被触发事件的 `event.target.tagName` 访问到该 DOM 元素。
 
 <div class="composition-api">
@@ -115,15 +75,13 @@ methods: {
 你也可以看看[为事件处理器标注类型](/guide/typescript/composition-api#typing-event-handlers)这一章了解更多。<sup class="vt-badge ts" />
 
 </div>
-<div class="options-api">
+-->
 
-你也可以看看[为事件处理器标注类型](/guide/typescript/options-api#typing-event-handlers)这一章了解更多。<sup class="vt-badge ts" />
-
-</div>
-
+<!-- todo 暂不支持
 ### 方法与内联事件判断 {#method-vs-inline-detection}
 
 模板编译器会通过检查 `v-on` 的值是否是合法的 JavaScript 标识符或属性访问路径来断定是何种形式的事件处理器。举例来说，`foo`、`foo.bar` 和 `foo['bar']` 会被视为方法事件处理器，而 `foo()` 和 `count++` 会被视为内联事件处理器。
+-->
 
 ## 在内联处理器中调用方法 {#calling-methods-in-inline-handlers}
 
@@ -131,42 +89,31 @@ methods: {
 
 <div class="composition-api">
 
-```js
-function say(message) {
-  alert(message)
-}
-```
-
-</div>
-<div class="options-api">
-
-```js
-methods: {
-  say(message) {
-    alert(message)
-  }
-}
+```py
+def say(message):
+  print(message)
 ```
 
 </div>
 
 ```vue-html
-<button @click="say('hello')">Say hello</button>
-<button @click="say('bye')">Say bye</button>
+<Button @click="say('hello')" label="Say hello"></Button>
+<Button @click="say('bye')" label="Say bye"></Button>
 ```
 
+<!-- todo 暂不支持
 <div class="composition-api">
 
 [在演练场中尝试一下](https://play.vuejs.org/#eNp9jTEOwjAMRa8SeSld6I5CBWdg9ZJGBiJSN2ocpKjq3UmpFDGx+Vn//b/ANYTjOxGcQEc7uyAqkqTQI98TW3ETq2jyYaQYzYNatSArZTzNUn/IK7Ludr2IBYTG4I3QRqKHJFJ6LtY7+zojbIXNk7yfmhahv5msvqS7PfnHGjJVp9w/hu7qKKwfEd1NSg==)
 
 </div>
-<div class="options-api">
+-->
 
-[在演练场中尝试一下](https://play.vuejs.org/#eNptjUEKwjAQRa8yZFO7sfsSi57B7WzGdjTBtA3NVC2ldzehEFwIw8D7vM9f1cX742tmVSsd2sl6aXDgjx8ngY7vNDuBFQeAnsWMXagToQAEWg49h0APLncDAIUcT5LzlKJsqRBfPF3ljQjCvXcknEj0bRYZBzi3zrbPE6o0UBhblKiaKy1grK52J/oA//23IcmNBD8dXeVBtX0BF0pXsg==)
+## 在内联事件处理器中访问事件参数 <sup class="vt-badge dev-only" data-text="Reserved" /> {#accessing-event-argument-in-inline-handlers}
 
-</div>
-
-## 在内联事件处理器中访问事件参数 {#accessing-event-argument-in-inline-handlers}
+:::warning
+请注意，这是一个预留的语法，当前版本未实现。
+:::
 
 有时我们需要在内联事件处理器中访问原生 DOM 事件。你可以向该处理器方法传入一个特殊的 `$event` 变量，或者使用内联箭头函数：
 
@@ -211,11 +158,15 @@ methods: {
 
 </div>
 
-## 事件修饰符 {#event-modifiers}
+## 事件修饰符 <sup class="vt-badge dev-only" data-text="Reserved" /> {#event-modifiers}
+
+:::warning
+请注意，这是一个预留的语法，当前版本未实现。
+:::
 
 在处理事件时调用 `event.preventDefault()` 或 `event.stopPropagation()` 是很常见的。尽管我们可以直接在方法内调用，但如果方法能更专注于数据逻辑而不用去处理 DOM 事件的细节会更好。
 
-为解决这一问题，Vue 为 `v-on` 提供了**事件修饰符**。修饰符是用 `.` 表示的指令后缀，包含以下这些：
+为解决这一问题，Vue.py 为 `v-on` 提供了**事件修饰符**。修饰符是用 `.` 表示的指令后缀，包含以下这些：
 
 - `.stop`
 - `.prevent`
@@ -267,9 +218,13 @@ methods: {
 请勿同时使用 `.passive` 和 `.prevent`，因为 `.passive` 已经向浏览器表明了你*不想*阻止事件的默认行为。如果你这么做了，则 `.prevent` 会被忽略，并且浏览器会抛出警告。
 :::
 
-## 按键修饰符 {#key-modifiers}
+## 按键修饰符 <sup class="vt-badge dev-only" data-text="Reserved" /> {#key-modifiers}
 
-在监听键盘事件时，我们经常需要检查特定的按键。Vue 允许在 `v-on` 或 `@` 监听按键事件时添加按键修饰符。
+:::warning
+请注意，这是一个预留的语法，当前版本未实现。
+:::
+
+在监听键盘事件时，我们经常需要检查特定的按键。Vue.py 允许在 `v-on` 或 `@` 监听按键事件时添加按键修饰符。
 
 ```vue-html
 <!-- 仅在 `key` 为 `Enter` 时调用 `submit` -->
@@ -286,7 +241,7 @@ methods: {
 
 ### 按键别名 {#key-aliases}
 
-Vue 为一些常用的按键提供了别名：
+Vue.py 为一些常用的按键提供了别名：
 
 - `.enter`
 - `.tab`
@@ -340,7 +295,11 @@ Vue 为一些常用的按键提供了别名：
 <button @click.exact="onClick">A</button>
 ```
 
-## 鼠标按键修饰符 {#mouse-button-modifiers}
+## 鼠标按键修饰符 <sup class="vt-badge dev-only" data-text="Reserved" /> {#mouse-button-modifiers}
+
+:::warning
+请注意，这是一个预留的语法，当前版本未实现。
+:::
 
 - `.left`
 - `.right`

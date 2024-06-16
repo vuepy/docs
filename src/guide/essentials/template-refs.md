@@ -1,12 +1,12 @@
 # 模板引用 {#template-refs}
 
-虽然 Vue 的声明性渲染模型为你抽象了大部分对 DOM 的直接操作，但在某些情况下，我们仍然需要直接访问底层 DOM 元素。要实现这一点，我们可以使用特殊的 `ref` attribute：
+虽然 Vue.py 的声明性渲染模型为你抽象了大部分对 widget 的直接操作，但在某些情况下，我们仍然需要直接访问底层 widget 元素。要实现这一点，我们可以使用特殊的 `ref` attribute：
 
 ```vue-html
-<input ref="input">
+<Input ref="input"></Input>
 ```
 
-`ref` 是一个特殊的 attribute，和 `v-for` 章节中提到的 `key` 类似。它允许我们在一个特定的 DOM 元素或子组件实例被挂载后，获得对它的直接引用。这可能很有用，比如说在组件挂载时将焦点设置到一个 input 元素上，或在一个元素上初始化一个第三方库。
+`ref` 是一个特殊的 attribute，和 `v-for` 章节中提到的 `key` 类似。它允许我们在一个特定的 widget 元素或子组件实例被挂载后，获得对它的直接引用。这可能很有用，比如说在组件挂载时将焦点设置到一个 input 元素上，或在一个元素上初始化一个第三方库。
 
 ## 访问模板引用 {#accessing-the-refs}
 
@@ -15,54 +15,19 @@
 为了通过组合式 API 获得该模板引用，我们需要声明一个匹配模板 ref attribute 值的 ref：
 
 ```vue
-<script setup>
-import { ref, onMounted } from 'vue'
-
-// 声明一个 ref 来存放该元素的引用
-// 必须和模板里的 ref 同名
-const input = ref(null)
-
-onMounted(() => {
-  input.value.focus()
-})
-</script>
-
 <template>
-  <input ref="input" />
+  <Input ref="input" /></Input>
 </template>
-```
 
-如果不使用 `<script setup>`，需确保从 `setup()` 返回 ref：
+<script lang='py'>
+from vuepy import ref, onMounted
 
-```js{6}
-export default {
-  setup() {
-    const input = ref(null)
-    // ...
-    return {
-      input
-    }
-  }
-}
-```
+# 声明一个 ref 来存放该元素的引用
+# 必须和模板里的 ref 同名
+input = ref(null)
 
-</div>
-<div class="options-api">
-
-挂载结束后引用都会被暴露在 `this.$refs` 之上：
-
-```vue
-<script>
-export default {
-  mounted() {
-    this.$refs.input.focus()
-  }
-}
+onMounted(lambda: input.value.focus())
 </script>
-
-<template>
-  <input ref="input" />
-</template>
 ```
 
 </div>
@@ -73,23 +38,28 @@ export default {
 
 如果你需要侦听一个模板引用 ref 的变化，确保考虑到其值为 `null` 的情况：
 
-```js
-watchEffect(() => {
-  if (input.value) {
+```py
+@watchEffect
+def focus():
+  if input.value:
     input.value.focus()
-  } else {
-    // 此时还未挂载，或此元素已经被卸载（例如通过 v-if 控制）
-  }
-})
+  else:
+    # 此时还未挂载，或此元素已经被卸载（例如通过 v-if 控制）
 ```
 
+<!-- todo 暂不支持
 也可参考：[为模板引用标注类型](/guide/typescript/composition-api#typing-template-refs) <sup class="vt-badge ts" />
+-->
 
 </div>
 
-## `v-for` 中的模板引用 {#refs-inside-v-for}
+## `v-for` 中的模板引用 <sup class="vt-badge dev-only" data-text="Reserved" /> {#refs-inside-v-for}
 
-> 需要 v3.2.25 及以上版本
+:::warning
+请注意，这是一个预留的语法，当前版本未实现。
+:::
+
+[//]: # (> 需要 v3.2.25 及以上版本)
 
 <div class="composition-api">
 
@@ -117,45 +87,18 @@ onMounted(() => console.log(itemRefs.value))
 </template>
 ```
 
+<!-- todo 暂不支持
 [在演练场中尝试一下](https://play.vuejs.org/#eNpFjs1qwzAQhF9l0CU2uDZtb8UOlJ576bXqwaQyCGRJyCsTEHr3rGwnOehnd2e+nSQ+vW/XqMSH6JdL0J6wKIr+LK2evQuEhKCmBs5+u2hJ/SNjCm7GiV0naaW9OLsQjOZrKNrq97XBW4P3v/o51qTmHzUtd8k+e0CrqsZwRpIWGI0KVN0N7TqaqNp59JUuEt2SutKXY5elmimZT9/t2Tk1F+z0ZiTFFdBHs738Mxrry+TCIEWhQ9sttRQl0tEsK6U4HEBKW3LkfDA6o3dst3H77rFM5BtTfm/P)
-
-</div>
-<div class="options-api">
-
-当在 `v-for` 中使用模板引用时，相应的引用中包含的值是一个数组：
-
-```vue
-<script>
-export default {
-  data() {
-    return {
-      list: [
-        /* ... */
-      ]
-    }
-  },
-  mounted() {
-    console.log(this.$refs.items)
-  }
-}
-</script>
-
-<template>
-  <ul>
-    <li v-for="item in list" ref="items">
-      {{ item }}
-    </li>
-  </ul>
-</template>
-```
-
-[在演练场中尝试一下](https://play.vuejs.org/#eNpFjk0KwjAQha/yCC4Uaou6kyp4DuOi2KkGYhKSiQildzdNa4WQmTc/37xeXJwr35HEUdTh7pXjszT0cdYzWuqaqBm9NEDbcLPeTDngiaM3PwVoFfiI667AvsDhNpWHMQzF+L9sNEztH3C3JlhNpbaPNT9VKFeeulAqplfY5D1p0qurxVQSqel0w5QUUEedY8q0wnvbWX+SYgRAmWxIiuSzm4tBinkc6HvkuSE7TIBKq4lZZWhdLZfE8AWp4l3T)
+-->
 
 </div>
 
 应该注意的是，ref 数组**并不**保证与源数组相同的顺序。
 
-## 函数模板引用 {#function-refs}
+## 函数模板引用  <sup class="vt-badge dev-only" data-text="Reserved" /> {#function-refs}
+:::warning
+请注意，这是一个预留的语法，当前版本未实现。
+:::
 
 除了使用字符串值作名字，`ref` attribute 还可以绑定为一个函数，会在每次组件更新时都被调用。该函数会收到元素引用作为其第一个参数：
 
@@ -174,51 +117,29 @@ export default {
 <div class="composition-api">
 
 ```vue
-<script setup>
-import { ref, onMounted } from 'vue'
-import Child from './Child.vue'
-
-const child = ref(null)
-
-onMounted(() => {
-  // child.value 是 <Child /> 组件的实例
-})
-</script>
-
 <template>
   <Child ref="child" />
 </template>
-```
 
-</div>
-<div class="options-api">
+<script lang='py'>
+from vuepy impport ref, import_sfc
 
-```vue
-<script>
-import Child from './Child.vue'
+Child = import_sfc('./Child.vue')
 
-export default {
-  components: {
-    Child
-  },
-  mounted() {
-    // this.$refs.child 是 <Child /> 组件的实例
-  }
-}
+# child.value 是 <Child /> 组件的实例
+child = ref(null)
 </script>
-
-<template>
-  <Child ref="child" />
-</template>
 ```
 
 </div>
-
-如果一个子组件使用的是选项式 API <span class="composition-api">或没有使用 `<script setup>`</span>，被引用的组件实例和该子组件的 `this` 完全一致，这意味着父组件对子组件的每一个属性和方法都有完全的访问权。这使得在父组件和子组件之间创建紧密耦合的实现细节变得很容易，当然也因此，应该只在绝对需要时才使用组件引用。大多数情况下，你应该首先使用标准的 props 和 emit 接口来实现父子组件交互。
 
 <div class="composition-api">
 
 有一个例外的情况，使用了 `<script setup>` 的组件是**默认私有**的：一个父组件无法访问到一个使用了 `<script setup>` 的子组件中的任何东西，除非子组件在其中通过 `defineExpose` 宏显式暴露：
+
+:::warning
+请注意，这是一个预留的语法，当前版本未实现。
+:::
 
 ```vue
 <script setup>
@@ -237,33 +158,9 @@ defineExpose({
 
 当父组件通过模板引用获取到了该组件的实例时，得到的实例类型为 `{ a: number, b: number }` (ref 都会自动解包，和一般的实例一样)。
 
+<!-- todo 暂不支持
 TypeScript 用户请参考：[为组件的模板引用标注类型](/guide/typescript/composition-api#typing-component-template-refs) <sup class="vt-badge ts" />
+-->
 
 </div>
-<div class="options-api">
 
-`expose` 选项可以用于限制对子组件实例的访问：
-
-```js
-export default {
-  expose: ['publicData', 'publicMethod'],
-  data() {
-    return {
-      publicData: 'foo',
-      privateData: 'bar'
-    }
-  },
-  methods: {
-    publicMethod() {
-      /* ... */
-    },
-    privateMethod() {
-      /* ... */
-    }
-  }
-}
-```
-
-在上面这个例子中，父组件通过模板引用访问到子组件实例后，仅能访问 `publicData` 和 `publicMethod`。
-
-</div>

@@ -40,7 +40,9 @@ shuffleMembers(membersPartnerData as Member[])
       <template #lead>Vue 及其生态系统发展的背后是一个国际化的团队，以下是部分团员的个人信息。</template>
 
       <template #action>
+        <!-- todo 暂不支持
         <VTLink href="https://github.com/vuejs/governance/blob/master/Team-Charter.md">了解更多团队信息</VTLink>
+        -->
       </template>
     </TeamHero>
 

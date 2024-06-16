@@ -1,13 +1,13 @@
 # 应用实例 API {#application-api}
 
-## createApp() {#createapp}
+## create_app() {#createapp}
 
 创建一个应用实例。
 
 - **类型**
 
-  ```ts
-  function createApp(rootComponent: Component, rootProps?: object): App
+  ```py
+  def create_app(component: RootComponent, **root_props) -> App:
   ```
 
 - **详细信息**
@@ -18,28 +18,50 @@
 
   可以直接内联根组件：
 
-  ```js
-  import { createApp } from 'vue'
+  ```py
+  from vuepy import create_app
 
-  const app = createApp({
-    /* 根组件选项 */
+  app = create_app({
+    # 根组件选项
+    'setup': lambda *args: {},
+    'template': '''
+      <Button label='click'></Button>
+      <p></p>
+    '''
   })
+  
+  # 或 从 VueOptions 创建
+  from vuepy import VueOptions
+  Comp = Vueoptions(**{
+    # 根组件选项
+    'setup': lambda *args: {},
+    'template': '''
+      <Button label='click'></Button>
+      <p></p>
+    '''
+  })
+  app = create_app(Comp)
+  
   ```
 
   也可以使用从别处导入的组件：
 
-  ```js
-  import { createApp } from 'vue'
-  import App from './App.vue'
+  ```py
+  from vuepy import create_app, import_sfc
+  
+  App = import_sfc('./App.vue')
 
-  const app = createApp(App)
+  app = create_app(App)
   ```
 
 - **参考**[指南 - 创建一个 Vue 应用实例](/guide/essentials/application)
 
-## createSSRApp() {#createssrapp}
+<!-- todo 暂不支持
+## <sup class=''/> createSSRApp() {#createssrapp}
 
 以 [SSR 激活](/guide/scaling-up/ssr#client-hydration)模式创建一个应用实例。用法与 `createApp()` 完全相同。
+
+-->
 
 ## app.mount() {#app-mount}
 
@@ -47,38 +69,46 @@
 
 - **类型**
 
-  ```ts
-  interface App {
-    mount(rootContainer: Element | string): ComponentPublicInstance
-  }
+  ```py
+  class App:
+    def mount(el: ipywidgets.Output = None) -> Document:
   ```
 
 - **详细信息**
 
-  参数可以是一个实际的 DOM 元素或一个 CSS 选择器 (使用第一个匹配到的元素)。返回根组件的实例。
+  参数可以是一个实际的 Output, 传入为 None 时自动创建一个Output 元素，可以通过 app._container 访问。返回根组件的实例。
 
+<!-- todo 暂不支持
   如果该组件有模板或定义了渲染函数，它将替换容器内所有现存的 DOM 节点。否则在运行时编译器可用的情况下，容器元素的 `innerHTML` 将被用作模板。
 
   在 SSR 激活模式下，它将激活容器内现有的 DOM 节点。如果出现了[激活不匹配](/guide/scaling-up/ssr#hydration-mismatch)，那么现有的 DOM 节点将会被修改以匹配客户端的实际渲染结果。
 
   对于每个应用实例，`mount()` 仅能调用一次。
+-->
 
 - **示例**
 
-  ```js
-  import { createApp } from 'vue'
-  const app = createApp(/* ... */)
+  ```py
+  from vuepy import create_app
+  
+  app = create_app(...)
 
-  app.mount('#app')
+  app.mount()
   ```
 
-  也可以挂载到一个实际的 DOM 元素。
+  也可以挂载到一个已有的 Output 上。
 
-  ```js
-  app.mount(document.body.firstChild)
+  ```py
+  import ipywidgets
+  
+  output = ipywidgets.Output()
+  app.mount(output)
   ```
 
-## app.unmount() {#app-unmount}
+## <sup class=""/> app.unmount() <sup class="vt-badge dev-only" data-text="Reserved" /> {#app-unmount}
+
+:::warning
+请注意，这是一个预留的语法，当前版本未实现。
 
 卸载一个已挂载的应用实例。卸载一个应用会触发该应用组件树内所有组件的卸载生命周期钩子。
 
@@ -90,38 +120,41 @@
   }
   ```
 
+:::
+<!-- end revered_text -->
+
 ## app.component() {#app-component}
 
 如果同时传递一个组件名字符串及其定义，则注册一个全局组件；如果只传递一个名字，则会返回用该名字注册的组件 (如果存在的话)。
 
 - **类型**
 
-  ```ts
-  interface App {
-    component(name: string): Component | undefined
-    component(name: string, component: Component): this
-  }
+  ```py
+  class App:
+    def component(name: str) -> Component | undefined:
+    def component(name: str, component: VueComponent): -> self
   ```
 
 - **示例**
 
-  ```js
-  import { createApp } from 'vue'
+  ```py
+  from vuepy import create_app
 
-  const app = createApp({})
+  app = create_app({})
 
-  // 注册一个选项对象
-  app.component('my-component', {
-    /* ... */
-  })
+  # 注册一个选项对象
+  app.component('MyComponent', MyComponent)
 
-  // 得到一个已注册的组件
-  const MyComponent = app.component('my-component')
+  # 得到一个已注册的组件
+  MyComponent = app.component('MyComponent')
   ```
 
 - **参考**[组件注册](/guide/components/registration)
 
-## app.directive() {#app-directive}
+## <sup class=""/> app.directive() <sup class="vt-badge dev-only" data-text="Reserved" /> {#app-directive}
+
+:::warning
+请注意，这是一个预留的语法，当前版本未实现。
 
 如果同时传递一个名字和一个指令定义，则注册一个全局指令；如果只传递一个名字，则会返回用该名字注册的指令 (如果存在的话)。
 
@@ -159,16 +192,18 @@
 
 - **参考**[自定义指令](/guide/reusability/custom-directives)
 
+:::
+<!-- end revered_text -->
+
 ## app.use() {#app-use}
 
 安装一个[插件](/guide/reusability/plugins)。
 
 - **类型**
 
-  ```ts
-  interface App {
-    use(plugin: Plugin, ...options: any[]): this
-  }
+  ```py
+  class App:
+    def use(self, plugin: Type["VuePlugin"], options: dict = None) -> self:
   ```
 
 - **详细信息**
@@ -181,12 +216,12 @@
 
 - **示例**
 
-  ```js
-  import { createApp } from 'vue'
-  import MyPlugin from './plugins/MyPlugin'
+  ```py
+  from vuepy import create_app
+  from plugins import MyPlugin
 
-  const app = createApp({
-    /* ... */
+  const app = create_app({
+    # /* ... */
   })
 
   app.use(MyPlugin)
@@ -194,25 +229,10 @@
 
 - **参考**[插件](/guide/reusability/plugins)
 
-## app.mixin() {#app-mixin}
+## <sup class=""/> app.provide() <sup class="vt-badge dev-only" data-text="Reserved" /> {#app-provide}
 
-应用一个全局 mixin (适用于该应用的范围)。一个全局的 mixin 会作用于应用中的每个组件实例。
-
-:::warning 不推荐
-Mixins 在 Vue 3 支持主要是为了向后兼容，因为生态中有许多库使用到。在新的应用中应尽量避免使用 mixin，特别是全局 mixin。
-
-若要进行逻辑复用，推荐用[组合式函数](/guide/reusability/composables)来替代。
-:::
-
-- **类型**
-
-  ```ts
-  interface App {
-    mixin(mixin: ComponentOptions): this
-  }
-  ```
-
-## app.provide() {#app-provide}
+:::warning
+请注意，这是一个预留的语法，当前版本未实现。
 
 提供一个值，可以在应用中的所有后代组件中注入使用。
 
@@ -271,7 +291,13 @@ Mixins 在 Vue 3 支持主要是为了向后兼容，因为生态中有许多库
   - [应用层 Provide](/guide/components/provide-inject#app-level-provide)
   - [app.runWithContext()](#app-runwithcontext)
 
-## app.runWithContext()<sup class="vt-badge" data-text="3.3+" /> {#app-runwithcontext}
+:::
+<!-- end revered_text -->
+
+## <sup class=""/> app.runWithContext() <sup class="vt-badge dev-only" data-text="Reserved" /> {#app-runwithcontext}
+
+:::warning
+请注意，这是一个预留的语法，当前版本未实现。
 
 使用当前应用作为注入上下文执行回调函数。
 
@@ -301,31 +327,29 @@ Mixins 在 Vue 3 支持主要是为了向后兼容，因为生态中有许多库
   console.log(injected) // 1
   ```
 
+:::
+<!-- end revered_text -->
+
 ## app.version {#app-version}
 
 提供当前应用所使用的 Vue 版本号。这在[插件](/guide/reusability/plugins)中很有用，因为可能需要根据不同的 Vue 版本执行不同的逻辑。
 
 - **类型**
 
-  ```ts
-  interface App {
-    version: string
-  }
+  ```py
+  class App:
+    version: str
   ```
 
 - **示例**
 
   在一个插件中对版本作判断：
 
-  ```js
-  export default {
-    install(app) {
-      const version = Number(app.version.split('.')[0])
-      if (version < 3) {
-        console.warn('This plugin requires Vue 3')
-      }
-    }
-  }
+  ```py
+    def install(self, app):
+      version = int(app.version.split('.')[0])
+      if app.version < 3:
+        print('This plugin requires Vue 3')
   ```
 
 - **参考**[全局 API - version](/api/general#version)
@@ -334,15 +358,20 @@ Mixins 在 Vue 3 支持主要是为了向后兼容，因为生态中有许多库
 
 每个应用实例都会暴露一个 `config` 对象，其中包含了对这个应用的配置设定。你可以在挂载应用前更改这些属性 (下面列举了每个属性的对应文档)。
 
-```js
-import { createApp } from 'vue'
+```py
+from vuepy import create_app
 
-const app = createApp(/* ... */)
+app = create_app({})
 
-console.log(app.config)
+print(app.config)
 ```
 
-## app.config.errorHandler {#app-config-errorhandler}
+## <sup class=""/> app.config.errorHandler <sup class="vt-badge dev-only" data-text="Reserved" /> {#app-config-errorhandler}
+
+:::warning
+请注意，这是一个预留的语法，当前版本未实现。
+:::
+<!-- end revered_text -->
 
 用于为应用内抛出的未捕获错误指定一个全局处理函数。
 
@@ -386,7 +415,12 @@ console.log(app.config)
   }
   ```
 
-## app.config.warnHandler {#app-config-warnhandler}
+## <sup class=""/> app.config.warnHandler <sup class="vt-badge dev-only" data-text="Reserved" /> {#app-config-warnhandler}
+
+:::warning
+请注意，这是一个预留的语法，当前版本未实现。
+:::
+<!-- end revered_text -->
 
 用于为 Vue 的运行时警告指定一个自定义处理函数。
 
@@ -420,7 +454,12 @@ console.log(app.config)
   }
   ```
 
-## app.config.performance {#app-config-performance}
+## <sup class=""/> app.config.performance <sup class="vt-badge dev-only" data-text="Reserved" /> {#app-config-performance}
+
+:::warning
+请注意，这是一个预留的语法，当前版本未实现。
+:::
+<!-- end revered_text -->
 
 设置此项为 `true` 可以在浏览器开发工具的“性能/时间线”页中启用对组件初始化、编译、渲染和修补的性能表现追踪。仅在开发模式和支持 [performance.mark](https://developer.mozilla.org/en-US/docs/Web/API/Performance/mark) API 的浏览器中工作。
 
@@ -428,7 +467,12 @@ console.log(app.config)
 
 - **参考**[指南 - 性能](/guide/best-practices/performance)
 
-## app.config.compilerOptions {#app-config-compileroptions}
+## <sup class=""/> app.config.compilerOptions <sup class="vt-badge dev-only" data-text="Reserved" /> {#app-config-compileroptions}
+
+:::warning
+请注意，这是一个预留的语法，当前版本未实现。
+:::
+<!-- end revered_text -->
 
 配置运行时编译器的选项。设置在此对象上的值将会在浏览器内进行模板编译时使用，并会影响到所配置应用的所有组件。另外你也可以通过 [`compilerOptions` 选项](/api/options-rendering#compileroptions)在每个组件的基础上覆盖这些选项。
 
@@ -530,37 +574,42 @@ console.log(app.config)
 
 - **类型**
 
-  ```ts
-  interface AppConfig {
-    globalProperties: Record<string, any>
-  }
+  ```py
+  class AppConfig:
+    globalProperties: Record
   ```
 
 - **详细信息**
 
-  这是对 Vue 2 中 `Vue.prototype` 使用方式的一种替代，此写法在 Vue 3 已经不存在了。与任何全局的东西一样，应该谨慎使用。
+  与任何全局的东西一样，应该谨慎使用。
 
   如果全局属性与组件自己的属性冲突，组件自己的属性将具有更高的优先级。
 
 - **用法**
 
-  ```js
+  ```py
   app.config.globalProperties.msg = 'hello'
   ```
 
-  这使得 `msg` 在应用的任意组件模板上都可用，并且也可以通过任意组件实例的 `this` 访问到：
+  这使得 `msg` 在应用的任意组件模板上都可用<!-- todo 暂不支持
+，并且也可以通过任意组件实例的 `this` 访问到  -->：
 
-  ```js
-  export default {
-    mounted() {
-      console.log(this.msg) // 'hello'
-    }
-  }
+  ```vue
+  <template>
+    {{ msg }} world
+  </template>
   ```
 
+<!-- todo 暂不支持
 - **参考**[指南 - 扩展全局属性](/guide/typescript/options-api#augmenting-global-properties) <sup class="vt-badge ts" />
+-->
 
-## app.config.optionMergeStrategies {#app-config-optionmergestrategies}
+## <sup class=""/> app.config.optionMergeStrategies <sup class="vt-badge dev-only" data-text="Reserved" /> {#app-config-optionmergestrategies}
+
+:::warning
+请注意，这是一个预留的语法，当前版本未实现。
+:::
+<!-- end revered_text -->
 
 一个用于定义自定义组件选项的合并策略的对象。
 

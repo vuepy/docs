@@ -5,13 +5,28 @@
 `setup()` 钩子是在组件中使用组合式 API 的入口，通常只在以下情况下使用：
 
 1. 需要在非单文件组件中使用组合式 API 时。
-2. 需要在基于选项式 API 的组件中集成基于组合式 API 的代码时。
+
+[//]: # (2. 需要在基于选项式 API 的组件中集成基于组合式 API 的代码时。)
 
 :::info 注意
-对于结合单文件组件使用的组合式 API，推荐通过 [`<script setup>`](/api/sfc-script-setup) 以获得更加简洁及符合人体工程学的语法。
+对于结合单文件组件使用的组合式 API，推荐通过 [`<script lang='py'>`](/api/sfc-script-setup) 以获得更加简洁及符合人体工程学的语法。
 :::
 
 我们可以使用[响应式 API](./reactivity-core) 来声明响应式的状态，在 `setup()` 函数中返回的对象会暴露给模板和组件实例。其他的选项也可以通过组件实例来获取 `setup()` 暴露的属性：
+
+```py
+from vuepy import ref
+
+def setup(*args):
+  count = ref(0)
+  
+  # 返回值会暴露给模板
+  return {
+    'count': count,
+  }
+```
+
+<!-- todo 暂不支持
 
 ```vue
 <script>
@@ -44,10 +59,19 @@ export default {
 
 `setup()` 应该*同步地*返回一个对象。唯一可以使用 `async setup()` 的情况是，该组件是 [Suspense](../guide/built-ins/suspense) 组件的后裔。
 
+-->
+
 ## 访问 Props {#accessing-props}
 
-`setup` 函数的第一个参数是组件的 `props`。和标准的组件一致，一个 `setup` 函数的 `props` 是响应式的，并且会在传入新的 props 时同步更新。
+`setup` 函数的第一个参数是组件的 `props`。和标准的组件一致，一个 `setup` 函数的 `props` 是响应式的，且需要在函数中使用 `defineProps` 进一步定义相应的字段， 并且会相应字段的值会在传入新的 props 时同步更新。
 
+```py
+def setup(props, ctx, vm):
+  props = defineProps(['title'])
+  print(props.title)
+```
+
+<!-- todo 暂不支持
 ```js
 export default {
   props: {
@@ -78,29 +102,28 @@ export default {
   }
 }
 ```
+-->
 
 ## Setup 上下文 {#setup-context}
 
 传入 `setup` 函数的第二个参数是一个 **Setup 上下文**对象。上下文对象暴露了其他一些在 `setup` 中可能会用到的值：
 
-```js
-export default {
-  setup(props, context) {
-    // 透传 Attributes（非响应式的对象，等价于 $attrs）
-    console.log(context.attrs)
+```py
+def setup(props, context, app):
+    # 透传 Attributes（非响应式的对象）
+    print(context['attrs'])
 
-    // 插槽（非响应式的对象，等价于 $slots）
-    console.log(context.slots)
+    # 插槽（非响应式的对象）
+    print(context['slots'])
 
-    // 触发事件（函数，等价于 $emit）
-    console.log(context.emit)
+    # 触发事件（函数）
+    print(context['emit'])
 
-    // 暴露公共属性（函数）
-    console.log(context.expose)
-  }
-}
+    # 暴露公共属性（函数）(暂不支持
+    print(context['expose'])
 ```
 
+<!-- todo 暂不支持
 该上下文对象是非响应式的，可以安全地解构：
 
 ```js
@@ -110,10 +133,15 @@ export default {
   }
 }
 ```
+-->
 
-`attrs` 和 `slots` 都是有状态的对象，它们总是会随着组件自身的更新而更新。这意味着你应当避免解构它们，并始终通过 `attrs.x` 或 `slots.x` 的形式使用其中的属性。此外还需注意，和 `props` 不同，`attrs` 和 `slots` 的属性都**不是**响应式的。如果你想要基于 `attrs` 或 `slots` 的改变来执行副作用，那么你应该在 `onBeforeUpdate` 生命周期钩子中编写相关逻辑。
+<!-- todo 暂不支持 `attrs` 和 `slots` 都是有状态的对象，它们总是会随着组件自身的更新而更新。这意味着你应当避免解构它们，并始终通过 `attrs.x` 或 `slots.x` 的形式使用其中的属性。此外还需注意，-->
+和 `props` 不同，`attrs` 和 `slots` 的属性都**不是**响应式的。如果你想要基于 `attrs` 或 `slots` 的改变来执行副作用，那么你应该在 `onBeforeUpdate` 生命周期钩子中编写相关逻辑。
 
-### 暴露公共属性 {#exposing-public-properties}
+### <sup class=''/> 暴露公共属性 <sup class="vt-badge dev-only" data-text="Reserved" /> {#exposing-public-properties}
+
+:::warning
+请注意，这是一个预留的语法，当前版本未实现。
 
 `expose` 函数用于显式地限制该组件暴露出的属性，当父组件通过[模板引用](/guide/essentials/template-refs#ref-on-component)访问该组件的实例时，将仅能访问 `expose` 函数暴露出的内容：
 
@@ -131,8 +159,15 @@ export default {
   }
 }
 ```
+:::
+<!-- end revered_text -->
 
-## 与渲染函数一起使用 {#usage-with-render-functions}
+## <sup class='' /> 与渲染函数一起使用 <sup class="vt-badge dev-only" data-text="Reserved" /> {#usage-with-render-functions}
+
+:::warning
+请注意，这是一个预留的语法，当前版本未实现。
+:::
+<!-- end revered_text -->
 
 `setup` 也可以返回一个[渲染函数](/guide/extras/render-function)，此时在渲染函数中可以直接使用在同一作用域下声明的响应式状态：
 

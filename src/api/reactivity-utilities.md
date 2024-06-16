@@ -6,47 +6,58 @@
 
 - **类型**
 
-  ```ts
-  function isRef<T>(r: Ref<T> | unknown): r is Ref<T>
+  ```py
+  def isRef(r) -> bool:
   ```
-
+  
+<!-- todo 暂不支持
   请注意，返回值是一个[类型判定](https://www.typescriptlang.org/docs/handbook/2/narrowing.html#using-type-predicates) (type predicate)，这意味着 `isRef` 可以被用作类型守卫：
 
-  ```ts
+  ```py
   let foo: unknown
   if (isRef(foo)) {
     // foo 的类型被收窄为了 Ref<unknown>
     foo.value
   }
   ```
+-->
 
 ## unref() {#unref}
 
-如果参数是 ref，则返回内部值，否则返回参数本身。这是 `val = isRef(val) ? val.value : val` 计算的一个语法糖。
+如果参数是 ref，则返回内部值，否则返回参数本身。这是 `ref.value if isRef(ref) else ref` 计算的一个语法糖。
 
 - **类型**
 
-  ```ts
-  function unref<T>(ref: T | Ref<T>): T
+  ```py
+  def unref(ref):
   ```
 
 - **示例**
 
-  ```ts
-  function useFoo(x: number | Ref<number>) {
-    const unwrapped = unref(x)
-    // unwrapped 现在保证为 number 类型
-  }
+  ```py
+  def useFoo(x: int | Ref) {
+      unwrapped = unref(x)
+      # unwrapped 现在保证为 int 类型
+      ...
   ```
 
 ## toRef() {#toref}
 
-可以将值、refs 或 getters 规范化为 refs (3.3+)。
+可以将值、refs 或 getters 规范化为 refs
 
 也可以基于响应式对象上的一个属性，创建一个对应的 ref。这样创建的 ref 与其源属性保持同步：改变源属性的值将更新 ref 的值，反之亦然。
 
 - **类型**
 
+  ```py
+  # 规范化签名
+  def toRef(value) -> Ref:
+
+  # 对象属性签名
+  def toRef(object key defaultValue=None) -> Ref:
+
+  ```
+<!--
   ```ts
   // 规范化签名 (3.3+)
   function toRef<T>(
@@ -66,47 +77,49 @@
 
   type ToRef<T> = T extends Ref ? T : Ref<T>
   ```
+-->
 
 - **示例**
 
-  规范化签名 (3.3+)：
+  规范化签名
 
-  ```js
-  // 按原样返回现有的 ref
+  ```py
+  # 按原样返回现有的 ref
   toRef(existingRef)
 
-  // 创建一个只读的 ref，当访问 .value 时会调用此 getter 函数
-  toRef(() => props.foo)
+  # 创建一个只读的 ref，当访问 .value 时会调用此 getter 函数
+  toRef(lambda: props.foo)
 
-  // 从非函数的值中创建普通的 ref
-  // 等同于 ref(1)
+  # 从非函数的值中创建普通的 ref
+  # 等同于 ref(1)
   toRef(1)
   ```
 
   对象属性签名：
 
-  ```js
-  const state = reactive({
-    foo: 1,
-    bar: 2
+  <!-- todo add test case -->
+  ```py
+  state = reactive({
+    'foo': 1,
+    'bar': 2,
   })
 
-  // 双向 ref，会与源属性同步
-  const fooRef = toRef(state, 'foo')
+  # 双向 ref，会与源属性同步
+  fooRef = toRef(state, 'foo')
 
-  // 更改该 ref 会更新源属性
-  fooRef.value++
-  console.log(state.foo) // 2
+  # 更改该 ref 会更新源属性
+  fooRef.value += 1
+  print(state.foo) # 2
 
-  // 更改源属性也会更新该 ref
-  state.foo++
-  console.log(fooRef.value) // 3
+  # 更改源属性也会更新该 ref
+  state.foo += 1
+  print(fooRef.value) # 3
   ```
 
   请注意，这不同于：
 
-  ```js
-  const fooRef = ref(state.foo)
+  ```py
+  fooRef = ref(state.foo)
   ```
 
   上面这个 ref **不会**和 `state.foo` 保持同步，因为这个 `ref()` 接收到的是一个纯数值。
@@ -114,17 +127,17 @@
   `toRef()` 这个函数在你想把一个 prop 的 ref 传递给一个组合式函数时会很有用：
 
   ```vue
-  <script setup>
-  import { toRef } from 'vue'
+  <script lang='py'>
+  from vuepy import toRef
 
-  const props = defineProps(/* ... */)
+  props = defineProps(...)
 
-  // 将 `props.foo` 转换为 ref，然后传入
-  // 一个组合式函数
+  # 将 `props.foo` 转换为 ref，然后传入
+  # 一个组合式函数
   useSomeFeature(toRef(props, 'foo'))
 
-  // getter 语法——推荐在 3.3+ 版本使用
-  useSomeFeature(toRef(() => props.foo))
+  # getter 语法
+  useSomeFeature(toRef(lambda: props.foo))
   </script>
   ```
 
@@ -132,7 +145,7 @@
 
   当使用对象属性签名时，即使源属性当前不存在，`toRef()` 也会返回一个可用的 ref。这让它在处理可选 props 的时候格外实用，相比之下 [`toRefs`](#torefs) 就不会为可选 props 创建对应的 refs。
 
-## toValue() <sup class="vt-badge" data-text="3.3+" /> {#tovalue}
+## toValue() {#tovalue}
 
 将值、refs 或 getters 规范化为值。这与 [unref()](#unref) 类似，不同的是此函数也会规范化 getter 函数。如果参数是一个 getter，它将会被调用并且返回它的返回值。
 
@@ -140,20 +153,40 @@
 
 - **类型**
 
+  ```py
+  def toValue(source):
+  ```
+  
+  <!--
   ```ts
   function toValue<T>(source: T | Ref<T> | (() => T)): T
   ```
+  -->
 
 - **示例**
 
-  ```js
-  toValue(1) //       --> 1
-  toValue(ref(1)) //  --> 1
-  toValue(() => 1) // --> 1
+  ```py
+  toValue(1)       # --> 1
+  toValue(ref(1))  # --> 1
+  toValue(() => 1) # --> 1
   ```
 
   在组合式函数中规范化参数：
 
+  <!-- todo add test case -->
+  ```py
+  def useFeature(_id):
+      @watch(lambda: toValue(id))
+      def handle(new_id, _, __):
+          # 处理 id 变更
+          pass
+
+  # 这个组合式函数支持以下的任意形式：
+  useFeature(1)
+  useFeature(ref(1))
+  useFeature(lambda: 1)
+  ```
+<!--
   ```ts
   import type { MaybeRefOrGetter } from 'vue'
 
@@ -168,8 +201,14 @@
   useFeature(ref(1))
   useFeature(() => 1)
   ```
+  -->
 
-## toRefs() {#torefs}
+## toRefs()  <sup class="vt-badge dev-only" data-text="Reserved" /> {#torefs}
+
+:::warning
+请注意，这是一个预留的语法，当前版本未实现。
+:::
+<!-- end revered_text -->
 
 将一个响应式对象转换为一个普通对象，这个普通对象的每个属性都是指向源对象相应属性的 ref。每个单独的 ref 都是使用 [`toRef()`](#toref) 创建的。
 
@@ -236,8 +275,8 @@
 
 - **类型**
 
-  ```ts
-  function isProxy(value: unknown): boolean
+  ```py
+  def isProxy(value) -> bool:
   ```
 
 ## isReactive() {#isreactive}
@@ -246,11 +285,14 @@
 
 - **类型**
 
-  ```ts
-  function isReactive(value: unknown): boolean
+  ```py
+  def isReactive(value) -> bool:
   ```
 
-## isReadonly() {#isreadonly}
+## <sup class=''/> isReadonly() <sup class="vt-badge dev-only" data-text="Reserved" /> {#isreadonly}
+
+:::warning
+请注意，这是一个预留的语法，当前版本未实现。
 
 检查传入的值是否为只读对象。只读对象的属性可以更改，但他们不能通过传入的对象直接赋值。
 
@@ -261,3 +303,6 @@
   ```ts
   function isReadonly(value: unknown): boolean
   ```
+
+:::
+<!-- end revered_text -->

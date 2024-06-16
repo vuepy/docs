@@ -19,7 +19,11 @@ h(Transition, {
 
 :::
 
-## `<Transition>` {#transition}
+
+## `ipywui` {#ipywui}
+
+<!-- todo 暂不支持
+## <sup class=''/> `<Transition>` {#transition}
 
 为**单个**元素或组件提供动画过渡效果。
 
@@ -128,7 +132,7 @@ h(Transition, {
 
 - **参考**[指南 - `<Transition>`](/guide/built-ins/transition)
 
-## `<TransitionGroup>` {#transitiongroup}
+## <sup class=''/> `<TransitionGroup>` {#transitiongroup}
 
 为列表中的**多个**元素或组件提供过渡效果。
 
@@ -174,7 +178,7 @@ h(Transition, {
 
 - **参考**[指南 - TransitionGroup](/guide/built-ins/transition-group)
 
-## `<KeepAlive>` {#keepalive}
+## <sup class=''/> `<KeepAlive>` {#keepalive}
 
 缓存包裹在其中的动态切换组件。
 
@@ -241,17 +245,17 @@ h(Transition, {
   使用 `include` / `exclude`：
 
   ```vue-html
-  <!-- 用逗号分隔的字符串 -->
+  用逗号分隔的字符串
   <KeepAlive include="a,b">
     <component :is="view"></component>
   </KeepAlive>
 
-  <!-- 正则表达式 (使用 `v-bind`) -->
+  正则表达式 (使用 `v-bind`)
   <KeepAlive :include="/a|b/">
     <component :is="view"></component>
   </KeepAlive>
 
-  <!-- 数组 (使用 `v-bind`) -->
+  数组 (使用 `v-bind`)
   <KeepAlive :include="['a', 'b']">
     <component :is="view"></component>
   </KeepAlive>
@@ -267,7 +271,7 @@ h(Transition, {
 
 - **参考**[指南 - KeepAlive](/guide/built-ins/keep-alive)
 
-## `<Teleport>` {#teleport}
+## <sup class=''/> `<Teleport>` {#teleport}
 
 将其插槽内容渲染到 DOM 中的另一个位置。
 
@@ -309,7 +313,7 @@ h(Transition, {
 
 - **参考**[指南 - Teleport](/guide/built-ins/teleport)
 
-## `<Suspense>` <sup class="vt-badge experimental" /> {#suspense}
+## <sup class=''/> `<Suspense>` <sup class="vt-badge experimental" /> {#suspense}
 
 用于协调对组件树中嵌套的异步依赖的处理。
 
@@ -334,3 +338,4 @@ h(Transition, {
   如果在渲染时遇到异步依赖项 ([异步组件](/guide/components/async)和具有 [`async setup()`](/guide/built-ins/suspense#async-setup) 的组件)，它将等到所有异步依赖项解析完成时再显示默认插槽。
 
 - **参考**[指南 - Suspense](/guide/built-ins/suspense)
+  -->

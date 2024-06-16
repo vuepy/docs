@@ -6,6 +6,13 @@
 
 - **类型**
 
+  ```py
+  def shallowRef(value: Any, debug_msg='') -> ShallowRef:
+
+  class ShallowRef(RefImpl):
+    value: Any
+  ```
+<!--
   ```ts
   function shallowRef<T>(value: T): ShallowRef<T>
 
@@ -13,6 +20,7 @@
     value: T
   }
   ```
+-->
 
 - **详细信息**
 
@@ -22,14 +30,14 @@
 
 - **示例**
 
-  ```js
-  const state = shallowRef({ count: 1 })
+  ```py
+  state = shallowRef({ 'count': 1 })
 
-  // 不会触发更改
+  # 不会触发更改
   state.value.count = 2
 
-  // 会触发更改
-  state.value = { count: 2 }
+  # 会触发更改
+  state.value = { 'count': 2 }
   ```
 
 - **参考**
@@ -42,30 +50,33 @@
 
 - **类型**
 
-  ```ts
-  function triggerRef(ref: ShallowRef): void
+  ```py
+  def triggerRef(ref: ShallowRef):
   ```
 
 - **示例**
 
-  ```js
-  const shallow = shallowRef({
-    greet: 'Hello, world'
+  ```py
+  shallow = shallowRef({
+    'greet': 'Hello, world'
   })
 
-  // 触发该副作用第一次应该会打印 "Hello, world"
-  watchEffect(() => {
-    console.log(shallow.value.greet)
-  })
+  # 触发该副作用第一次应该会打印 "Hello, world"
+  @watchEffect
+  def handle(on_cleanup):
+      print(shallow.value['greet'])
 
-  // 这次变更不应触发副作用，因为这个 ref 是浅层的
-  shallow.value.greet = 'Hello, universe'
+  # 这次变更不应触发副作用，因为这个 ref 是浅层的
+  shallow.value['greet'] = 'Hello, universe'
 
-  // 打印 "Hello, universe"
+  # 打印 "Hello, universe"
   triggerRef(shallow)
   ```
 
-## customRef() {#customref}
+## <sup class=''/> customRef() <sup class="vt-badge dev-only" data-text="Reserved" /> {#customref}
+
+:::warning
+请注意，这是一个预留的语法，当前版本未实现。
 
 创建一个自定义的 ref，显式声明对其依赖追踪和更新触发的控制方式。
 
@@ -131,7 +142,15 @@
 
   [在演练场中尝试一下](https://play.vuejs.org/#eNplUkFugzAQ/MqKC1SiIekxIpEq9QVV1BMXCguhBdsyaxqE/PcuGAhNfYGd3Z0ZDwzeq1K7zqB39OI205UiaJGMOieiapTUBAOYFt/wUxqRYf6OBVgotGzA30X5Bt59tX4iMilaAsIbwelxMfCvWNfSD+Gw3++fEhFHTpLFuCBsVJ0ScgUQjw6Az+VatY5PiroHo3IeaeHANlkrh7Qg1NBL43cILUmlMAfqVSXK40QUOSYmHAZHZO0KVkIZgu65kTnWp8Qb+4kHEXfjaDXkhd7DTTmuNZ7MsGyzDYbz5CgSgbdppOBFqqT4l0eX1gZDYOm057heOBQYRl81coZVg9LQWGr+IlrchYKAdJp9h0C6KkvUT3A6u8V1dq4ASqRgZnVnWg04/QWYNyYzC2rD5Y3/hkDgz8fY/cOT1ZjqizMZzGY3rDPC12KGZYyd3J26M8ny1KKx7c3X25q1c1wrZN3L9LCMWs/+AmeG6xI=)
 
-## shallowReactive() {#shallowreactive}
+:::
+<!-- end revered_text -->
+
+## <sup class=''/> shallowReactive() <sup class="vt-badge dev-only" data-text="Reserved" /> {#shallowreactive}
+
+:::warning
+请注意，这是一个预留的语法，当前版本未实现。
+:::
+<!-- end revered_text -->
 
 [`reactive()`](./reactivity-core#reactive) 的浅层作用形式。
 
@@ -169,7 +188,10 @@
   state.nested.bar++
   ```
 
-## shallowReadonly() {#shallowreadonly}
+## <sup class=''/> shallowReadonly() <sup class="vt-badge dev-only" data-text="Reserved" /> {#shallowreadonly}
+
+:::warning
+请注意，这是一个预留的语法，当前版本未实现。
 
 [`readonly()`](./reactivity-core#readonly) 的浅层作用形式
 
@@ -185,7 +207,8 @@
 
   :::warning 谨慎使用
   浅层数据结构应该只用于组件中的根级状态。请避免将其嵌套在深层次的响应式对象中，因为它创建的树具有不一致的响应行为，这可能很难理解和调试。
-  :::
+
+[//]: # (  :::)
 
 - **示例**
 
@@ -207,14 +230,17 @@
   state.nested.bar++
   ```
 
+:::
+<!-- end revered_text -->
+
 ## toRaw() {#toraw}
 
 根据一个 Vue 创建的代理返回其原始对象。
 
 - **类型**
 
-  ```ts
-  function toRaw<T>(proxy: T): T
+  ```py
+  def toRaw(proxy) -> T:
   ```
 
 - **详细信息**
@@ -225,14 +251,17 @@
 
 - **示例**
 
-  ```js
-  const foo = {}
-  const reactiveFoo = reactive(foo)
+  ```py
+  foo = {}
+  reactiveFoo = reactive(foo)
 
-  console.log(toRaw(reactiveFoo) === foo) // true
+  print(toRaw(reactiveFoo) is foo) # true
   ```
 
-## markRaw() {#markraw}
+## <sup class=''/> markRaw() <sup class="vt-badge dev-only" data-text="Reserved" /> {#markraw}
+
+:::warning
+请注意，这是一个预留的语法，当前版本未实现。
 
 将一个对象标记为不可被转为代理。返回该对象本身。
 
@@ -277,37 +306,50 @@
 
   识别风险一般是很罕见的。然而，要正确使用这些 API，同时安全地避免这样的风险，需要你对响应性系统的工作方式有充分的了解。
 
-  :::
+[//]: # (  :::)
+:::
+<!-- end revered_text -->
 
 ## effectScope() {#effectscope}
 
-创建一个 effect 作用域，可以捕获其中所创建的响应式副作用 (即计算属性和侦听器)，这样捕获到的副作用可以一起处理。对于该 API 的使用细节，请查阅对应的 [RFC](https://github.com/vuejs/rfcs/blob/master/active-rfcs/0041-reactivity-effect-scope.md)。
+创建一个 effect 作用域，可以捕获其中所创建的响应式副作用 (即计算属性和侦听器)，这样捕获到的副作用可以一起处理。
+<!-- todo 暂不支持
+对于该 API 的使用细节，请查阅对应的 [RFC](https://github.com/vuejs/rfcs/blob/master/active-rfcs/0041-reactivity-effect-scope.md)。
+-->
 
 - **类型**
 
-  ```ts
-  function effectScope(detached?: boolean): EffectScope
+  ```py
+  def effectScope(detached: bool = False) -> EffectScope:
 
-  interface EffectScope {
-    run<T>(fn: () => T): T | undefined // 如果作用域不活跃就为 undefined
-    stop(): void
-  }
+  class EffectScope:
+    # run<T>(fn: () => T): T | undefined // 如果作用域不活跃就为 undefined
+    def run(self, fn: Callable[[], Any]) -> Any: 
+    def stop() -> None:
   ```
 
 - **示例**
 
-  ```js
-  const scope = effectScope()
+  <!-- todo add test case -->
+  ```py
+  scope = effectScope()
 
-  scope.run(() => {
-    const doubled = computed(() => counter.value * 2)
+  def fn():
+      @computed
+      def doubled():
+          return counter.value * 2
+  
+      @watch(doubled)
+      def handle(*args):
+          print(doubled.value)
+  
+      @watchEffect
+      def handle(*args):
+          print('Count: ', doubled.value)
+  
+  scope.run(fn)
 
-    watch(doubled, () => console.log(doubled.value))
-
-    watchEffect(() => console.log('Count: ', doubled.value))
-  })
-
-  // 处理掉当前作用域内的所有 effect
+  # 处理掉当前作用域内的所有 effect
   scope.stop()
   ```
 
@@ -317,8 +359,8 @@
 
 - **类型**
 
-  ```ts
-  function getCurrentScope(): EffectScope | undefined
+  ```py
+  def getCurrentScope() -> EffectScope | None:
   ```
 
 ## onScopeDispose() {#onscopedispose}
@@ -329,6 +371,6 @@
 
 - **类型**
 
-  ```ts
-  function onScopeDispose(fn: () => void): void
+  ```py
+  def onScopeDispose(fn: Callable[[], None]) -> None:
   ```

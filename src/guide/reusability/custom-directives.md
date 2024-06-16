@@ -1,4 +1,9 @@
-# 自定义指令 {#custom-directives}
+# 自定义指令 <sup class="vt-badge dev-only" data-text="Reserved" /> {#custom-directives}
+
+:::warning
+请注意，这是一个预留的语法，当前版本未实现。
+:::
+<!-- end revered_text -->
 
 <script setup>
 const vFocus = {

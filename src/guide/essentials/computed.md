@@ -4,32 +4,12 @@
 
 模板中的表达式虽然方便，但也只能用来做简单的操作。如果在模板中写太多逻辑，会让模板变得臃肿，难以维护。比如说，我们有这样一个包含嵌套数组的对象：
 
-<div class="options-api">
-
-```js
-export default {
-  data() {
-    return {
-      author: {
-        name: 'John Doe',
-        books: [
-          'Vue 2 - Advanced Guide',
-          'Vue 3 - Basic Guide',
-          'Vue 4 - The Mystery'
-        ]
-      }
-    }
-  }
-}
-```
-
-</div>
 <div class="composition-api">
 
-```js
-const author = reactive({
-  name: 'John Doe',
-  books: [
+```py
+author = reactive({
+  'name': 'John Doe',
+  'books': [
     'Vue 2 - Advanced Guide',
     'Vue 3 - Basic Guide',
     'Vue 4 - The Mystery'
@@ -43,113 +23,79 @@ const author = reactive({
 
 ```vue-html
 <p>Has published books:</p>
-<span>{{ author.books.length > 0 ? 'Yes' : 'No' }}</span>
+<span>{{ 'Yes' if author.books.length > 0 else 'No' }}</span>
 ```
 
 这里的模板看起来有些复杂。我们必须认真看好一会儿才能明白它的计算依赖于 `author.books`。更重要的是，如果在模板中需要不止一次这样的计算，我们可不想将这样的代码在模板里重复好多遍。
 
 因此我们推荐使用**计算属性**来描述依赖响应式状态的复杂逻辑。这是重构后的示例：
 
-<div class="options-api">
-
-```js
-export default {
-  data() {
-    return {
-      author: {
-        name: 'John Doe',
-        books: [
-          'Vue 2 - Advanced Guide',
-          'Vue 3 - Basic Guide',
-          'Vue 4 - The Mystery'
-        ]
-      }
-    }
-  },
-  computed: {
-    // 一个计算属性的 getter
-    publishedBooksMessage() {
-      // `this` 指向当前组件实例
-      return this.author.books.length > 0 ? 'Yes' : 'No'
-    }
-  }
-}
-```
-
-```vue-html
-<p>Has published books:</p>
-<span>{{ publishedBooksMessage }}</span>
-```
-
-[在演练场中尝试一下](https://play.vuejs.org/#eNqFkN1KxDAQhV/l0JsqaFfUq1IquwiKsF6JINaLbDNui20S8rO4lL676c82eCFCIDOZMzkzXxetlUoOjqI0ykypa2XzQtC3ktqC0ydzjUVXCIAzy87OpxjQZJ0WpwxgzlZSp+EBEKylFPGTrATuJcUXobST8sukeA8vQPzqCNe4xJofmCiJ48HV/FfbLLrxog0zdfmn4tYrXirC9mgs6WMcBB+nsJ+C8erHH0rZKmeJL0sot2tqUxHfDONuyRi2p4BggWCr2iQTgGTcLGlI7G2FHFe4Q/xGJoYn8SznQSbTQviTrRboPrHUqoZZ8hmQqfyRmTDFTC1bqalsFBN5183o/3NG33uvoWUwXYyi/gdTEpwK)
-
-我们在这里定义了一个计算属性 `publishedBooksMessage`。
-
-更改此应用的 `data` 中 `books` 数组的值后，可以看到 `publishedBooksMessage` 也会随之改变。
-
-在模板中使用计算属性的方式和一般的属性并无二致。Vue 会检测到 `this.publishedBooksMessage` 依赖于 `this.author.books`，所以当 `this.author.books` 改变时，任何依赖于 `this.publishedBooksMessage` 的绑定都将同时更新。
-
-也可参考：[为计算属性标记类型](/guide/typescript/options-api#typing-computed-properties) <sup class="vt-badge ts" />
-
-</div>
-
 <div class="composition-api">
 
 ```vue
-<script setup>
-import { reactive, computed } from 'vue'
+<template>
+  <p>Has published books:</p>
+  <span>{{ publishedBooksMessage }}</span>
+</template>
 
-const author = reactive({
-  name: 'John Doe',
-  books: [
+<script lang='py'>
+from vuepy import reactive, computed
+
+author = reactive({
+  'name': 'John Doe',
+  'books': [
     'Vue 2 - Advanced Guide',
     'Vue 3 - Basic Guide',
     'Vue 4 - The Mystery'
   ]
 })
 
-// 一个计算属性 ref
-const publishedBooksMessage = computed(() => {
-  return author.books.length > 0 ? 'Yes' : 'No'
-})
+def f():
+    return 'Yes' if author.books.length > 0 else 'No'
+    
+# 一个计算属性 ref
+publishedBooksMessage = computed(f)
+
+# or
+
+# 一个计算属性 ref
+@computed()
+def publishedBooksMessage():
+    return 'Yes' if author.books.length > 0 else 'No'
+
 </script>
 
-<template>
-  <p>Has published books:</p>
-  <span>{{ publishedBooksMessage }}</span>
-</template>
 ```
 
+<!-- todo 暂不支持
 [在演练场中尝试一下](https://play.vuejs.org/#eNp1kE9Lw0AQxb/KI5dtoTainkoaaREUoZ5EEONhm0ybYLO77J9CCfnuzta0vdjbzr6Zeb95XbIwZroPlMySzJW2MR6OfDB5oZrWaOvRwZIsfbOnCUrdmuCpQo+N1S0ET4pCFarUynnI4GttMT9PjLpCAUq2NIN41bXCkyYxiZ9rrX/cDF/xDYiPQLjDDRbVXqqSHZ5DUw2tg3zP8lK6pvxHe2DtvSasDs6TPTAT8F2ofhzh0hTygm5pc+I1Yb1rXE3VMsKsyDm5JcY/9Y5GY8xzHI+wnIpVw4nTI/10R2rra+S4xSPEJzkBvvNNs310ztK/RDlLLjy1Zic9cQVkJn+R7gIwxJGlMXiWnZEq77orhH3Pq2NH9DjvTfpfSBSbmA==)
+-->
 
-我们在这里定义了一个计算属性 `publishedBooksMessage`。`computed()` 方法期望接收一个 getter 函数，返回值为一个**计算属性 ref**。和其他一般的 ref 类似，你可以通过 `publishedBooksMessage.value` 访问计算结果。计算属性 ref 也会在模板中自动解包，因此在模板表达式中引用时无需添加 `.value`。
+我们在这里定义了一个计算属性 `publishedBooksMessage`。`computed()` 方法期望接收一个 getter 函数，返回值为一个**计算属性 ref**。和其他一般的 ref 类似，你可以通过 `publishedBooksMessage.value` 访问计算结果。
+
+<!-- todo 暂不支持
+计算属性 ref 也会在模板中自动解包，因此在模板表达式中引用时无需添加 `.value`。
+-->
 
 Vue 的计算属性会自动追踪响应式依赖。它会检测到 `publishedBooksMessage` 依赖于 `author.books`，所以当 `author.books` 改变时，任何依赖于 `publishedBooksMessage` 的绑定都会同时更新。
 
+<!-- todo 暂不支持
 也可参考：[为计算属性标注类型](/guide/typescript/composition-api#typing-computed) <sup class="vt-badge ts" />
+-->
 
 </div>
 
-## 计算属性缓存 vs 方法 {#computed-caching-vs-methods}
+## 计算属性缓存 vs 方法 <sup class="vt-badge dev-only" data-text="Reserved" /> {#computed-caching-vs-methods}
+
+:::warning
+请注意，这是一个预留的语法，当前版本未实现。
+:::
 
 你可能注意到我们在表达式中像这样调用一个函数也会获得和计算属性相同的结果：
 
 ```vue-html
 <p>{{ calculateBooksMessage() }}</p>
 ```
-
-<div class="options-api">
-
-```js
-// 组件中
-methods: {
-  calculateBooksMessage() {
-    return this.author.books.length > 0 ? 'Yes' : 'No'
-  }
-}
-```
-
-</div>
 
 <div class="composition-api">
 
@@ -190,7 +136,11 @@ const now = computed(() => Date.now())
 
 为什么需要缓存呢？想象一下我们有一个非常耗性能的计算属性 `list`，需要循环一个巨大的数组并做许多计算逻辑，并且可能也有其他计算属性依赖于 `list`。没有缓存的话，我们会重复执行非常多次 `list` 的 getter，然而这实际上没有必要！如果你确定不需要缓存，那么也可以使用方法调用。
 
-## 可写计算属性 {#writable-computed}
+## 可写计算属性 <sup class="vt-badge dev-only" data-text="Reserved" /> {#writable-computed} 
+
+:::warning
+请注意，这是一个预留的语法，当前版本未实现。
+:::
 
 计算属性默认是只读的。当你尝试修改一个计算属性时，你会收到一个运行时警告。只在某些特殊场景中你可能才需要用到“可写”的属性，你可以通过同时提供 getter 和 setter 来创建：
 
