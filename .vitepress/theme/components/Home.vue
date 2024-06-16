@@ -25,7 +25,7 @@ onMounted(async () => {
     <p class="actions">
       <!-- NOTE: hide the home video -->
       <!-- <VueMasteryModal /> -->
-      <a class="get-started" href="/guide/introduction.html">
+      <a class="get-started" href="/docs/guide/introduction.html">
         快速上手
         <svg
           class="icon"
@@ -39,7 +39,7 @@ onMounted(async () => {
           />
         </svg>
       </a>
-      <a class="setup" href="/guide/quick-start.html">安装</a>
+      <a class="setup" href="/docs/guide/quick-start.html">安装</a>
     </p>
   </section>
 

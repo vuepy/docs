@@ -704,26 +704,28 @@ export default defineConfigWithTheme<ThemeConfig>({
   srcExclude: ['tutorial/**/description.md'],
 
   head: [
-    ['meta', { name: 'theme-color', content: '#3c8772' }],
-    ['meta', { property: 'og:url', content: 'https://vuejs.org/' }],
+    ['meta', { name: 'theme-color', content: '#16B8F3' }],
+    ['meta', { property: 'og:url', content: 'https://vuepy.org/' }],
     ['meta', { property: 'og:type', content: 'website' }],
-    ['meta', { property: 'og:title', content: 'Vue.js' }],
+    ['meta', { property: 'og:title', content: 'Vue.py' }],
     [
       'meta',
       {
         property: 'og:description',
-        content: 'Vue.js - 渐进式的 JavaScript 框架'
+        content: 'Vue.py - 渐进式的 Python 框架'
       }
     ],
     [
       'meta',
       {
         property: 'og:image',
-        content: 'https://vuejs.org/images/logo.png'
+        content: 'https://vuepy.org/images/logo.png'
       }
     ],
-    ['meta', { name: 'twitter:site', content: '@vuejs' }],
+    ['meta', { name: 'twitter:site', content: '@vuepy-org' }],
     ['meta', { name: 'twitter:card', content: 'summary' }],
+
+    /* todo  暂不支持 赞助位
     [
       'link',
       {
@@ -731,6 +733,7 @@ export default defineConfigWithTheme<ThemeConfig>({
         href: 'https://sponsors.vuejs.org'
       }
     ],
+     */
     [
       'script',
       {},

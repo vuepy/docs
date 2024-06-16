@@ -4,6 +4,7 @@ import { useData } from 'vitepress'
 
 const data = useData()
 const nav = data.site.value.themeConfig.nav
+const base = data.site.value.base.replace(/\/$/, '')
 const ecosystem = nav.find((i: any) => i.activeMatch?.includes('ecosystem'))
 const items = nav
   .filter((i: any) => i !== ecosystem && i.items)
@@ -17,7 +18,7 @@ const items = nav
         <h4>{{ col.text }}</h4>
         <ul>
           <li v-for="row in col.items">
-            <VTLink :href="row.link">{{ row.text }}</VTLink>
+            <VTLink :href="base + row.link">{{ row.text }}</VTLink>
           </li>
         </ul>
       </div>
