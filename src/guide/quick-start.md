@@ -133,7 +133,7 @@ app.mount()
 
 <div class="vt-box-container next-steps">
 
-  <a class="vt-box" href="/guide/essentials/application.html">
+  <a class="vt-box" href="/docs/guide/essentials/application.html">
     <p class="next-steps-link">继续阅读该指南</p>
     <p class="next-steps-caption">该指南会带你深入了解框架所有方面的细节。</p>
   </a>
