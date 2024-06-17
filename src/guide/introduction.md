@@ -47,7 +47,6 @@ createApp({
 
 ```python
 from vuepy import ref, create_app
-from ipywui import wui
 
 def setup(*args):
     count = ref(0)
@@ -59,7 +58,7 @@ def setup(*args):
 
 create_app({
     'setup': setup,
-}).use(wui).mount()
+}).mount()
 ```
 
 </div>
