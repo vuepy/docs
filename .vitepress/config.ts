@@ -724,6 +724,7 @@ export default defineConfigWithTheme<ThemeConfig>({
     ],
     ['meta', { name: 'twitter:site', content: '@vuepy-org' }],
     ['meta', { name: 'twitter:card', content: 'summary' }],
+    ['meta', { name: 'google-site-verification', content: 'FKvvfZEgCQTC6aMGsz-DP2O8Hrf29q1frWoClysKcvA' }],
 
     /* todo  暂不支持 赞助位
     [
