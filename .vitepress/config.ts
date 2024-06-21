@@ -746,6 +746,18 @@ export default defineConfigWithTheme<ThemeConfig>({
         'utf-8'
       )
     ],
+    [
+      'script',
+      {
+        async: '',
+        src: 'https://www.googletagmanager.com/gtag/js?id=G-19C6C7N66C'
+      }
+    ],
+    [
+      'script',
+      {},
+      "window.dataLayer = window.dataLayer || [];\nfunction gtag(){dataLayer.push(arguments);}\ngtag('js', new Date());\ngtag('config', 'G-19C6C7N66C');"
+    ],
     /* todo  暂不支持 网站分析
     [
       'script',
