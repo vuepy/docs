@@ -8,7 +8,7 @@ import crypto from 'node:crypto'
 
 // const data = useData()
 // const base = data.site.value.base.replace(/\/$/, '')
-// const base = '/docs'
+// const base = '/docs/'
 const { BASE: base = '/' } = process.env
 
 export function IpynbMarkdownTransform(): Plugin {
@@ -60,11 +60,11 @@ function widgetStateHtml(widgetState) {
    }
    console.info('require')
   </component>
-	<component :is="'script'" src="${base}/require.min.js"></component>\n
+	<component :is="'script'" src="${base}require.min.js"></component>\n
 	<component :is="'script'" type="application/vnd.jupyter.widget-state+json">
 	  ${escapeHTML(JSON.stringify(widgetState))}
 	</component>\n
-	<component :is="'script'" src="${base}/html-manager.min.js"></component>\n
+	<component :is="'script'" src="${base}html-manager.min.js"></component>\n
 	`;
   // src="https://unpkg.com/@jupyter-widgets/html-manager@1.0.10/dist/embed-amd.js">
 }
