@@ -702,7 +702,7 @@ export default defineConfigWithTheme<ThemeConfig>({
   title: 'Vue.py',
   base: base,
   sitemap: {
-    hostname: 'https://vuepy.github.io/docs/'
+    hostname: 'https://www.vuepy.org/'
   },
   description: 'Vue.py - 渐进式的 Python 框架',
   srcDir: 'src',
