@@ -23,7 +23,7 @@ import { withBase } from 'vitepress'
 ## 安装
 
 ```sh
-pip install vuepy
+pip install org.vuepy.core
 ```
 
 ## 创建一个 Vue.py 应用 {#creating-a-vue-application}
