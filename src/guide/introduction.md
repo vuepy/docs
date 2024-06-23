@@ -56,18 +56,19 @@ def setup(*args):
     
     return locals()
 
-create_app({
+
+app = create_app({
     'setup': setup,
-}).mount()
+    'template': '''
+    <Button :label="f'Count is: {count.value}'" 
+      @click='counter()'
+    ></Button>
+    '''
+})
+app.mount()
 ```
 
 </div>
-
-```vue-html
-<Button :label="f'Count is: {count.value}'" 
-        @click='counter()'
-></Button>
-```
 
 **结果展示**
 
