@@ -9,6 +9,8 @@ import tableWrapper from './plugins/table-wrapper'
 import tooltip from './plugins/tooltip'
 // import { textAdPlugin } from './textAdMdPlugin'
 
+const { BASE: base = '/' } = process.env
+
 const nav: ThemeConfig['nav'] = [
   {
     text: '文档',
@@ -698,7 +700,7 @@ export default defineConfigWithTheme<ThemeConfig>({
 
   lang: 'zh-CN',
   title: 'Vue.py',
-  base: '/docs/',
+  base: base,
   sitemap: {
     hostname: 'https://vuepy.github.io/docs/'
   },

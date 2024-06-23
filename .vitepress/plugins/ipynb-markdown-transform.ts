@@ -8,7 +8,8 @@ import crypto from 'node:crypto'
 
 // const data = useData()
 // const base = data.site.value.base.replace(/\/$/, '')
-const base = '/docs'
+// const base = '/docs'
+const { BASE: base = '/' } = process.env
 
 export function IpynbMarkdownTransform(): Plugin {
   return {

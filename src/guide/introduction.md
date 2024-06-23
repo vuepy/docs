@@ -73,6 +73,8 @@ create_app({
 
 <script setup>
 import { ref } from 'vue'
+import { withBase } from 'vitepress'
+
 const count = ref(0)
 </script>
 
@@ -332,7 +334,7 @@ def setup(*args):
 [//]: # (    <p class="next-steps-link">尝试互动教程</p>)
 [//]: # (    <p class="next-steps-caption">适合喜欢边动手边学的读者。</p>)
 [//]: # (  </a>)
-  <a class="vt-box" href="/docs/guide/quick-start.html">
+  <a class="vt-box" :href="withBase('/guide/quick-start')">
     <p class="next-steps-link">继续阅读该指南</p>
     <p class="next-steps-caption">该指南会带你深入了解框架所有方面的细节。</p>
   </a>

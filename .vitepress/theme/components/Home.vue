@@ -4,6 +4,7 @@ import SiteMap from './SiteMap.vue'
 // import NewsLetter from './NewsLetter.vue'
 import { load, data, base } from './sponsors'
 import SponsorsGroup from './SponsorsGroup.vue'
+import { withBase } from 'vitepress'
 // NOTE: hide the home video
 // https://github.com/vuejs-translations/docs-zh-cn/issues/177
 // import VueMasteryModal from './VueMasteryModal.vue'
@@ -25,7 +26,7 @@ onMounted(async () => {
     <p class="actions">
       <!-- NOTE: hide the home video -->
       <!-- <VueMasteryModal /> -->
-      <a class="get-started" href="/docs/guide/introduction.html">
+      <a class="get-started" :href="withBase('/guide/introduction')">
         快速上手
         <svg
           class="icon"
@@ -39,7 +40,7 @@ onMounted(async () => {
           />
         </svg>
       </a>
-      <a class="setup" href="/docs/guide/quick-start.html">安装</a>
+      <a class="setup" :href="withBase('/guide/quick-start')">安装</a>
     </p>
   </section>
 
