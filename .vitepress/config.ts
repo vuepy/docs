@@ -838,10 +838,14 @@ export default defineConfigWithTheme<ThemeConfig>({
       }
     ],
 
+    // search: {
+    //   provider: 'local'
+    // },
+
     algolia: {
-      indexName: 'vuejs_cn2',
-      appId: 'UURH1MHAF7',
-      apiKey: 'c23eb8e7895f42daeaf2bf6f63eb4bf6',
+      indexName: 'vuepy_cn',
+      appId: 'VEPDJR84FM',
+      apiKey: '8b018de2890f7ebe575354e962d7228a',
       searchParameters: {
         facetFilters: ['version:v3']
       },
