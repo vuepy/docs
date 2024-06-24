@@ -843,11 +843,11 @@ export default defineConfigWithTheme<ThemeConfig>({
     // },
 
     algolia: {
-      indexName: 'vuepy_cn',
-      appId: 'VEPDJR84FM',
-      apiKey: '8b018de2890f7ebe575354e962d7228a',
+      indexName: 'vuepy',
+      appId: '4IXSDYQCAD',
+      apiKey: '29c9c3fa48c106fbed9d8b93b05c608d',
       searchParameters: {
-        facetFilters: ['version:v3']
+        // facetFilters: ['version:v3']
       },
       placeholder: '搜索文档',
       translations: {

@@ -85,6 +85,8 @@ const count = ref(0)
   </button>
 </div>
 
+<img :src="withBase('/images/readme-demo.gif')" alt='count demo'>
+
 上面的示例展示了 Vue.py 的两个核心功能：
 
 - **声明式渲染**：Vue.py 基于标准 HTML 拓展了一套模板语法，使得我们可以声明式地描述最终输出的 HTML 和 Python 状态之间的关系。
