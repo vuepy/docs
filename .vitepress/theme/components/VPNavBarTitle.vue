@@ -1,7 +1,7 @@
 <template>
   <a class="VPNavBarTitle" href="/">
     <slot name="navbar-title">
-      <img class='logo' src='/images/vuepy-log.svg' alt='vuepy-log' width='64'>
+      <img class='logo' src='/images/vuepy-logo.svg' alt='vuepy-logo' width='64'>
       <span class="text" style='color: var(--vt-c-brand)'>Vue.py</span>
     </slot>
   </a>
