@@ -709,6 +709,13 @@ export default defineConfigWithTheme<ThemeConfig>({
   srcExclude: ['tutorial/**/description.md'],
 
   head: [
+    // ['link', { rel: "icon", type: "image/png", sizes: "32x32", href: "/images/vuepy-log.png"}],
+    // ['link', { rel: "icon", type: "image/png", sizes: "16x16", href: "/assets/favicons/favicon-16x16.png"}],
+    // ['link', { rel: "apple-touch-icon", sizes: "180x180", href: "/assets/favicons/apple-touch-icon.png"}],
+    // ['link', { rel: "manifest", href: "/assets/favicons/site.webmanifest"}],
+    // ['link', { rel: "mask-icon", href: "/assets/favicons/safari-pinned-tab.svg", color: "#3a0839"}],
+    // ['link', { rel: "shortcut icon", href: "/images/favicon.ico"}],
+    ['link', { rel: "shortcut icon", href: "/favicon.svg"}],
     ['meta', { name: 'theme-color', content: '#16B8F3' }],
     ['meta', { property: 'og:url', content: 'https://vuepy.org/' }],
     ['meta', { property: 'og:type', content: 'website' }],
@@ -724,7 +731,7 @@ export default defineConfigWithTheme<ThemeConfig>({
       'meta',
       {
         property: 'og:image',
-        content: 'https://vuepy.org/images/logo.png'
+        content: 'https://vuepy.org/images/vuepy-logo.png'
       }
     ],
     ['meta', { name: 'twitter:site', content: '@vuepy-org' }],
@@ -895,7 +902,7 @@ export default defineConfigWithTheme<ThemeConfig>({
     // },
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/vuepy/' },
+      { icon: 'github', link: 'https://github.com/vuepy/vuepy' },
       { icon: 'twitter', link: 'https://twitter.com/vuepy-org' },
       { icon: 'discord', link: 'https://discord.com/' }
     ],
