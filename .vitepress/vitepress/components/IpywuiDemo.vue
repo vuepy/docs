@@ -9,7 +9,7 @@
 
       <div class='op-btns'>
         <a class='op-btn'
-           href='https://github.com'
+           href='https://github.com/vuepy/ipywui-docs/tree/main/component'
            title='在 Github 中编辑'
         >
           <VTIconGitHub class='close' />
