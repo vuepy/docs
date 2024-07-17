@@ -709,31 +709,19 @@ export default defineConfigWithTheme<ThemeConfig>({
   srcExclude: ['tutorial/**/description.md'],
 
   head: [
-    // ['link', { rel: "icon", type: "image/png", sizes: "32x32", href: "/images/vuepy-log.png"}],
     // ['link', { rel: "icon", type: "image/png", sizes: "16x16", href: "/assets/favicons/favicon-16x16.png"}],
     // ['link', { rel: "apple-touch-icon", sizes: "180x180", href: "/assets/favicons/apple-touch-icon.png"}],
     // ['link', { rel: "manifest", href: "/assets/favicons/site.webmanifest"}],
-    // ['link', { rel: "mask-icon", href: "/assets/favicons/safari-pinned-tab.svg", color: "#3a0839"}],
     // ['link', { rel: "shortcut icon", href: "/images/favicon.ico"}],
+    ['link', { rel: "mask-icon", href: "/favicon.svg", color: "#16b8f3"}],
+    ['link', { rel: "icon", type: "image/svg+xml", href: "/favicon.svg"}],
     ['link', { rel: "shortcut icon", href: "/favicon.svg"}],
     ['meta', { name: 'theme-color', content: '#16B8F3' }],
-    ['meta', { property: 'og:url', content: 'https://vuepy.org/' }],
+    ['meta', { property: 'og:url', content: 'https://www.vuepy.org/' }],
     ['meta', { property: 'og:type', content: 'website' }],
     ['meta', { property: 'og:title', content: 'Vue.py' }],
-    [
-      'meta',
-      {
-        property: 'og:description',
-        content: 'Vue.py - 渐进式的 Python 框架'
-      }
-    ],
-    [
-      'meta',
-      {
-        property: 'og:image',
-        content: 'https://vuepy.org/images/vuepy-logo.png'
-      }
-    ],
+    ['meta', { property: 'og:description', content: 'Vue.py - 响应式 Python 框架, 易学易用，性能出色，适用场景丰富的 IPython Notebook UI 框架' }],
+    ['meta', { property: 'og:image', content: 'https://www.vuepy.org/images/vuepy-logo.png' }],
     ['meta', { name: 'twitter:site', content: '@vuepy-org' }],
     ['meta', { name: 'twitter:card', content: 'summary' }],
     ['meta', { name: 'google-site-verification', content: 'FKvvfZEgCQTC6aMGsz-DP2O8Hrf29q1frWoClysKcvA' }],
