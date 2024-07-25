@@ -1,5 +1,5 @@
 ---
-title: ipywui 组件库
+title: IPywUI 组件库
 sidebar: false
 page: true
 footer: false

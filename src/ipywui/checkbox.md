@@ -1,5 +1,6 @@
 ---
 outline: deep
+titleTemplate: :title | IPywUI | Vue.py
 ---
 
 ## #header-mark#

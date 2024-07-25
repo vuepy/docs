@@ -3,7 +3,7 @@
 <!--    <div class="header">-->
     <div>
       <h1>IPywUI 组件总览</h1>
-      <p style='margin: 2.5em 0 1em 0;'>IPywUI 已集成在 Vue.py 中，作为内置的 UI 组件库。</p>
+      <p style='margin: 2.5em 0 1em 0;'>IPywUI 是基于 Vue.py 和 ipywidgets 开发的 UI 组件库。当前作为 Vue.py 内置的 UI 组件库。</p>
       <p style='margin: 1em 0 1em 0;'>以下是 IPywUI 提供的所有组件</p>
       <div class="api-filter">
         <input

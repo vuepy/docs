@@ -14,17 +14,17 @@
 		}
 		]]></style>
 	</defs>
-	<g transform="translate(4, 30) scale(0.85, 1)">
-		<polygon points="0,0 140,0 70,70"  class="line"/>
+	<g transform="translate(1, 28) scale(0.90, 1)">
+		<polygon points="0,0 140,0 70,80"  class="line"/>
 		<!-- | -->
-		<line x1="70" y1="0" x2="70" y2="70" class="line"/>
+		<line x1="70" y1="0" x2="70" y2="80" class="line"/>
 		<!-- \ \ -->
 		<line x1="35" y1="0" x2="70" y2="35" class="line"/>
-		<line x1="70" y1="0" x2="105" y2="35" class="line"/>
+		<line x1="70" y1="0" x2="110" y2="35" class="line"/>
 		<!-- | -->
-		<line x1="52.5" y1="17.5" x2="50" y2="52.5" class="line"/>
+		<line x1="52.5" y1="17.5" x2="50" y2="56" class="line"/>
 		<!-- / / -->
 		<line x1="35" y1="0" x2="17.5" y2="17.5" class="line"/>
-		<line x1="52.5" y1="17.5" x2="35" y2="35" class="line"/>
+		<line x1="52.5" y1="17.5" x2="35" y2="36" class="line"/>
 	</g>
 </svg>
