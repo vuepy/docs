@@ -1,5 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg"
-    style="background-color: transparent;"
+     style="background-color: transparent;"
+     width="128" height="128"
      viewBox="0 0 128 128"
 >
 	<defs>
@@ -14,17 +15,17 @@
 		}
 		]]></style>
 	</defs>
-	<g transform="translate(1, 28) scale(0.90, 1)">
-		<polygon points="0,0 140,0 70,80"  class="line"/>
+	<g transform="scale(0.90, 1)">
+		<polygon points="0,28 140,28 70,108"  class="line"/>
 		<!-- | -->
-		<line x1="70" y1="0" x2="70" y2="80" class="line"/>
+		<line x1="70" y1="28" x2="70" y2="108" class="line"/>
 		<!-- \ \ -->
-		<line x1="35" y1="0" x2="70" y2="35" class="line"/>
-		<line x1="70" y1="0" x2="110" y2="35" class="line"/>
+		<line x1="35" y1="28" x2="70" y2="63" class="line"/>
+		<line x1="70" y1="28" x2="110" y2="63" class="line"/>
 		<!-- | -->
-		<line x1="52.5" y1="17.5" x2="50" y2="56" class="line"/>
+		<line x1="52.5" y1="45.5" x2="50" y2="84" class="line"/>
 		<!-- / / -->
-		<line x1="35" y1="0" x2="17.5" y2="17.5" class="line"/>
-		<line x1="52.5" y1="17.5" x2="35" y2="36" class="line"/>
+		<line x1="35" y1="28" x2="17.5" y2="45.5" class="line"/>
+		<line x1="52.5" y1="45.5" x2="35" y2="64" class="line"/>
 	</g>
 </svg>
