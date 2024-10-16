@@ -112,6 +112,25 @@ onMounted(async () => {
         丰富的、可渐进式集成的生态系统，可以根据应用规模在库和框架间切换自如。
       </p>
     </div>
+
+    <div class="vt-box">
+      <h2>多平台支持</h2>
+      <p>
+        支持在 Jupyter、JupyterLab、Google Colab、VS Code、Pycharm 等平台上运行。
+      </p>
+    </div>
+    <div class="vt-box">
+      <h2>API 兼容</h2>
+      <p>
+        提供了一套声明式、组件化的 Python 编程模型，语法与 Vue3.js 的组合式 API 几乎完全兼容。
+      </p>
+    </div>
+    <div class="vt-box">
+      <h2>内置 UI 组件库</h2>
+      <p>
+        IPywUI 包含 37+常用 UI 组件。还提供 Display 组件用于集成第三方组件，如 bqplot、ipyleaflet 等。
+      </p>
+    </div>
   </section>
 
   <!-- todo 暂不支持 赞助位
