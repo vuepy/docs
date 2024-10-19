@@ -21,7 +21,8 @@ onMounted(async () => {
       <br />Python 框架
     </h1>
     <p class="description">
-      易学易用，性能出色，适用场景丰富的 IPython Notebook UI 框架。
+      易学易用，性能出色，适用场景丰富的 Jupyter Notebook UI 框架。
+<!--      <sup><img class='logo' src='/images/vuepy-logo.svg' alt='vuepy-logo' width='50' style='display: inline'></sup>-->
     </p>
     <p class="actions">
       <!-- NOTE: hide the home video -->
@@ -104,7 +105,7 @@ onMounted(async () => {
     </div>
     <div class="vt-box">
       <h2>性能出色</h2>
-      <p>经过编译器优化、完全响应式的渲染系统，几乎不需要手动优化。</p>
+      <p>经过编译器优化、完全响应式的渲染系统，无需要手动优化。</p>
     </div>
     <div class="vt-box">
       <h2>灵活多变</h2>
@@ -122,13 +123,13 @@ onMounted(async () => {
     <div class="vt-box">
       <h2>API 兼容</h2>
       <p>
-        提供了一套声明式、组件化的 Python 编程模型，语法与 Vue3.js 的组合式 API 几乎完全兼容。
+        提供了一套声明式、组件化的 Python 编程模型，与 Vue3.js 组合式 API 几乎完全兼容。
       </p>
     </div>
     <div class="vt-box">
       <h2>内置 UI 组件库</h2>
       <p>
-        IPywUI 包含 37+常用 UI 组件。还提供 Display 组件用于集成第三方组件，如 bqplot、ipyleaflet 等。
+        IPywUI 包含 37+常用 UI 组件。Display 组件可方便集成bqplot、ipyleaflet 等第三方组件。
       </p>
     </div>
   </section>
@@ -169,7 +170,7 @@ html:not(.dark) .accent,
 .dark .tagline {
   /*background: -webkit-linear-gradient(315deg, #42d392 25%, #647eff);*/
   /*background: -webkit-radial-gradient(circle, #16B8F3 45%, #0968DB);*/
-  background: -webkit-linear-gradient(100deg, #16B8F3 45%, #0968DB);
+  background: -webkit-linear-gradient(100deg, #008c8c 45%, #0968DB);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;

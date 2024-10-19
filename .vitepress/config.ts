@@ -720,7 +720,7 @@ export default defineConfigWithTheme<ThemeConfig>({
     ['meta', { property: 'og:url', content: 'https://www.vuepy.org/' }],
     ['meta', { property: 'og:type', content: 'website' }],
     ['meta', { property: 'og:title', content: 'Vue.py' }],
-    ['meta', { property: 'og:description', content: 'Vue.py - 响应式 Python 框架, 易学易用，性能出色，适用场景丰富的 IPython Notebook UI 框架' }],
+    ['meta', { property: 'og:description', content: 'Vue.py - 响应式 Python 框架, 易学易用，性能出色，适用场景丰富的 Jupyter Notebook UI 框架' }],
     ['meta', { property: 'og:image', content: 'https://www.vuepy.org/images/vuepy-logo.png' }],
     ['meta', { name: 'twitter:site', content: '@vuepy-org' }],
     ['meta', { name: 'twitter:card', content: 'summary' }],

@@ -59,7 +59,7 @@ pip install org.vuepy.core
 * `ipywui`: Vue.py自带的组件库文件（Vue.py组件文件，方便开发时进行自动补全，仅在开发时依赖）。
 * `App.vue`: 单页应用文件的单文件组件。
 * `app.py`: 单页应用文件的setup文件。
-* `app.ipynb`: 加载单页应用的 IPython Notebook 文件。
+* `app.ipynb`: 加载单页应用的 Jupyter Notebook 文件。
 
 <VTCodeGroup>
   <VTCodeGroupTab label="tree">
