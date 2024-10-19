@@ -105,7 +105,7 @@ onMounted(async () => {
     </div>
     <div class="vt-box">
       <h2>性能出色</h2>
-      <p>经过编译器优化、完全响应式的渲染系统，无需要手动优化。</p>
+      <p>经过编译器优化、完全响应式的渲染系统，无需手动优化。</p>
     </div>
     <div class="vt-box">
       <h2>灵活多变</h2>
@@ -170,7 +170,8 @@ html:not(.dark) .accent,
 .dark .tagline {
   /*background: -webkit-linear-gradient(315deg, #42d392 25%, #647eff);*/
   /*background: -webkit-radial-gradient(circle, #16B8F3 45%, #0968DB);*/
-  background: -webkit-linear-gradient(100deg, #008c8c 45%, #0968DB);
+  background: -webkit-linear-gradient(100deg, #16B8F3 45%, #0968DB); /* blue */
+  /*background: -webkit-linear-gradient(100deg, #008c8c 45%, #0968DB); !* green *!*/
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
