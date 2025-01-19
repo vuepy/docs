@@ -490,6 +490,7 @@ export const sidebar: ThemeConfig['sidebar'] = {
         {text: 'Slider 滑块', link: '/ipywui/slider'},
         {text: 'Toggle Button 开关', link: '/ipywui/toggle-button'},
         {text: 'Toggle Buttons 切换按钮', link: '/ipywui/toggle-buttons'},
+        {text: 'File Upload 上传', link: '/ipywui/file-upload'},
       ]
     },
     {
@@ -509,9 +510,8 @@ export const sidebar: ThemeConfig['sidebar'] = {
       text: 'Navigation 导航',
       items: [
         {text: 'Dropdown 下拉菜单', link: '/ipywui/dropdown'},
-        {text: 'File Upload 上传', link: '/ipywui/file-upload'},
-        {text: 'Stack 组件栈', link: '/ipywui/stack'},
         {text: 'Tabs 标签页', link: '/ipywui/tabs'},
+        {text: 'Stack 组件栈', link: '/ipywui/stack'},
       ]
     },
     {
