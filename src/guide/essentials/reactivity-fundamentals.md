@@ -144,7 +144,7 @@ def increment(own):
 该 `.value` 属性给予了 Vue.py 一个机会来检测 ref 何时被访问或修改。在其内部，Vue.py 在它的 getter 中执行追踪，在它的 setter 中执行触发。从概念上讲，你可以将 ref 看作是一个像这样的对象：
 
 ```python
-// 伪代码，不是真正的实现
+# 伪代码，不是真正的实现
 class Ref:
     def __init__(self, value):
         self._value = value
