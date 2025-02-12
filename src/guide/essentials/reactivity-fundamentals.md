@@ -26,7 +26,7 @@ count = ref(0)
 print(count) # vuepy.vue.VueRef object at ...
 print(count.value) # 0
 
-count.value++
+count.value += 1
 print(count.value) # 1
 ```
 
@@ -42,8 +42,6 @@ def setup(*args, **kwargs):
 
     # 将 ref 暴露给模板
     return locals()
-  }
-}
 ```
 
 ```vue-html
@@ -71,18 +69,15 @@ from vuepy import ref
 def setup(*args, **kwargs):
     count = ref(0)
 
-    def increment(own) {
+    def increment(own):
       # 在 python 中需要 .value
       count.value += 1
-    }
 
     # 不要忘记同时暴露 increment 函数, 也可以直接返回 locals()
     return {
       "count": count,
       "increment": increment,
     }
-  }
-}
 ```
 
 然后，暴露的方法可以被用作事件监听器：
@@ -173,19 +168,18 @@ Ref 可以持有任何类型的值，包括深层嵌套的对象、数组或者 
 
 Ref 会使它的值具有深层响应性。这意味着即使改变嵌套对象或数组时，变化也会被检测到：
 
-```js
-import { ref } from 'vue'
+```python
+from vuepy import ref
 
-const obj = ref({
-  nested: { count: 0 },
-  arr: ['foo', 'bar']
+obj = ref({
+  'nested': { 'count': 0 },
+  'arr': ['foo', 'bar']
 })
 
-function mutateDeeply() {
-  // 以下都会按照期望工作
-  obj.value.nested.count++
-  obj.value.arr.push('baz')
-}
+def mutateDeeply():
+    // 以下都会按照期望工作
+    obj.value.nested.count += 1
+    obj.value.arr.append('baz')
 ```
 
 非原始值将通过 [`reactive()`](#reactive) 转换为响应式代理，该函数将在后面讨论。
