@@ -177,7 +177,7 @@ obj = ref({
 })
 
 def mutateDeeply():
-    // 以下都会按照期望工作
+    # 以下都会按照期望工作
     obj.value.nested.count += 1
     obj.value.arr.append('baz')
 ```
