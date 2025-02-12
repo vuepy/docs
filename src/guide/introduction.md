@@ -158,21 +158,14 @@ button {
   ></Button>
 </template>
 
-<script setup lang='py'>
+<script lang='py'>
 from vuepy import ref
 
-def setup(*args):
-    count = ref(0)
+count = ref(0)
 
-    def counter():
-        count.value += 1
-
-    return locals()
-
+def counter():
+    count.value += 1
 </script>
-
-<style scoped>
-</style>
 ```
 
 </div>
@@ -255,9 +248,9 @@ Vue 的组件可以按**组合式 API**的风格书写。
 ### 组合式 API (Composition API) {#composition-api}
 
 
-通过组合式 API，我们可以使用导入的 API 函数来描述组件逻辑。在单文件组件中，组合式 API 通常会与 [`<script setup>`](/api/sfc-script-setup) 搭配使用。这个 `setup` attribute 是一个标识，告诉 Vue.py 需要在编译时进行一些处理，让我们可以更简洁地使用组合式 API。比如，`<script setup>` 中的导入和顶层变量/函数都能够在模板中直接使用。
+通过组合式 API，我们可以使用导入的 API 函数来描述组件逻辑。在单文件组件中，组合式 API 通常会与 [`<script lang='py'>`](/api/sfc-script-setup) 搭配使用。这是一个标识，告诉 Vue.py 需要在编译时进行一些处理，让我们可以更简洁地使用组合式 API。比如，`<script lang='py'>` 中的导入和顶层变量/函数都能够在模板中直接使用。
 
-下面是使用了组合式 API 与 `<script setup>` 的组件：
+下面是使用了组合式 API 与 `<script lang='py'>` 的组件：
 
 ```vue
 <template>
@@ -266,27 +259,19 @@ Vue 的组件可以按**组合式 API**的风格书写。
   ></Button>
 </template>
 
-<script setup lang='py'>
-from vuepy import ref, on_mounted
+<script lang='py'>
+from vuepy import ref
 
-def setup(*args):
-    # 响应式状态
-    count = ref(0)
+# 响应式状态
+count = ref(0)
 
-    # 用来修改状态、触发更新的函数
-    def increment():
-        count.value += 1
+# 用来修改状态、触发更新的函数
+def increment():
+    count.value += 1
 
-    return locals()
- 
-    # 什么周期钩子 todo
-    on_mounted()
+return locals()
 
 </script>
-
-<style scoped>
-</style>
-
 ```
 
 [//]: # ([//]: # &#40;[在演练场中尝试一下]&#40;https://play.vuejs.org/#eNpNkMFqwzAQRH9lMYU4pNg9Bye09NxbjzrEVda2iLwS0spQjP69a+yYHnRYad7MaOfiw/tqSliciybqYDxDRE7+qsiM3gWGGQJ2r+DoyyVivEOGLrgRDkIdFCmqa1G0ms2EELllVKQdRQa9AHBZ+PLtuEm7RCKVd+ChZRjTQqwctHQHDqbvMUDyd7mKip4AGNIBRyQujzArgtW/mlqb8HRSlLcEazrUv9oiDM49xGGvXgp5uT5his5iZV1f3r4HFHvDprVbaxPhZf4XkKub/CDLaep1T7IhGRhHb6WoTADNT2KWpu/aGv24qGKvrIrr5+Z7hnneQnJu6hURvKl3ryL/ARrVkuI=&#41;&#41;)
