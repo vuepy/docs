@@ -85,7 +85,11 @@ pip install org.vuepy.core
 - 已安装 JupyterLab
   :::
 
-可以在 JupyterLab 中通过运行`app.ipynb`加载应用，也可以在已有的 `notebook` 中通过 `import_sfc` 或 `%vuepy_import` 魔法方法 加载应用。
+可以在 JupyterLab 中通过运行`app.ipynb`加载应用，也可以在已有的 `notebook` 中通过以下方法运行应用：
+* `import_sfc` 函数从`文件`加载组件，再使用 `create_app` 创建应用并运行。
+* `%vuepy_import` 魔法方法从`文件`加载组件，再使用 `create_app` 创建应用并运行。
+* `%vuepy_run` 直接从`文件`创建应用并运行。
+* `%%vuepy_run` 从`源码字符串`创建应用并运行。
 
 <VTCodeGroup>
   <VTCodeGroupTab label="import_sfc">
@@ -113,6 +117,31 @@ from vuepy.utils import magic
 App =%vuepy_import {Path() / 'App.vue'}
 app = create_app(App)
 app.mount()
+  ```
+
+  </VTCodeGroupTab>
+
+  <VTCodeGroupTab label="%vuepy_run">
+
+  ```python
+from vuepy.utils import magic
+
+%vuepy_run app.vue
+  ```
+
+  </VTCodeGroupTab>
+
+  <VTCodeGroupTab label="%%vuepy_run">
+
+  ```python
+from vuepy.utils import magic
+
+%%vuepy_run
+<template>
+  <Button description="add"
+          button_style="info"
+  ></Button>
+</template>
   ```
 
   </VTCodeGroupTab>
