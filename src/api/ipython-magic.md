@@ -21,6 +21,80 @@
   app = create_app(App)
   app.mount()
   ```
+
+## %%vuepy_import {#vuepy_import_cell}
+
+在 IPython 中导入 SFC，并赋值给名为 `component_name` 的变量。
+
+- **类型**
+  ```py
+  %%vuepy_import component_name
+  sfc_content
+  ```
+
+- **示例**
+
+  ```py
+  %%vuepy_import Component1
+  <template>
+    <Button description="add"
+            button_style="info"
+    ></Button>
+  </template>
+  ```
+
+## %vuepy_run {#vuepy_run}
+
+在 IPython 中运行 Vuepy 应用, `vue_file` 为 vue 文件。
+
+- **类型**
+  ```py
+  %vuepy_run vue_file
+  ```
+
+- **示例**
+
+  ```py
+  %vuepy_run app.vue
+  ```
+
+也可以运行已导入的组件。
+
+- **类型**
+  ```py
+  %vuepy_run Component
+  ```
+
+- **示例**
+
+  ```py
+  from vuepy import import_sfc
+  Component = import_sfc("component.vue")
+
+  # ----------------------
+  %vuepy_run Component
+  ```
+
+## %%vuepy_run {#vuepy_run_cell}
+
+在 IPython 中运行 Vuepy 应用。
+
+- **类型**
+  ```py
+  %%vuepy_run
+  sfc_content
+  ```
+
+- **示例**
+
+  ```py
+  %%vuepy_run
+  <template>
+    <Button description="add"
+            button_style="info"
+    ></Button>
+  </template>
+  ```
   
 ## %vuepy_log {#vuepy_log}
 
