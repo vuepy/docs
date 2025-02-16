@@ -15,7 +15,7 @@ const multiSelected = ref([])
 
 # 表单输入绑定 {#form-input-bindings}
 
-在前端处理表单时，我们常常需要将表单输入框的内容同步给 JavaScript 中相应的变量。手动连接值绑定和更改事件监听器可能会很麻烦：
+在处理表单时，我们常常需要将表单输入框的内容同步给 Python 中相应的变量。手动连接值绑定和更改事件监听器可能会很麻烦：
 
 ```vue-html
 <Input

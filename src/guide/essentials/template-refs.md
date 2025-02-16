@@ -26,7 +26,7 @@ from vuepy import ref, onMounted
 # 必须和模板里的 ref 同名
 input = ref(null)
 
-onMounted(lambda: input.value.focus())
+# onMounted(lambda: input.value.focus())  # 仅用作示意
 </script>
 ```
 
