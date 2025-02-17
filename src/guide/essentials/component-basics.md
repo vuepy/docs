@@ -84,7 +84,7 @@ from comp import Comp
 ## 使用组件 {#using-a-component}
 
 :::tip
-我们会在接下来的指引中使用 SFC 语法，无论你是否使用构建步骤，组件相关的概念都是相同的。[示例](/examples/)一节中展示了两种场景中的组件使用情况。
+我们会在接下来的指引中使用 SFC 语法。
 :::
 
 要使用一个子组件，我们需要在父组件中导入它。假设我们把计数器组件放在了一个叫做 `ButtonCounter.vue` 的文件中，这个组件将会以默认导出的形式被暴露给外部。
@@ -94,12 +94,12 @@ from comp import Comp
 ```vue
 <template>
   <h1>Here is a child component!</h1>
-  <ButtonCounter />
+  <ButtonCounter></ButtonCounter>
 </template>
 
 <script lang='py'>
 from vuepy import import_sfc
-ButtonCounter = imoprt_sfc('./ButtonCounter.vue')
+ButtonCounter = import_sfc('./ButtonCounter.vue')
 </script>
 ```
 
@@ -174,6 +174,8 @@ export default {
 </template>
 
 <script lang='py'>
+from vuepy import defineProps
+
 props = defineProps(['title'])
 </script>
 ```
@@ -286,18 +288,26 @@ postFontSize = ref(1)
 然后，给 `<BlogPost>` 组件添加一个按钮：
 
 ```vue{7}
-<!-- BlogPost.vue, 省略了 <script> -->
+<!-- BlogPost.vue -->
 <template>
   <VBox>
     <Label :style="f'font-size: {props.font_size.value}em'">
       {{ props.title.value }}
     </Label>
-    <Button label="Enlarge text"></Button>
+    <Button @click="emit_enlarge()" label="Enlarge text"></Button>
   </VBox>
 </template>
+<script lang='py'>
+from vuepy import defineProps, defineEmits
+props = defineProps(['title', 'font_size'])
+emits = defineEmits(['enlarge-text'])
+
+def emit_enlarge():
+  emits("enlarge-text")
+</script>
 ```
 
-这个按钮目前还没有做任何事情，我们想要点击这个按钮来告诉父组件它应该放大所有博客文章的文字。要解决这个问题，组件实例提供了一个自定义事件系统。父组件可以通过 `v-on` 或 `@` 来选择性地监听子组件上抛的事件，就像监听原生 DOM 事件那样：
+我们想要点击这个按钮来告诉父组件它应该放大所有博客文章的文字。要解决这个问题，组件实例提供了一个自定义事件系统。父组件可以通过 `v-on` 或 `@` 来选择性地监听子组件上抛的事件，就像监听原生 DOM 事件那样：
 
 ```vue-html{3}
 <BlogPost
@@ -312,18 +322,26 @@ postFontSize = ref(1)
  </script>
 ```
 
-子组件可以通过调用定义的 **`emit`** 对象，通过传入事件名称来抛出一个事件：
+子组件可以通过调用定义的 **`emits`** 对象，通过传入事件名称来抛出一个事件：
 
-```vue{7}
-<!-- BlogPost.vue, 省略了 <script> -->
+```vue{7,16}
+<!-- BlogPost.vue -->
 <template>
   <VBox>
     <Label :style="f'font-size: {props.font_size.value}em'">
       {{ props.title.value }}
     </Label>
-    <Button @click="lambda: emit('enlarge-text')" label="Enlarge text">
+    <Button @click="emit_enlarge()" label="Enlarge text"></Button>
   </VBox>
 </template>
+<script lang='py'>
+from vuepy import defineProps, defineEmits
+props = defineProps(['title', 'font_size'])
+emits = defineEmits(['enlarge-text'])
+
+def emit_enlarge():
+  emits("enlarge-text")
+</script>
 ```
 
 因为有了 `@enlarge-text="enlarge_text()"` 的监听，父组件会接收这一事件，从而更新 `postFontSize` 的值。
@@ -340,11 +358,23 @@ postFontSize = ref(1)
 
 <div class="composition-api">
 
-```vue{4}
+```vue{13}
 <!-- BlogPost.vue -->
+<template>
+  <VBox>
+    <Label :style="f'font-size: {props.font_size.value}em'">
+      {{ props.title.value }}
+    </Label>
+    <Button @click="emit_enlarge()" label="Enlarge text"></Button>
+  </VBox>
+</template>
 <script lang='py'>
-props = defineProps(['title'])
+from vuepy import defineProps, defineEmits
+props = defineProps(['title', 'font_size'])
 emits = defineEmits(['enlarge-text'])
+
+def emit_enlarge():
+  emits("enlarge-text")
 </script>
 ```
 
@@ -354,14 +384,27 @@ emits = defineEmits(['enlarge-text'])
 
 <div class="composition-api">
 
-和 `defineProps` 类似，`defineEmits` 仅可用于 `<script lang='py'>` 之中，它返回一个`emit` 对象。它可以被用于在组件的 `<script lang='py'>` 中抛出事件：
+和 `defineProps` 类似，`defineEmits` 仅可用于 `<script lang='py'>` 之中，它返回一个`emits` 对象。它可以被用于在组件的 `<script lang='py'>` 中抛出事件：
 
-```vue
+```vue{13}
+<!-- BlogPost.vue -->
+<template>
+  <VBox>
+    <Label :style="f'font-size: {props.font_size.value}em'">
+      {{ props.title.value }}
+    </Label>
+    <Button @click="emit_enlarge()" label="Enlarge text"></Button>
+  </VBox>
+</template>
 <script lang='py'>
-emit = defineEmits(['enlarge-text'])
+from vuepy import defineProps, defineEmits
+props = defineProps(['title', 'font_size'])
+emits = defineEmits(['enlarge-text'])
 
-emit('enlarge-text')
+def emit_enlarge():
+  emits("enlarge-text")
 </script>
+
 ```
 
 <!-- todo 暂不支持
