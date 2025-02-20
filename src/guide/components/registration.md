@@ -28,7 +28,7 @@ app.component(
 ```py
 from vuepy import import_sfc
 
-MyComponent = import_sfc('./App.vue')
+MyComponent = import_sfc('./MyComponent.vue')
 
 app.component('MyComponent', MyComponent)
 ```

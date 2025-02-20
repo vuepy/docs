@@ -291,10 +291,11 @@ postFontSize = ref(1)
 <!-- BlogPost.vue -->
 <template>
   <VBox>
-    <Label :style="f'font-size: {props.font_size.value}em'">
-      {{ props.title.value }}
+    <Label :style="f'font-size: {props.font_size.value}px'" 
+           :value="f'{props.title.value}'"> 
     </Label>
-    <Button @click="emit_enlarge()" label="Enlarge text"></Button>
+    <Button @click="emit_enlarge()" label="Enlarge text">
+    </Button>
   </VBox>
 </template>
 <script lang='py'>
@@ -324,14 +325,15 @@ def emit_enlarge():
 
 子组件可以通过调用定义的 **`emits`** 对象，通过传入事件名称来抛出一个事件：
 
-```vue{7,16}
+```vue{7,17}
 <!-- BlogPost.vue -->
 <template>
   <VBox>
-    <Label :style="f'font-size: {props.font_size.value}em'">
-      {{ props.title.value }}
+    <Label :style="f'font-size: {props.font_size.value}px'" 
+           :value="f'{props.title.value}'"> 
     </Label>
-    <Button @click="emit_enlarge()" label="Enlarge text"></Button>
+    <Button @click="emit_enlarge()" label="Enlarge text">
+    </Button>
   </VBox>
 </template>
 <script lang='py'>
@@ -358,14 +360,15 @@ def emit_enlarge():
 
 <div class="composition-api">
 
-```vue{13}
+```vue{14}
 <!-- BlogPost.vue -->
 <template>
   <VBox>
-    <Label :style="f'font-size: {props.font_size.value}em'">
-      {{ props.title.value }}
+    <Label :style="f'font-size: {props.font_size.value}px'" 
+           :value="f'{props.title.value}'"> 
     </Label>
-    <Button @click="emit_enlarge()" label="Enlarge text"></Button>
+    <Button @click="emit_enlarge()" label="Enlarge text">
+    </Button>
   </VBox>
 </template>
 <script lang='py'>
@@ -386,14 +389,15 @@ def emit_enlarge():
 
 和 `defineProps` 类似，`defineEmits` 仅可用于 `<script lang='py'>` 之中，它返回一个`emits` 对象。它可以被用于在组件的 `<script lang='py'>` 中抛出事件：
 
-```vue{13}
+```vue{14}
 <!-- BlogPost.vue -->
 <template>
   <VBox>
-    <Label :style="f'font-size: {props.font_size.value}em'">
-      {{ props.title.value }}
+    <Label :style="f'font-size: {props.font_size.value}px'" 
+           :value="f'{props.title.value}'"> 
     </Label>
-    <Button @click="emit_enlarge()" label="Enlarge text"></Button>
+    <Button @click="emit_enlarge()" label="Enlarge text">
+    </Button>
   </VBox>
 </template>
 <script lang='py'>
@@ -404,7 +408,6 @@ emits = defineEmits(['enlarge-text'])
 def emit_enlarge():
   emits("enlarge-text")
 </script>
-
 ```
 
 <!-- todo 暂不支持

@@ -149,12 +149,15 @@ p {{ msg }}
 ```
 -->
 
+:::warning
+请注意，这是一个预留的语法，当前版本未实现。
 `src` 导入对自定义语块也同样适用：
 
 ```vue
 <unit-test src="./unit-test.js">
 </unit-test>
 ```
+:::
 
 ## 注释 {#comments}
 
