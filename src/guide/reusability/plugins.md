@@ -62,7 +62,7 @@ class I18n(VuePlugin):
 这个函数应当能够在任意模板中被全局调用。这一点可以通过在插件中将它添加到 `app.config.globalProperties` 上来实现：
 
 ```py{7-16}
-# plugins/i18n.js
+# plugins/i18n.py
 from vuepy import VuePlugin
 
 class I18nPlugin(VuePlugin):
