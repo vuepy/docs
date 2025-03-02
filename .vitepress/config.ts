@@ -252,9 +252,10 @@ export const sidebar: ThemeConfig['sidebar'] = {
       ]
     },
     {
-      text: '内置组件',
+      text: '组件库',
       items: [
-        { text: 'ipywui', link: '/ipywui/overview' },
+        { text: 'ipywui 组件库', link: '/ipywui/overview' },
+        { text: '集成 anywidget', link: '/guide/Integration-with-anywidget' },
         // { text: 'Transition', link: '/guide/built-ins/transition' },
         // {
         //   text: 'TransitionGroup',

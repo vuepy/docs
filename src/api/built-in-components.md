@@ -2,7 +2,7 @@
 pageClass: api
 ---
 
-# 内置组件 {#built-in-components}
+# 组件库 {#built-in-components}
 
 :::info 组件注册和使用
 内置组件无需注册便可以直接在模板中使用。它们也支持 tree-shake：仅在使用时才会包含在构建中。
