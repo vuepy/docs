@@ -32,6 +32,10 @@ export function generateLLMSTXTPlugin() {
         });
       }
 
+      const outputDir = path.resolve(__dirname, '../dist');
+      if (!fs.existsSync(outputDir)) {
+        fs.mkdirSync(outputDir, { recursive: true });
+      }
       const outputPath = path.resolve(__dirname, '../dist/llms.txt');
       fs.writeFileSync(outputPath, content);
       console.log(`gen llms.txt success`);
