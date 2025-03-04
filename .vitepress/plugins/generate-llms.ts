@@ -22,7 +22,7 @@ export function generateLLMSTXTPlugin() {
         const h2_title = h2[basePath];
         content += `## ${h2_title}\n`
         groups.forEach(group => {
-          content += `\n### ${group.text}\n\n`;
+          content += `\n## ${group.text}\n\n`;
           group.items?.forEach(item => {
             if (item.llms_ignore) {
               return;
