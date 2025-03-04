@@ -7,6 +7,7 @@ import { headerPlugin } from './headerMdPlugin'
 import { mdPlugin } from './plugins/ipynb-markdown-transform'
 import tableWrapper from './plugins/table-wrapper'
 import tooltip from './plugins/tooltip'
+import { generateLLMSTXTPlugin } from './plugins/generate-llms'
 // import { textAdPlugin } from './textAdMdPlugin'
 
 const { BASE: base = '/' } = process.env
@@ -202,7 +203,8 @@ export const sidebar: ThemeConfig['sidebar'] = {
         { text: '表单输入绑定', link: '/guide/essentials/forms' },
         {
           text: '生命周期',
-          link: '/guide/essentials/lifecycle'
+          link: '/guide/essentials/lifecycle',
+          llms_ignore: true
         },
         { text: '侦听器', link: '/guide/essentials/watchers' },
         { text: '模板引用', link: '/guide/essentials/template-refs' },
@@ -224,16 +226,19 @@ export const sidebar: ThemeConfig['sidebar'] = {
         { text: '组件 v-model', link: '/guide/components/v-model' },
         {
           text: '透传 Attributes',
-          link: '/guide/components/attrs'
+          link: '/guide/components/attrs',
+          llms_ignore: true
         },
         { text: '插槽', link: '/guide/components/slots' },
         {
           text: '依赖注入',
-          link: '/guide/components/provide-inject'
+          link: '/guide/components/provide-inject',
+          llms_ignore: true
         },
         {
           text: '异步组件',
-          link: '/guide/components/async'
+          link: '/guide/components/async',
+          llms_ignore: true
         }
       ]
     },
@@ -246,7 +251,8 @@ export const sidebar: ThemeConfig['sidebar'] = {
         },
         {
           text: '自定义指令',
-          link: '/guide/reusability/custom-directives'
+          link: '/guide/reusability/custom-directives',
+          llms_ignore: true
         },
         { text: '插件', link: '/guide/reusability/plugins' }
       ]
@@ -271,12 +277,21 @@ export const sidebar: ThemeConfig['sidebar'] = {
       items: [
         { text: '单文件组件', link: '/guide/scaling-up/sfc' },
         { text: '工具链', link: '/guide/scaling-up/tooling' },
-        { text: '路由', link: '/guide/scaling-up/routing' },
+        {
+          text: '路由',
+          link: '/guide/scaling-up/routing',
+          llms_ignore: true
+        },
         {
           text: '状态管理',
-          link: '/guide/scaling-up/state-management'
+          link: '/guide/scaling-up/state-management',
+          llms_ignore: true
         },
-        { text: '测试', link: '/guide/scaling-up/testing' },
+        {
+          text: '测试',
+          link: '/guide/scaling-up/testing',
+          llms_ignore: true
+        },
         // {
         //   text: '服务端渲染 (SSR)',
         //   link: '/guide/scaling-up/ssr'
@@ -947,6 +962,9 @@ export default defineConfigWithTheme<ThemeConfig>({
     },
     json: {
       stringify: true
-    }
+    },
+    plugins: [
+      generateLLMSTXTPlugin(),
+    ]
   }
 })
