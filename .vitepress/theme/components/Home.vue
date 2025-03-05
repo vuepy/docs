@@ -117,7 +117,7 @@ onMounted(async () => {
     <div class="vt-box">
       <h2>多平台支持</h2>
       <p>
-        支持在 Jupyter、JupyterLab、Google Colab、VS Code、Pycharm 等平台上运行。
+        支持在 Jupyter、JupyterLab、VS Code、Cursor、Google Colab、Pycharm 等平台上运行。
       </p>
     </div>
     <div class="vt-box">
