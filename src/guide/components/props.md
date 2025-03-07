@@ -11,11 +11,48 @@
 在使用 `<script lang='py'>` 的单文件组件中，props 可以使用 `defineProps()` 来声明：
 
 ```vue
+<!-- Hello.vue -->
+<template>
+  <p>hello {{ props.name.value }}</p>
+</template>
 <script lang='py'>
-props = defineProps(['foo'])
+from vuepy import defineProps
 
-print(props.foo.value)
+props = defineProps(['name'])
 </script>
+```
+
+```vue
+<!-- App.vue -->
+<template>
+  <Hello name="world"></Hello>
+</template>
+```
+
+在`<script src='xxx.py'>`中的使用示例：
+
+```vue
+<!-- Hello.vue -->
+<template>
+  <p>hello {{ props.name.value }}</p>
+</template>
+<script src='hello.py'></script>
+```
+
+```python
+# hello.py
+from vuepy import defineProps
+
+def setup(props, ctx, app):
+    props = defineProps(['name'])
+    return locals()
+```
+
+```vue
+<!-- App.vue -->
+<template>
+  <Hello name="world"></Hello>
+</template>
 ```
 
 除了使用字符串数组来声明 prop 外，还可以使用对象的形式：

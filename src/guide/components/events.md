@@ -98,25 +98,73 @@ def increaseCount(n):
 
 ## 声明触发的事件 {#declaring-emitted-events}
 
-组件可以显式地通过 <span class="composition-api">[`defineEmits()`](/api/sfc-script-setup#defineprops-defineemits) </span><span class="options-api">[`emits`](/api/options-state#emits) 选项</span>来声明它要触发的事件：
+组件可以显式地通过 <span class="composition-api">[`defineEmits()`](/api/sfc-script-setup#defineprops-defineemits) </span><span class="options-api">[`emits`](/api/options-state#emits) 选项</span>来声明它要触发的事件, `defineEmits()` 会返回一个函数供我们在 `<template>` 和 `<script lang='py'>` 中使用：
 
 <div class="composition-api">
 
+在`<script lang='py'>`中的使用示例：
+
 ```vue
+<!-- Hello.vue -->
+<template>
+  <p>hello</p>
+  <Button @click="submit">submit</Button>
+</template>
 <script lang='py'>
-emits = defineEmits(['inFocus', 'submit'])
+from vuepy import defineEmits
+
+emit = defineEmits(['submit'])
+
+def submit(ev):
+    print(ev) # Button(description='submit', ...)
+    emit('submit', 1, 2, 3)
 </script>
 ```
 
-`defineEmits()` 会返回一个函数供我们在 `<template>` 和 `<script lang='py'>` 中使用：
+```vue
+<!-- App.vue -->
+<template>
+  <Hello @submit="on_child_submit"></Hello>
+</template>
+<script lang='py'>
+def on_child_submit(a, b, c):
+    print(a, b, c) # 1 2 3
+</script>
+```
+
+在`<script src='xxx.py'>`中的使用示例：
 
 ```vue
-<script lang='py'>
-emits = defineEmits(['inFocus', 'submit'])
+<!-- Hello.vue -->
+<template>
+  <p>hello</p>
+  <Button @click="submit">submit</Button>
+</template>
+<script src='hello.py'></script>
+```
 
-def buttonClick():
-    emit('submit')
-    
+```python
+# hello.py
+from vuepy import defineEmits
+
+def setup(props, ctx, app):
+    emit = defineEmits(['submit'])
+
+    def submit(ev):
+        print(ev) # Button(description='submit', ...)
+        emit('submit', 1, 2, 3)
+
+    return locals()
+```
+
+```vue
+<!-- App.vue -->
+<template>
+  <Hello @submit="on_child_submit"></Hello>
+</template>
+<script lang='py'>
+def on_child_submit(a, b, c):
+    print(a, b, c) # 1 2 3
 </script>
 ```
 
