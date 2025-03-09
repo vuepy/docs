@@ -165,6 +165,10 @@ export const sidebar: ThemeConfig['sidebar'] = {
         {
           text: '快速上手',
           link: '/guide/quick-start'
+        },
+        {
+          text: '使用 LLMs 开发 Vuepy 应用',
+          link: '/guide/build-vuepy-withs-llms'
         }
       ]
     },
