@@ -70,7 +70,7 @@ Vuepy 文档网站支持 [llms.txt协议](https://llmstxt.org/)，既可供用�
 **在 Cursor 中使用:**  
 为了增加准确性，可以下载 https://www.vuepy.org/llms-ctx.txt 并作为文件上下文提供给 Cursor。
 
-![](./_images/cursor.gif)
+![](./_images/cursor_10fps.gif)
 
 ### 在其他工具中使用
 
