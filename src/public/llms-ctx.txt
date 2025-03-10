@@ -10,7 +10,7 @@ vuep.py是一个用于构建用户界面的python框架。它基于标准html、
 ## 安装vuepy
 
 ```
-pip install org.vuepy.core
+pip install vuepy-core
 ```
 
 ## 单文件组件 SFC
@@ -106,12 +106,12 @@ Attribute绑定
 ```
 ## 响应式基础
 
-ref、reactive和vue.js的基本一致。  
+ref、reactive和vue.js的基本一致。
 不同点：
 * 获取ref对象的值需要显式地访问ref对象的value属性。
 ## 计算属性
 
-ref、reactive和vue.js的基本一致。  
+ref、reactive和vue.js的基本一致。
 不同点：
 * 可以使用装饰器声明计算属性
 ```python
@@ -128,7 +128,7 @@ def plus_one():
 v-if、v-else-if、v-else、v-show和vue.js的基本一致。
 ## 列表渲染
 
-v-for和vue.js的基本一致。  
+v-for和vue.js的基本一致。
 不同点：
 * 当有v-for有两个参数时，第一个参数index是循环索引，更符合python习惯。
   ```vue
@@ -137,13 +137,13 @@ v-for和vue.js的基本一致。
 * Vue.py 能够侦听响应式数组的变更方法：append ,clear ,extend ,insert ,pop ,remove ,reverse ,sort。
 ## 事件处理
 
-v-on和vue.js的基本一致。  
+v-on和vue.js的基本一致。
 不同点：
 * 只支持自定义组件(如 Button等)，暂不支持原生 html 元素（如 span等）
 * 只实现了最基础的功能
 ## 表单输入绑定
 
-v-model和vue.js的基本一致。  
+v-model和vue.js的基本一致。
 不同点：
 * 只支持自定义组件(如 Input、Dropdown等)，暂不支持原生 html 元素（如 input 等）
 * 只实现了最基础的功能
@@ -152,7 +152,7 @@ v-model和vue.js的基本一致。
 当前版本未实现。
 ## 帧听器
 
-watch和vue.js的基本一致。  
+watch和vue.js的基本一致。
 不同点：
 * 只实现了最基础的功能
 * 支持装饰器的使用方式
@@ -168,14 +168,14 @@ x_update()
 
 ## 模板引用
 
-ref和vue.js的基本一致。  
+ref和vue.js的基本一致。
 不同点：
 * ref引用的是元素对应的widget对象
 * ref未实现自动解包
 ## 组件
 
 ### 组件定义
-和vue.js的SFC基本一致，可以定义在`.vue`文件中。  
+和vue.js的SFC基本一致，可以定义在`.vue`文件中。
 不同点：
 * 组件逻辑包裹在`<script lang='py'></script>`中，使用python语言
 ```vue
@@ -223,7 +223,7 @@ app.component('MyComponent', MyComponent)
 
 ### 传递props
 
-defineProps和vue.js基本相同。  
+defineProps和vue.js基本相同。
 不同点：
 * 需要显式导入`from vuepy import defineProps`
 * 需要显示地访问value来获取值`props.title.value`
@@ -276,7 +276,7 @@ def setup(props, ctx, app):
 ```
 ### 监听事件
 
-defineEmits和vue.js基本相同。  
+defineEmits和vue.js基本相同。
 不同点：
 * 需要显式导入`from vuepy import defineEmits`
 * 原生html标签的监听事件暂不支持
@@ -349,7 +349,7 @@ def on_child_submit(a, b, c):
 
 ### 组件 v-model
 
-definModel和vue.js基本相同  
+definModel和vue.js基本相同
 不同点：
 * 需要显式导入`from vuepy import defineModel`
 * 需要显示地访问value来获取值`xxx.value`
@@ -420,7 +420,7 @@ m = ref('world')
 ```
 ### 通过slot分配内容
 
-slot和vue.js基本相同  
+slot和vue.js基本相同
 不同点：
 * 只实现了最基本的功能
 * 不支持动态插槽名
@@ -428,7 +428,7 @@ slot和vue.js基本相同
 
 ### 模版解析注意事项
 
-和vue.js基本相同  
+和vue.js基本相同
 不同点：
 * 不支持闭合标签，必须显式地写出关闭标签`<A></A>`
 * 元素位置限制，在HTML元素中不支持嵌套自定义组件，例如div中不能放置Input等自定义组件，可以使用VBox或HBox替代div作为一种解决方案。
@@ -442,7 +442,7 @@ slot和vue.js基本相同
 ```
 ## 插件
 
-和vue.js基本相同。  
+和vue.js基本相同。
 不同点：
 * 编写插件，继承`VuePlugin`并实现install方法。
 ```python
@@ -460,7 +460,7 @@ class I18nPlugin(VuePlugin):
             for k in key.split('.'):
                 ret = option.get(k, {})
             return ret
-            
+
         # 注入一个全局可用的 s1_translate() 方法
         # s1_ 与vue.js的$类似
         app.config.globalProperties.s1_translate = s1_translate
@@ -924,7 +924,7 @@ import AppLayout from "../../../src/ipywui/components/AppLayout";
 ...
 </AppLayout>
 ```
-### Component, Box Layout 
+### Component, Box Layout
 ```vue
 <!-- layout_box/vbox-basic.vue -->
 <template>
@@ -2352,7 +2352,7 @@ from vuepy import ref
 md_src = r"""
 ### H3
 
-This is a **bold** text and this is an *italic* text.   
+This is a **bold** text and this is an *italic* text.
 link to [vuepy](https://github.com/vuepy)
 
 ### Code
@@ -2368,13 +2368,13 @@ link to [vuepy](https://github.com/vuepy)
 
 ### LaTeX
 $$
-a > b,b > c \Rightarrow a > c 
+a > b,b > c \Rightarrow a > c
 $$
 
 $$
-\begin{array}{c} 
-  \forall A \in S \\ 
-  P \left( A \right) \ge 0 
+\begin{array}{c}
+  \forall A \in S \\
+  P \left( A \right) \ge 0
 \end{array}
 $$
 """
@@ -2779,7 +2779,7 @@ def setup(props, ctx, vm):
 
 ```
 
-### Component, Message 
+### Component, Message
 ```vue
 <!-- message/basic.vue -->
 <template>
