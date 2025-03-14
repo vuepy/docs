@@ -82,9 +82,6 @@ for index, item in enumerate(items):
 -->
 
 `v-for`，作用域的工作方式和函数的作用域很类似。每个 `v-for` 作用域都可以访问到父级作用域：
-:::warning
-请注意，这是一个预留的语法，当前版本未实现。
-:::
 
 ```vue-html
 <li v-for="item in items">

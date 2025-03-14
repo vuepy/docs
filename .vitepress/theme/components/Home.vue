@@ -41,7 +41,16 @@ onMounted(async () => {
           />
         </svg>
       </a>
-      <a class="setup" :href="withBase('/guide/quick-start')">安装</a>
+      <a class="setup" :href="withBase('/guide/quick-start')">
+        <span>
+        <svg xmlns="http://www.w3.org/2000/svg" style="display: inline" width="1em" height="1em"
+             preserveAspectRatio="xMidYMid meet" viewBox="0 0 20 20">
+          <path fill="currentColor" fill-rule="evenodd"
+                d="M7.293 14.707a1 1 0 0 1 0-1.414L10.586 10L7.293 6.707a1 1 0 0 1 1.414-1.414l4 4a1 1 0 0 1 0 1.414l-4 4a1 1 0 0 1-1.414 0Z" clip-rule="evenodd">
+          </path>
+        </svg> pip install vuepy-core
+        </span>
+      </a>
     </p>
   </section>
 
@@ -99,7 +108,7 @@ onMounted(async () => {
     <div class="vt-box">
       <h2>易学易用</h2>
       <p>
-        基于 ipywidgets、HTML、CSS 和 Python 构建，
+        基于 Python、HTML、CSS 和 ipywidgets 构建，
         提供容易上手的 API 和一流的文档。
       </p>
     </div>
@@ -107,10 +116,20 @@ onMounted(async () => {
       <h2>性能出色</h2>
       <p>经过编译器优化、完全响应式的渲染系统，无需手动优化。</p>
     </div>
+
+    <!--
     <div class="vt-box">
       <h2>灵活多变</h2>
       <p>
         丰富的、可渐进式集成的生态系统，可以根据应用规模在库和框架间切换自如。
+      </p>
+    </div>
+    -->
+
+    <div class="vt-box">
+      <h2>内置 UI 组件库</h2>
+      <p>
+        IPywUI 包含 37+常用 UI 组件。Display 组件可方便集成bqplot、ipyleaflet 等第三方组件。
       </p>
     </div>
 
@@ -120,16 +139,20 @@ onMounted(async () => {
         支持在 Jupyter、JupyterLab、VS Code、Cursor、Google Colab、Pycharm 等平台上运行。
       </p>
     </div>
+
     <div class="vt-box">
       <h2>API 兼容</h2>
       <p>
         提供了一套声明式、组件化的 Python 编程模型，与 Vue3.js 组合式 API 几乎完全兼容。
       </p>
     </div>
+
     <div class="vt-box">
-      <h2>内置 UI 组件库</h2>
+      <h2>LLMs 支持</h2>
       <p>
-        IPywUI 包含 37+常用 UI 组件。Display 组件可方便集成bqplot、ipyleaflet 等第三方组件。
+        提供 <a href='https://www.vuepy.org/llms-ctx.txt' target='_blank'>llms-ctx.txt</a>,
+        <a href='https://www.vuepy.org/llms.txt' target='_blank'>lllms.txt</a> 支持通过 AI 一键生成 UI 界面。
+        <a href='http://localhost:5173/guide/build-vuepy-withs-llms.html'>了解更多</a>
       </p>
     </div>
   </section>
