@@ -252,7 +252,7 @@ async function increment() {
 ```python
 from vuepy import reactive
 
-state = reactive({ count: 0 })
+state = reactive({'count': 0 })
 ```
 
 <!-- todo 暂不支持
