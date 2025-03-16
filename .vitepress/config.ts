@@ -386,6 +386,7 @@ export const sidebar: ThemeConfig['sidebar'] = {
       text: '全局 API',
       items: [
         { text: '应用实例', link: '/api/application' },
+        { text: '应用管理', link: '/api/appstore' },
         {
           text: '通用',
           link: '/api/general'

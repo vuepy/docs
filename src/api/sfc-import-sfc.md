@@ -5,7 +5,7 @@
 - **类型**
 
   ```py
-  def import_sfc(sfc_file: str, raw_content=False) -> SFCFactory:
+  def import_sfc(sfc_file: str, raw_content=False) -> SFCType:
   ```
 
 - **详细信息**
