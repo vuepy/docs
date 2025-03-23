@@ -21,7 +21,7 @@ footer: false
 
 ## 什么是 Vue.py？ {#what-is-vue}
 
-Vue.py (发音为 /vjuːpaɪ/，类似 **viewpy**) 是一款用于构建用户界面的 Python 框架。它基于标准 HTML、CSS 和 Python 构建，并提供了一套声明式的、组件化的编程模型，帮助你高效地开发用户界面。无论是简单还是复杂的界面，Vue.py 都可以胜任。
+Vue.py (发音为 /vjuːpaɪ/，类似 **viewpy**) 是一个响应式 Python 框架，用于在 Jupyter 中构建 Web 界面。它基于标准 HTML、CSS 和 Python 构建，并提供了一套声明式的、组件化的编程模型，帮助你高效地开发用户界面。无论是简单还是复杂的界面，Vue.py 都可以胜任。
 
 下面是一个最基本的示例：
 

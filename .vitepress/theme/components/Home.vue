@@ -21,7 +21,8 @@ onMounted(async () => {
       <br />Python 框架
     </h1>
     <p class="description">
-      易学易用，性能出色，适用场景丰富的 Jupyter Notebook UI 框架。
+      用于在 Jupyter Notebook 中构建 Web 界面应用
+<!--      易学易用，性能出色，适用场景丰富的 Jupyter Notebook UI 框架。-->
 <!--      <sup><img class='logo' src='/images/vuepy-logo.svg' alt='vuepy-logo' width='50' style='display: inline'></sup>-->
     </p>
     <p class="actions">
