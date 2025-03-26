@@ -101,6 +101,34 @@ def say(message):
 <Button @click="say('bye')" label="Say bye"></Button>
 ```
 
+也支持 `async def` 异步函数：
+
+```vue
+<template>
+  <Button button_style="info" @click="async_click()">btn1</Button>
+  <Button button_style="info" @click="click()">btn2</Button>
+</template>
+
+<script lang="py">
+import asyncio
+
+async def async_click():
+    print('async_click: start')
+    await asyncio.sleep(2)
+    print('async_click: end')
+
+def click():
+    print('sync_click: click')
+</script>
+```
+
+先点击btn1，马上再点击btn2，打印的结果如下：
+```
+async_click: start
+sync_click: click
+async_click: end
+```
+
 <!-- todo 暂不支持
 <div class="composition-api">
 

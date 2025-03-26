@@ -39,14 +39,21 @@ def register(cls, app_name: str, app: Type[VueComponent] | SFCType):
 - **示例**
 
 ```py
-from vuepy import VueComponent, VuepyAppStore
+import ipywidgets
+from ipywui import wui
+from vuepy import VueComponent, VuepyAppStore, import_sfc
 
 class MyComponent(VueComponent):
-    pass
+    def render(self, *args):
+        return ipywidgets.HTML('<p>hello</p>')
+
+Button = wui.get_all_registry()['Button']
+App3 = import_sfc('test.vue')
 
 # 注册组件
 VuepyAppStore.register('MyApp', MyComponent)
-VuepyAppStore.register('MyApp2', MyComponent)
+VuepyAppStore.register('MyApp2', Button)
+VuepyAppStore.register('App3', App3)
 ```
 
   在 Jupyter 中运行`%vuepy_run`时可自动发现已注册 App。

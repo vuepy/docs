@@ -7,6 +7,8 @@
 - **类型**
 
   ```py
+  RootComponent = Type[VueComponent] | SFCType | dict
+  
   def create_app(component: RootComponent, **root_props) -> App:
   ```
 

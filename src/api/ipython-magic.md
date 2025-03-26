@@ -69,11 +69,13 @@
   %vuepy_run vue_file
   ```
 
-- **示例**
+- **示例 1**
 
   ```py
   %vuepy_run app.vue
   ```
+
+-----
 
 也可以运行已导入的组件。
 
@@ -82,7 +84,7 @@
   %vuepy_run $$Component
   ```
 
-- **示例**
+- **示例 2**
 
   ```py
   from vuepy import import_sfc
@@ -90,6 +92,28 @@
 
   # ----------------------
   %vuepy_run $$Component
+  ```
+
+-----
+指定使用的插件，获取 app 对象
+
+- **类型**
+  ```py
+  %vuepy_run vue_file  --plugins plugin1 plugin2 --app app1
+  ```
+
+  * `--plugins`: 可选参数，指定 app 使用的插件
+  * `--app`: 可选参数，将的 App 对象赋值给指定的变量
+
+- **示例 3**
+
+  ```py
+  from ipywui import wui
+  %vuepy_run app.vue --plugin wui --app app1
+  ```
+
+  ```py
+  print(app1)  # App at 0x100000000
   ```
 
 ## %%vuepy_run {#vuepy_run_cell}
@@ -102,7 +126,7 @@
   sfc_content
   ```
 
-- **示例**
+- **示例 1**
 
   ```py
   %%vuepy_run
@@ -128,6 +152,32 @@
   # 获取jupyter笔记本中的变量
   locals().update(get_ipython().user_ns)
   </script>
+  ```
+
+  -----
+
+- **类型**
+  ```py
+  %%vuepy_run --plugins plugin1 plugin2 --app app1
+  sfc_content
+  ```
+
+  * `--plugins`: 可选参数，指定 app 使用的插件
+  * `--app`: 可选参数，将的 App 对象赋值给指定的变量
+
+- **示例 2**
+
+  ```py
+  # --- cell 1 ---
+  from ipywui import wui
+  import foo_i18n  # for example
+  # --- cell 2 ---
+  %%vuepy_run --plugins wui i18n --app app1
+  <template>
+    <p>{{ _i18n_("hello") }}</p>
+  </template>
+  # --- cell 3 ---
+  print(app1)  # App at 0x100000000
   ```
   
 ## %vuepy_log {#vuepy_log}
