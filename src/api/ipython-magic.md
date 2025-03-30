@@ -1,5 +1,11 @@
 # IPython Magic
 
+要使用这些魔法方法，您必须先注册它们。在 Jupyter 中运行 `%load_ext`。
+
+```
+%load_ext vuepy
+```
+
 ## %vuepy_import {#vuepy_import}
 
 在 IPython 中导入 SFC。
