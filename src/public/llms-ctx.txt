@@ -64,7 +64,7 @@ def setup(props, context, app):
 
 `<script setup>`：只作为IDE的自动补全提示使用，对实际运行没有影响。
 
-`<style>`：暂不支持。
+`<style>`：暂不支持，可以在template中直接编写。
 
 ## 创建Vue.py应用
 
@@ -106,12 +106,32 @@ Attribute绑定
 ```
 ## 响应式基础
 
-ref、reactive和vue.js的基本一致。
+ref、reactive和vue.js的基本一致。  
 不同点：
 * 获取ref对象的值需要显式地访问ref对象的value属性。
+
+示例
+```vue
+<template>
+  <p>{{ state.count }}</p>
+  <InputNumber v-model="state.count"></InputNumber>
+  <Button @click="add()">add</Button>
+</template>
+<script lang='py'>
+from vuepy import reactive
+
+state = reactive({'count': 0})
+
+def add():
+    state.count += 1
+</script>
+```
+
+shallowRef是ref的浅层作用形式，可以放弃深层响应性，和vue.js的基本一致。
+
 ## 计算属性
 
-ref、reactive和vue.js的基本一致。
+computed和vue.js的基本一致。  
 不同点：
 * 可以使用装饰器声明计算属性
 ```python
@@ -128,22 +148,95 @@ def plus_one():
 v-if、v-else-if、v-else、v-show和vue.js的基本一致。
 ## 列表渲染
 
-v-for和vue.js的基本一致。
-不同点：
-* 当有v-for有两个参数时，第一个参数index是循环索引，更符合python习惯。
+v-for指令：
+* 特别注意：当有v-for有两个参数时，第一个参数index是循环索引，更符合python习惯。
   ```vue
   <li v-for="(index, item) in items">
   ```
 * Vue.py 能够侦听响应式数组的变更方法：append ,clear ,extend ,insert ,pop ,remove ,reverse ,sort。
+
+示例：
+```vue
+<template>
+  <!-- list with index: The order is different from vue.js -->
+  <div>
+    <span v-for="(index, item) in l">
+      {{ index }}: {{ item }}
+    </span>
+  </div>
+
+  <!-- list -->
+  <div>
+    <span v-for="item in l">
+      {{ item }}
+    </span>
+  </div>
+
+  <!-- iter(dict) -->
+  <div>
+    <span v-for="key in d">
+      {{ key }}
+    </span>
+  </div>
+
+  <!-- ref dict -->
+  <div>
+    <span v-for="i, value in d_ref.value.values()">
+      {{ i }}: {{ value }}
+    </span>
+  </div>
+
+  <!-- list with func -->
+  <div>
+    <span v-for="i in filter(lambda x: x % 2 == 0, l)">
+      {{ i }}
+    </span>
+  </div>
+</template>
+<script lang='py'>
+from vuepy import ref
+
+d = {'a': 1, 'b': 2}
+d_ref = ref(d)
+l = [1, 2, 3, 4, 5]
+</script> 
+```
+
 ## 事件处理
 
-v-on和vue.js的基本一致。
+v-on和vue.js的基本一致。  
 不同点：
 * 只支持自定义组件(如 Button等)，暂不支持原生 html 元素（如 span等）
 * 只实现了最基础的功能
+
+支持函数和`async def`的异步函数
+```vue
+<template>
+  <Button button_style="info" @click="async_click()">btn1</Button>
+  <Button button_style="info" @click="click()">btn2</Button>
+</template>
+
+<script lang="py">
+import asyncio
+
+async def async_click():
+    print('async_click: start')
+    await asyncio.sleep(2)
+    print('async_click: end')
+
+def click():
+    print('sync_click: click')
+</script>
+```
+先点击btn1，马上再点击btn2，打印的结果如下：
+```
+async_click: start
+sync_click: click
+async_click: end
+```
 ## 表单输入绑定
 
-v-model和vue.js的基本一致。
+v-model和vue.js的基本一致。  
 不同点：
 * 只支持自定义组件(如 Input、Dropdown等)，暂不支持原生 html 元素（如 input 等）
 * 只实现了最基础的功能
@@ -152,7 +245,7 @@ v-model和vue.js的基本一致。
 当前版本未实现。
 ## 帧听器
 
-watch和vue.js的基本一致。
+watch和vue.js的基本一致。  
 不同点：
 * 只实现了最基础的功能
 * 支持装饰器的使用方式
@@ -168,14 +261,14 @@ x_update()
 
 ## 模板引用
 
-ref和vue.js的基本一致。
+ref和vue.js的基本一致。  
 不同点：
 * ref引用的是元素对应的widget对象
 * ref未实现自动解包
 ## 组件
 
 ### 组件定义
-和vue.js的SFC基本一致，可以定义在`.vue`文件中。
+和vue.js的SFC基本一致，可以定义在`.vue`文件中。  
 不同点：
 * 组件逻辑包裹在`<script lang='py'></script>`中，使用python语言
 ```vue
@@ -223,7 +316,7 @@ app.component('MyComponent', MyComponent)
 
 ### 传递props
 
-defineProps和vue.js基本相同。
+defineProps和vue.js基本相同。  
 不同点：
 * 需要显式导入`from vuepy import defineProps`
 * 需要显示地访问value来获取值`props.title.value`
@@ -276,7 +369,7 @@ def setup(props, ctx, app):
 ```
 ### 监听事件
 
-defineEmits和vue.js基本相同。
+defineEmits和vue.js基本相同。  
 不同点：
 * 需要显式导入`from vuepy import defineEmits`
 * 原生html标签的监听事件暂不支持
@@ -349,7 +442,7 @@ def on_child_submit(a, b, c):
 
 ### 组件 v-model
 
-definModel和vue.js基本相同
+definModel和vue.js基本相同  
 不同点：
 * 需要显式导入`from vuepy import defineModel`
 * 需要显示地访问value来获取值`xxx.value`
@@ -420,7 +513,7 @@ m = ref('world')
 ```
 ### 通过slot分配内容
 
-slot和vue.js基本相同
+slot和vue.js基本相同  
 不同点：
 * 只实现了最基本的功能
 * 不支持动态插槽名
@@ -428,7 +521,7 @@ slot和vue.js基本相同
 
 ### 模版解析注意事项
 
-和vue.js基本相同
+和vue.js基本相同  
 不同点：
 * 不支持闭合标签，必须显式地写出关闭标签`<A></A>`
 * 元素位置限制，在HTML元素中不支持嵌套自定义组件，例如div中不能放置Input等自定义组件，可以使用VBox或HBox替代div作为一种解决方案。
@@ -442,7 +535,7 @@ slot和vue.js基本相同
 ```
 ## 插件
 
-和vue.js基本相同。
+和vue.js基本相同。  
 不同点：
 * 编写插件，继承`VuePlugin`并实现install方法。
 ```python
@@ -460,7 +553,7 @@ class I18nPlugin(VuePlugin):
             for k in key.split('.'):
                 ret = option.get(k, {})
             return ret
-
+            
         # 注入一个全局可用的 s1_translate() 方法
         # s1_ 与vue.js的$类似
         app.config.globalProperties.s1_translate = s1_translate
@@ -924,7 +1017,7 @@ import AppLayout from "../../../src/ipywui/components/AppLayout";
 ...
 </AppLayout>
 ```
-### Component, Box Layout
+### Component, Box Layout 
 ```vue
 <!-- layout_box/vbox-basic.vue -->
 <template>
@@ -962,7 +1055,7 @@ import HBox from "../../../src/ipywui/components/HBox";
 <!-- checkbox/basic.vue -->
 <template>
   <HBox>
-    <Checkbox v-model="checked1.value" label="Option1"></Checkbox>
+    <Checkbox v-model="checked1.value" label="Option1" @change="on_change"></Checkbox>
     <Checkbox v-model="checked2.value" label="Option2"></Checkbox>
     <Checkbox v-model="checked3.value" label="Option3"></Checkbox>
   </HBox>
@@ -972,26 +1065,20 @@ import HBox from "../../../src/ipywui/components/HBox";
     <Checkbox v-model="checked3.value" label="Option3" :disabled="True"></Checkbox>
   </HBox>
 </template>
-
-<script src="./basic_setup.py"></script>
 <script setup>
 import HBox from "../../../src/ipywui/components/HBox";
 import Checkbox from "../../../src/ipywui/components/Checkbox";
 </script>
-```
-```python
-# ./basic_setup.py
-
+<script lang="py">
 from vuepy import ref
 
+checked1 = ref(True)
+checked2 = ref(True)
+checked3 = ref(True)
 
-def setup(props, ctx, vm):
-    checked1 = ref(True)
-    checked2 = ref(True)
-    checked3 = ref(True)
-
-    return locals()
-
+def on_change(event):
+    print(event) # {'new': True, 'old': False, 'owner': Checkbox(...)}
+</script>
 ```
 
 ### Component, ColorPicker
@@ -999,7 +1086,7 @@ def setup(props, ctx, vm):
 <!-- color_picker/basic.vue -->
 <template>
   <ColorPicker label="Pick1"
-               v-model="color1.value"></ColorPicker>
+               v-model="color1.value" @change="on_change"></ColorPicker>
 
   <ColorPicker label="Pick2"
                value="lightblue"></ColorPicker>
@@ -1008,23 +1095,18 @@ def setup(props, ctx, vm):
                v-model="color2.value" concise></ColorPicker>
 </template>
 
-<script src="./basic_setup.py"></script>
 <script setup>
 import ColorPicker from "../../../src/ipywui/components/ColorPicker";
 </script>
-```
-```python
-# ./basic_setup.py
-
+<script lang="py">
 from vuepy import ref
 
+color1 = ref("#8f8fcc")
+color2 = ref("green")
 
-def setup(props, ctx, vm):
-    color1 = ref("#8f8fcc")
-    color2 = ref("green")
-
-    return locals()
-
+def on_change(event):
+    print(event) # {'new': '#3737ae', 'old': '#8f8fcc', 'owner': ColorPicker(...)}
+</script>
 ```
 
 ### Component, Combobox
@@ -1062,7 +1144,7 @@ def setup(props, ctx, vm):
 ```vue
 <!-- date_picker/basic.vue -->
 <template>
-  <DatePicker label="Pick a day" v-model="date.value"></DatePicker>
+  <DatePicker label="Pick a day" v-model="date.value" @change="on_change"></DatePicker>
 </template>
 
 <script src="./basic_setup.py"></script>
@@ -1078,6 +1160,9 @@ from vuepy import ref
 
 def setup(props, ctx, vm):
     date = ref(None)
+
+    def on_change(event):
+        print(event) # {'new': datetime.date(2025, 3, 22), 'old': None, 'owner': DatePicker(...)}
 
     return locals()
 
@@ -1124,6 +1209,7 @@ def setup(props, ctx, vm):
 <template>
   <DateTimePicker label="Pick a time"
                   v-model="datetime.value"
+                  @change="on_change"
   ></DateTimePicker>
 </template>
 
@@ -1140,6 +1226,9 @@ from vuepy import ref
 
 def setup(props, ctx, vm):
     datetime = ref(None)
+
+    def on_change(event):
+        print(event) # {'new': datetime.datetime(2025, 3, 22, 12, 0), 'old': None, 'owner': DateTimePicker(...)}
 
     return locals()
 
@@ -1187,6 +1276,7 @@ def setup(props, ctx, vm):
 <template>
   <TimePicker label="HH::mm"
               v-model="time.value"
+              @change="on_change"
   ></TimePicker>
 
   <TimePicker label="HH::mm::ss"
@@ -1195,22 +1285,18 @@ def setup(props, ctx, vm):
   ></TimePicker>
 </template>
 
-<script src="./basic_setup.py"></script>
 <script setup>
 import TimePicker from "../../../src/ipywui/components/TimePicker";
 </script>
-```
-```python
-# ./basic_setup.py
-
+<script lang="py">
 from vuepy import ref
 
+time = ref(None)
 
-def setup(props, ctx, vm):
-    time = ref(None)
+def on_change(event):
+    print(event) # {'new': datetime.time(12, 0), 'old': None, 'owner': TimePicker(...)}
 
-    return locals()
-
+</script>
 ```
 
 ```vue
@@ -1257,32 +1343,37 @@ def setup(props, ctx, vm):
   <VBox>
     <Input label="input"
            placeholder="Please input"
-           v-model="text.value"
+           v-model="text1.value"
+           @change="on_change"
     ></Input>
 
     <Input label="input"
            placeholder="continuous update"
-           v-model="text.value"
+           v-model="text2.value"
            continuous_update
+           @change="on_change2"
     ></Input>
   </VBox>
 </template>
 
-<script src="./basic_setup.py"></script>
 <script setup>
 import VBox from "../../../src/ipywui/components/VBox";
 import Input from "../../../src/ipywui/components/Input";
 </script>
-```
-```python
-# ./basic_setup.py
-
+<script lang="py">
 from vuepy import ref
 
+text1 = ref("")
+text2 = ref("")
 
-def setup(props, ctx, vm):
-    text = ref("")
-    return locals()
+# called when enter key is pressed or the input is blurred
+def on_change(value):
+    print(value) # {'new': 'hello', 'old': '', 'owner': Text(...)}
+
+# called when the input is changed
+def on_change2(value):
+    print(value) # {'new': 'hello', 'old': '', 'owner': Text(...)}
+</script>
 
 ```
 
@@ -1315,36 +1406,35 @@ import Input from "../../../src/ipywui/components/Input";
 <!-- input_number/basic.vue -->
 <template>
   <VBox>
-    <InputNumber description="int"
+    <InputNumber description="int number"
                  v-model="num.value"
                  :min="1"
-                 :max="10"
+                 :max="100"
+                 @change="on_change"
     ></InputNumber>
 
-    <InputNumber description="float"
+    <InputNumber description="float number"
                  v-model="num_float.value"
                  :min="1"
-                 :max="10"
+                 :max="100"
     ></InputNumber>
   </VBox>
 </template>
 
-<script src="./basic_setup.py"></script>
 <script setup>
 import InputNumber from "../../../src/ipywui/components/InputNumber";
 import VBox from "../../../src/ipywui/components/VBox";
 </script>
-```
-```python
-# ./basic_setup.py
-
+<script lang="py">
 from vuepy import ref
 
+num = ref(1)
+num_float = ref(1.1)
 
-def setup(props, ctx, vm):
-    num = ref(1)
-    num_float = ref(1.1)
-    return locals()
+# called when enter key is pressed or the input is blurred
+def on_change(value):
+    print(value) # {'new': 1, 'old': 1, 'owner': IntText(...)}
+</script>
 
 ```
 
@@ -1368,35 +1458,35 @@ import InputNumber from "../../../src/ipywui/components/InputNumber";
   <RadioButtons description="Options ['pepperoni', 'pineapple', 'anchovies']"
                 v-model="choice1.value"
                 :options="options1"
+                @change="on_change1"
   ></RadioButtons>
 
   <RadioButtons description="Options [('One', 1), ('Two', 2), ('Three', 3)]"
                 v-model="choice2.value"
                 :options="options2"
+                @change="on_change2"
   ></RadioButtons>
 
 </template>
 
-<script src="./basic_setup.py"></script>
 <script setup>
 import RadioButtons from "../../../src/ipywui/components/RadioButtons";
 </script>
-```
-```python
-# ./basic_setup.py
-
+<script lang="py">
 from vuepy import ref
 
+options1 = ['pepperoni', 'pineapple', 'anchovies']
+choice1 = ref(options1[0])
 
-def setup(props, ctx, vm):
-    options1 = ['pepperoni', 'pineapple', 'anchovies']
-    choice1 = ref('pepperoni')
+options2 = [('One', 1), ('Two', 2), ('Three', 3)]
+choice2 = ref(options2[0][1])
 
-    options2 = [('One', 1), ('Two', 2), ('Three', 3)]
-    choice2 = ref(1)
+def on_change1(event):
+    print(event) # {'new': 'pineapple', 'old': 'pepperoni', 'owner': RadioButtons(...)}
 
-    return locals()
-
+def on_change2(event):
+    print(event) # {'new': 2, 'old': 1, 'owner': RadioButtons(...)} 
+</script>
 ```
 
 ### Component, Select
@@ -1406,68 +1496,73 @@ def setup(props, ctx, vm):
   <Select description="OS:"
           :rows="1"
           :options="['Linux', 'Win', 'macOS']"
+          v-model="choice.value"
+          @change="on_change"
   ></Select>
 
   <Select description="OS:"
-          v-model="choice.value"
-          :options="['Linux', 'Win', 'macOS']"
+          :options="radio_items"
+          v-model="choice2.value"
+          @change="on_change2"
   ></Select>
 </template>
 
-<script src="./basic_setup.py"></script>
 <script setup>
 import Select from "../../../src/ipywui/components/Select";
 </script>
-```
-```python
-# ./basic_setup.py
-
+<script lang="py">
 from vuepy import ref
 
+choice = ref('macOS')
 
-def setup(props, ctx, vm):
-    choice = ref('macOS')
+radio_items = [('One', 1), ('Two', 2), ('Three', 3)]
+choice2 = ref(radio_items[0][1])
 
-    choice2 = ref(1)
-    radio_items = [('One', 1), ('Two', 2), ('Three', 3)]
-    return locals()
+def on_change(event):
+    print(event) # {'new': 'Linux', 'old': 'macOS', 'owner': Select(...)}
 
+def on_change2(event):
+    print(event) # {'new': 2, 'old': 1, 'owner': Select(...)}
+
+</script>
 ```
 
 ```vue
 <!-- select/multiple.vue -->
 <template>
   <Select description="OS:"
+          :options="options"
           v-model="choices.value"
           :rows="2"
-          :options="['Linux', 'Win', 'macOS']"
+          @change="on_change"
           multiple
   ></Select>
 
   <Select description="OS:"
+          :options="options"
           v-model="choices2.value"
-          :options="['Linux', 'Win', 'macOS']"
           multiple
+          @change="on_change2"
   ></Select>
 </template>
-
-<script src="./multiple_setup.py"></script>
 <script setup>
 import Select from "../../../src/ipywui/components/Select";
 </script>
-```
-```python
-# ./multiple_setup.py
-
+<script lang="py">
 from vuepy import ref
 
+options = ['Linux', 'Win', 'macOS']
+choices = ref([])
 
-def setup(props, ctx, vm):
-    choices = ref([])
+choices2 = ref(options[:2])
 
-    choices2 = ref(['Linux', 'macOS'])
-    return locals()
+def on_change(event):
+    print(event) # {'new': ('Linux', 'macOS'), 'old': (), 'owner': Select(...)}
 
+def on_change2(event):
+    print(event) # {'new': ('Linux', ), 'old': ('Linux', 'Win'), 'owner': Select(...)}
+
+</script>
 ```
 
 ### Component, SelectColors
@@ -1516,31 +1611,30 @@ import SelectColors from "../../../src/ipywui/components/SelectColors";
 ```vue
 <!-- select_numbers/basic.vue -->
 <template>
-  <SelectNumbers v-model="nums.value"></SelectNumbers>
-  <Input label="float nums" :value="str(nums.value)"></Input>
+  <SelectNumbers v-model="nums.value"
+                 @change="on_change"
+  ></SelectNumbers>
+  <p>float nums: {{ nums.value }}</p>
 
   <SelectNumbers v-model="int_nums.value"
-                 data_type="int"></SelectNumbers>
-  <Input label="int nums" :value="str(int_nums.value)"></Input>
+                 data_type="int"
+  ></SelectNumbers>
+  <p>int nums: {{ int_nums.value }}</p>
 </template>
-
-<script src="./basic_setup.py"></script>
 <script setup>
 import SelectNumbers from "../../../src/ipywui/components/SelectNumbers";
-import Input from "../../../src/ipywui/components/Input";
 </script>
-```
-```python
-# ./basic_setup.py
-
+<script lang="py">
 from vuepy import ref
 
+nums = ref([1, 2, 3])
+int_nums = ref([1, 2, 3])
 
-def setup(props, ctx, vm):
-    nums = ref([1, 2, 3])
-    int_nums = ref([1, 2, 3])
+# called when enter key is pressed or the input is blurred
+def on_change(value):
+    print(value) # {'new': [1, 2], 'old': [1, 2, 3], 'owner': FloatsInput(...)}
 
-    return locals()
+</script>
 
 ```
 
@@ -1560,29 +1654,28 @@ import SelectNumbers from "../../../src/ipywui/components/SelectNumbers";
 ```vue
 <!-- select_tags/basic.vue -->
 <template>
-  <SelectTags v-model="tags.value"></SelectTags>
-  <Input label='basic' :value="str(tags.value)"></Input>
+  <SelectTags v-model="tags.value"
+             @change="on_change"
+  ></SelectTags>
+  <p>basic: {{ tags.value }}</p>
 
   <SelectTags v-model="unique_tags.value" unique></SelectTags>
-  <Input label='unique' :value="str(unique_tags.value)"></Input>
+  <p>unique: {{ unique_tags.value }}</p>
 </template>
 
-<script src="./basic_setup.py"></script>
 <script setup>
 import SelectTags from "../../../src/ipywui/components/SelectTags";
-import Input from "../../../src/ipywui/components/Input";
 </script>
-```
-```python
-# ./basic_setup.py
-
+<script lang="py">
 from vuepy import ref
 
+tags = ref(['tag1', 'tag2', 'tag3'])
+unique_tags = ref(['t1', 't2', 't3'])
 
-def setup(props, ctx, vm):
-    tags = ref(['tag1', 'tag2', 'tag3'])
-    unique_tags = ref(['t1', 't2', 't3'])
-    return locals()
+# called when enter key is pressed or the input is blurred
+def on_change(value):
+    print(value) # {'new': ['tag1', 'tag2'], 'old': ['tag1', 'tag2', 'tag3'], 'owner': TagsInput(...)}
+</script>
 
 ```
 
@@ -1612,6 +1705,7 @@ import SelectTags from "../../../src/ipywui/components/SelectTags";
           v-model="float_val.value"
           :min="0"
           :max="30"
+          @change="on_change"
   ></Slider>
   <Slider description="Selection"
           v-model="selection_val.value"
@@ -1620,26 +1714,22 @@ import SelectTags from "../../../src/ipywui/components/SelectTags";
   <Slider description="Disabled" :value="1" disabled></Slider>
 </template>
 
-<script src="./basic_setup.py"></script>
 <script setup>
 import Slider from "../../../src/ipywui/components/Slider";
 </script>
-```
-```python
-# ./basic_setup.py
-
+<script lang="py">
 from vuepy import ref
 
+default = ref(0)
+init_val = ref(5)
+float_val = ref(10.1)
+selection_val = ref('a')
+selection_options = ['a', 'b', 'c', 'd']
 
-def setup(props, ctx, vm):
-    default = ref(0)
-    init_val = ref(5)
-    float_val = ref(10.1)
-    selection_val = ref('a')
-    selection_options = ['a', 'b', 'c', 'd']
+def on_change(event):
+    print(event) # {'new': 10.1, 'old': 10.1, 'owner': Slider(...)}
 
-    return locals()
-
+</script>
 ```
 
 ```vue
@@ -1649,11 +1739,12 @@ def setup(props, ctx, vm):
           v-model="int_range.value"
           :max="10"
           range
+          @change="on_change"
   ></Slider>
   <Slider description="Float range"
           v-model="float_range.value"
-          :min="0"
-          :max="10"
+          :min="0.0"
+          :max="10.0"
           range
   ></Slider>
   <Slider description="Selection range"
@@ -1664,26 +1755,21 @@ def setup(props, ctx, vm):
   ></Slider>
 </template>
 
-<script src="./range_selection_setup.py"></script>
 <script setup>
 import Slider from "../../../src/ipywui/components/Slider";
 </script>
-
-```
-```python
-# ./range_selection_setup.py
-
+<script lang="py">
 from vuepy import ref
 
+int_range = ref([1, 3])
+float_range = ref([1.1, 3.1])
+selection_range = ref(['a', 'c'])
+selection_options = ['a', 'b', 'c', 'd']
 
-def setup(props, ctx, vm):
-    int_range = ref([1, 3])
-    float_range = ref([1.1, 3.1])
-    selection_range = ref(['a', 'c'])
-    selection_options = ['a', 'b', 'c', 'd']
+def on_change(event):
+    print(event) # {'new': (1, 3), 'old': (1, 5), 'owner': Slider(...)}
 
-    return locals()
-
+</script>
 ```
 
 ```vue
@@ -1692,7 +1778,7 @@ def setup(props, ctx, vm):
   <HBox>
     <Slider description="Float"
             :value="3"
-            :min="0"
+            :min="0.0"
             :max="30"
             vertical
     ></Slider>
@@ -1757,7 +1843,7 @@ def setup(props, ctx, vm):
 <!-- toggle_button/basic.vue -->
 <template>
   <HBox>
-    <ToggleButton label="on" :value="True"></ToggleButton>
+    <ToggleButton label="on" :value="True" @change="on_change"></ToggleButton>
     <ToggleButton label="off" :value="False"></ToggleButton>
   </HBox>
   <HBox>
@@ -1778,22 +1864,19 @@ def setup(props, ctx, vm):
   </HBox>
 </template>
 
-<script src="./basic_setup.py"></script>
 <script setup>
 import ToggleButton from "../../../src/ipywui/components/ToggleButton";
 import HBox from "../../../src/ipywui/components/HBox";
 </script>
-```
-```python
-# ./basic_setup.py
-
+<script lang="py">
 from vuepy import ref
 
+val1 = ref(True)
 
-def setup(props, ctx, vm):
-    val1 = ref(True)
-    return locals()
+def on_change(event):
+    print(event) # {'new': False, 'old': True, 'owner': ToggleButton(...)}
 
+</script>
 ```
 
 ### Component, ToggleButtons
@@ -1805,11 +1888,13 @@ def setup(props, ctx, vm):
   <ToggleButtons description="Options ['pepperoni', 'pineapple', 'anchovies']"
                  v-model="choice1.value"
                  :options="options1"
+                 @change="on_change"
   ></ToggleButtons>
 
   <ToggleButtons description="Options [('One', 1), ('Two', 2), ('Three', 3)]"
                  v-model="choice2.value"
                  :options="options2"
+                 @change="on_change"
   ></ToggleButtons>
 
   <!--  style-->
@@ -1838,26 +1923,25 @@ def setup(props, ctx, vm):
 
 </template>
 
-<script src="./basic_setup.py"></script>
 <script setup>
 import ToggleButtons from "../../../src/ipywui/components/ToggleButtons";
 </script>
-```
-```python
-# ./basic_setup.py
-
+<script lang="py">
 from vuepy import ref
 
+options1 = ['pepperoni', 'pineapple', 'anchovies']
+choice1 = ref(options1[0])
 
-def setup(props, ctx, vm):
-    options1 = ['pepperoni', 'pineapple', 'anchovies']
-    choice1 = ref('pepperoni')
+options2 = [('One', 1), ('Two', 2), ('Three', 3)]
+choice2 = ref(options2[0][1])
 
-    options2 = [('One', 1), ('Two', 2), ('Three', 3)]
-    choice2 = ref(1)
+def on_change(event):
+    print(event) # {'new': 'pepperoni', 'old': 'pineapple', 'owner': ToggleButtons(...)}
 
-    return locals()
+def on_change2(event):
+    print(event) # {'new': 1, 'old': 0, 'owner': ToggleButtons(...)}
 
+</script>
 ```
 
 ### Component, File Upload
@@ -1911,7 +1995,7 @@ def setup(props, ctx, vm):
 ```vue
 <!-- accordion/basic.vue -->
 <template>
-  <Accordion v-model="selected.value">
+  <Accordion v-model="selected.value" @change="on_change">
     <AccordionItem title="Item0">
       <Slider description="slider"></Slider>
     </AccordionItem>
@@ -1926,8 +2010,6 @@ def setup(props, ctx, vm):
 
   </Accordion>
 </template>
-
-<script src="./basic_setup.py"></script>
 <script setup>
 import Accordion from "../../../src/ipywui/components/Accordion";
 import AccordionItem from "../../../src/ipywui/components/AccordionItem";
@@ -1935,18 +2017,14 @@ import Slider from "../../../src/ipywui/components/Slider";
 import Input from "../../../src/ipywui/components/Input";
 import Button from "../../../src/ipywui/components/Button";
 </script>
-```
-```python
-# ./basic_setup.py
-
+<script lang="py">
 from vuepy import ref
 
+selected = ref(1)
 
-def setup(props, ctx, vm):
-    selected = ref(1)
-
-    return locals()
-
+def on_change(event):
+    print(event) # {'new': 1, 'old': 0, 'owner': Accordion(...)}
+</script>
 ```
 
 ### Component, Display
@@ -2352,7 +2430,7 @@ from vuepy import ref
 md_src = r"""
 ### H3
 
-This is a **bold** text and this is an *italic* text.
+This is a **bold** text and this is an *italic* text.   
 link to [vuepy](https://github.com/vuepy)
 
 ### Code
@@ -2368,13 +2446,13 @@ link to [vuepy](https://github.com/vuepy)
 
 ### LaTeX
 $$
-a > b,b > c \Rightarrow a > c
+a > b,b > c \Rightarrow a > c 
 $$
 
 $$
-\begin{array}{c}
-  \forall A \in S \\
-  P \left( A \right) \ge 0
+\begin{array}{c} 
+  \forall A \in S \\ 
+  P \left( A \right) \ge 0 
 \end{array}
 $$
 """
@@ -2549,11 +2627,13 @@ v-model 或初始值必须是 options 中的值或者为`None`
     <Dropdown description="dropdown1"
               v-model="choice1.value"
               :options="dropdown_items1"
+              @change="on_change"
     ></Dropdown>
 
     <Dropdown description="dropdown2"
               v-model="choice2.value"
               :options="dropdown_items2"
+              @change="on_change2"
     ></Dropdown>
   </VBox>
 </template>
@@ -2571,11 +2651,18 @@ from vuepy import ref
 
 
 def setup(props, ctx, vm):
-    choice1 = ref('1')
-    dropdown_items1 = ['1', '2', '3']
+    dropdown_items1 = ['A', 'B', 'C']
+    choice1 = ref(dropdown_items1[0])
 
-    choice2 = ref(1)
+    # list of (name, val)
     dropdown_items2 = [('One', 1), ('Two', 2), ('Three', 3)]
+    choice2 = ref(dropdown_items2[0][1])
+
+    def on_change(event):
+        print(event) # {'new': 'A', 'old': 'B', 'owner': Dropdown(...)}
+
+    def on_change2(event):
+        print(event) # {'new': 1, 'old': 2, 'owner': Dropdown(...)}
 
     return locals()
 
@@ -2585,7 +2672,7 @@ def setup(props, ctx, vm):
 ```vue
 <!-- tabs/basic.vue -->
 <template>
-  <Tabs v-model="selected.value">
+  <Tabs v-model="selected.value" @change="on_change">
     <TabPane title="Tab1">
       <Slider description="slider"></Slider>
     </TabPane>
@@ -2601,7 +2688,6 @@ def setup(props, ctx, vm):
   </Tabs>
 </template>
 
-<script src="./basic_setup.py"></script>
 <script setup>
 import Tabs from "../../../src/ipywui/components/Tabs";
 import TabPane from "../../../src/ipywui/components/TabPane";
@@ -2609,18 +2695,16 @@ import Slider from "../../../src/ipywui/components/Slider";
 import Input from "../../../src/ipywui/components/Input";
 import Button from "../../../src/ipywui/components/Button";
 </script>
-```
-```python
-# ./basic_setup.py
-
+<script lang="py">
 from vuepy import ref
 
+selected = ref(1)
 
-def setup(props, ctx, vm):
-    selected = ref(1)
+def on_change(event):
+    # get selected index
+    print(event) # {'new': 0, 'old': 1, 'owner': Tabs(...)}
 
-    return locals()
-
+</script>
 ```
 
 ### Component, Stack
@@ -2633,7 +2717,7 @@ def setup(props, ctx, vm):
     <Button label="s3" style="width: auto" @click="to('s3')"></Button>
   </HBox>
 
-  <Stack v-model="selected.value">
+  <Stack v-model="selected.value" @change="on_change">
     <StackItem label="s1">
       <Slider description="s1 slider"></Slider>
     </StackItem>
@@ -2649,7 +2733,6 @@ def setup(props, ctx, vm):
   </Stack>
 </template>
 
-<script src="./basic_setup.py"></script>
 <script setup>
 import Stack from "../../../src/ipywui/components/Stack";
 import StackItem from "../../../src/ipywui/components/StackItem";
@@ -2658,21 +2741,19 @@ import Input from "../../../src/ipywui/components/Input";
 import Button from "../../../src/ipywui/components/Button";
 import HBox from "../../../src/ipywui/components/HBox";
 </script>
-```
-```python
-# ./basic_setup.py
-
+<script lang="py">
 from vuepy import ref
 
+selected = ref('s1')
 
-def setup(props, ctx, vm):
-    selected = ref('s1')
+def to(label):
+    selected.value = label
 
-    def to(label):
-        selected.value = label
+def on_change(event):
+    # get selected index
+    print(event) # {'new': 1, 'old': 0, 'owner': Stack(...)}
 
-    return locals()
-
+</script>
 ```
 
 ### Component, Dialog
@@ -2779,7 +2860,7 @@ def setup(props, ctx, vm):
 
 ```
 
-### Component, Message
+### Component, Message 
 ```vue
 <!-- message/basic.vue -->
 <template>
@@ -2915,3 +2996,8 @@ def setup(props, ctx, vm):
     return locals()
 
 ```
+
+
+注意：
+1. vuepy中v-for的写法。
+2. html标签内不能包含自定义组件，如：`<div><Button></Button></div>`是错误的，替代方案是`<VBox><Button></Button></VBox>
