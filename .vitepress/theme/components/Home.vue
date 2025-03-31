@@ -152,8 +152,14 @@ onMounted(async () => {
       <h2>LLMs 支持</h2>
       <p>
         提供 <a href='https://www.vuepy.org/llms-ctx.txt' target='_blank'>llms-ctx.txt</a>,
-        <a href='https://www.vuepy.org/llms.txt' target='_blank'>lllms.txt</a> 支持通过 AI 一键生成 UI 界面。
-        <a :href="withBase('/guide/build-vuepy-withs-llms.html')">了解更多</a>
+        <a href='https://www.vuepy.org/llms.txt' target='_blank'>lllms.txt</a> 支持通过 AI 一键生成 UI 界面。<br>
+        <a :href="withBase('/guide/build-vuepy-withs-llms.html')">
+          <svg class="icon" style="display: inline;"
+               xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24">
+            <path d="M13.025 1l-2.847 2.828 6.176 6.176h-16.354v3.992h16.354l-6.176 6.176 2.847 2.828 10.975-11z"/>
+          </svg>
+          了解更多
+        </a>
       </p>
     </div>
   </section>
