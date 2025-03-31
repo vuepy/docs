@@ -153,7 +153,7 @@ onMounted(async () => {
       <p>
         提供 <a href='https://www.vuepy.org/llms-ctx.txt' target='_blank'>llms-ctx.txt</a>,
         <a href='https://www.vuepy.org/llms.txt' target='_blank'>lllms.txt</a> 支持通过 AI 一键生成 UI 界面。
-        <a href='http://localhost:5173/guide/build-vuepy-withs-llms.html'>了解更多</a>
+        <a :href="withBase('/guide/build-vuepy-withs-llms.html')">了解更多</a>
       </p>
     </div>
   </section>
