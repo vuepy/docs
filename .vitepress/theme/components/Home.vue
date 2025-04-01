@@ -16,6 +16,15 @@ onMounted(async () => {
 
 <template>
   <section id="hero">
+    <div class="tangram-bg">
+      <div class="piece piece-1"></div>
+      <div class="piece piece-2"></div>
+      <div class="piece piece-3"></div>
+      <div class="piece piece-4"></div>
+      <div class="piece piece-5"></div>
+      <div class="piece piece-6"></div>
+      <div class="piece piece-7"></div>
+    </div>
     <h1 class="tagline">
       <span class="accent">响应式</span>
       <br />Python 框架
@@ -185,7 +194,109 @@ section {
 #hero {
   padding: 96px 32px;
   text-align: center;
+  position: relative;
+  overflow: hidden;
 }
+
+.tangram-bg {
+  /* position: absolute;
+  top: 0;
+  left: 0; */
+  width: 100%;
+  height: 100%;
+  /* z-index: -1; */
+  opacity: 0.10;
+}
+
+.piece {
+  position: absolute;
+  transition: all 0.5s ease;
+  border-radius: 8px;
+}
+
+/* 大直角三角形 1 */
+.piece-1 {
+  width: 200px;
+  height: 200px;
+  background: var(--vt-c-green-light);
+  clip-path: polygon(0 0, 100% 0, 0 100%);
+  transform: rotate(-180deg);
+  top: -50px;
+  left: 10%;
+}
+
+/* 大直角三角形 2 */
+.piece-2 {
+  width: 200px;
+  height: 200px;
+  background: var(--vt-c-green-light);
+  clip-path: polygon(0 0, 100% 0, 0 100%);
+  transform: rotate(135deg);
+  top: 20%;
+  right: 15%;
+}
+
+/* 中直角三角形 */
+.piece-3 {
+  width: 140px;
+  height: 140px;
+  background: var(--vt-c-indigo-light);
+  clip-path: polygon(0 0, 100% 0, 0 100%);
+  transform: rotate(-15deg);
+  bottom: 10%;
+  left: 20%;
+}
+
+/* 小直角三角形 1 */
+.piece-4 {
+  width: 100px;
+  height: 100px;
+  background: var(--vt-c-green-darker);
+  clip-path: polygon(0 0, 100% 0, 0 100%);
+  transform: rotate(60deg);
+  top: 40%;
+  left: 5%;
+}
+
+/* 小直角三角形 2 */
+.piece-5 {
+  width: 100px;
+  height: 100px;
+  background: var(--vt-c-indigo-light);
+  clip-path: polygon(0 0, 100% 0, 0 100%);
+  transform: rotate(-30deg);
+  bottom: -30px;
+  right: 25%;
+}
+
+/* 正方形 */
+.piece-6 {
+  width: 100px;
+  height: 100px;
+  background: var(--vt-c-green-light);
+  transform: rotate(15deg);
+  top: 30%;
+  left: 40%;
+}
+
+/* 平行四边形 */
+.piece-7 {
+  width: 140px;
+  height: 100px;
+  background: var(--vt-c-indigo-light);
+  clip-path: polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%);
+  transform: rotate(-45deg);
+  bottom: 20%;
+  right: 10%;
+}
+
+.dark .piece-1 { background: var(--vt-c-indigo); }
+.dark .piece-2 { background: var(--vt-c-indigo); }
+.dark .piece-3 { background: var(--vt-c-indigo); }
+.dark .piece-4 { background: var(--vt-c-green-light); }
+.dark .piece-5 { background: var(--vt-c-indigo-light); }
+.dark .piece-6 { background: var(--vt-c-indigo); }
+.dark .piece-7 { background: var(--vt-c-green-light); }
 
 .tagline {
   font-size: 76px;
@@ -376,6 +487,13 @@ html:not(.dark) .accent,
   .tagline {
     font-size: 48px;
     letter-spacing: -0.5px;
+  }
+  .tangram-bg {
+    opacity: 0.07;
+  }
+  
+  .piece {
+    transform: scale(0.7);
   }
 }
 
