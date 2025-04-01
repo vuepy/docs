@@ -96,6 +96,12 @@ const onSourceVisibleKeydown = (e) => {
   --el-text-color-secondary: #909399;
 }
 
+.dark {
+  .example {
+    --border-color: #363636;
+  }
+} 
+
 .close {
   width: 16px;
   height: 16px;
@@ -158,7 +164,8 @@ const onSourceVisibleKeydown = (e) => {
     border-top: 1px solid var(--border-color);
     height: 44px;
     box-sizing: border-box;
-    background-color: var(--bg-color, #fff);
+    // background-color: var(--bg-color, #fff);
+    background-color: var(--vt-c-bg);
     border-bottom-left-radius: 4px;
     border-bottom-right-radius: 4px;
     margin-top: -1px;
@@ -183,6 +190,6 @@ const onSourceVisibleKeydown = (e) => {
 .example-showcase {
   padding: 1.5rem;
   margin: 0.5px;
-  background-color: var(--bg-color);
+  background-color: var(--vt-c-bg);
 }
 </style>

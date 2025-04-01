@@ -39,3 +39,28 @@
   --vt-c-green-darker: #155f3e !important;
   --vt-c-green-darker: #0968DB !important;
 }
+
+
+.dark {
+  .jupyter-widgets {
+    color: var(--vt-c-text-1);
+  }
+  .widget-inline-hbox .widget-label, .jupyter-widget-inline-hbox .jupyter-widget-label {
+    color: var(--vt-c-text-1);
+  }
+  .widget-label-basic, .jupyter-widget-label-basic {
+    color: var(--vt-c-text-1);
+  }
+  .widget-label, .jupyter-widget-label {
+    color: var(--vt-c-text-1);
+  }
+  .widget-readout, .jupyter-widget-readout {
+    color: var(--vt-c-text-1);
+  }
+  .widget-inline-vbox .widget-label, .jupyter-widget-inline-vbox .jupyter-widget-label {
+    color: var(--vt-c-text-1);
+  }
+  .wui-modal-header {
+    color: rgba(0, 0, 0, 0.87);
+  }
+}

@@ -1,4 +1,10 @@
 
+.dark {
+  .vp-table {
+    --bg-color: none;
+    --border-color: #363636;
+  }
+}
 // .doc-content >
 div .vp-table {
   --bg-color: white;

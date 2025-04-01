@@ -718,7 +718,7 @@ const i18n: ThemeConfig['i18n'] = {
 
 export default defineConfigWithTheme<ThemeConfig>({
   extends: baseConfig,
-
+  appearance: 'dark',
   lang: 'zh-CN',
   title: 'Vue.py',
   base: base,
