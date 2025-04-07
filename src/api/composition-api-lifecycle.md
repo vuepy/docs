@@ -40,7 +40,7 @@
   <script lang='py'>
   from vuepy import ref, onMounted
 
-  const el = ref()
+  const el = ref(None)
 
   @onMounted
   def handle():

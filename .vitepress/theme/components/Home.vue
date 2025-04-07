@@ -139,7 +139,7 @@ onMounted(async () => {
     <div class="vt-box">
       <h2>内置 UI 组件库</h2>
       <p>
-        IPywUI 包含 37+常用 UI 组件。Display 组件可方便集成bqplot、ipyleaflet 等第三方组件。
+        IPywUI 包含 37+常用 UI 组件。Display 组件可方便集成 Plotly、ipyleaflet、bqplot 等第三方组件。
       </p>
     </div>
 
@@ -289,6 +289,14 @@ section {
   bottom: 20%;
   right: 10%;
 }
+
+/*.piece-1 { background: var(--vt-c-green-light); }*/
+/*.piece-2 { background: var(--vt-c-green-light); }*/
+/*.piece-3 { background: var(--vt-c-indigo-light); }*/
+/*.piece-4 { background: var(--vt-c-green-darker); }*/
+/*.piece-5 { background: var(--vt-c-indigo-light); }*/
+/*.piece-6 { background: var(--vt-c-green-light); }*/
+/*.piece-7 { background: var(--vt-c-indigo-light); }*/
 
 .dark .piece-1 { background: var(--vt-c-indigo); }
 .dark .piece-2 { background: var(--vt-c-indigo); }
@@ -491,7 +499,7 @@ html:not(.dark) .accent,
   .tangram-bg {
     opacity: 0.07;
   }
-  
+
   .piece {
     transform: scale(0.7);
   }

@@ -312,7 +312,7 @@ model = defineModel()
 model.value = 1
 
 # 父组件
-myRef = ref()
+myRef = ref(None)
 ```
 
 ```html
