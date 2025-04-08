@@ -553,11 +553,7 @@ const BlogPost = {
 <blog-post post-title="hello!" @update-post="onUpdatePost"></blog-post>
 ```
 
-### 闭合标签 <sup class="vt-badge dev-only" data-text="Reserved" /> {#self-closing-tags}
-
-:::warning
-请注意，这是一个预留的语法，当前版本未实现。
-:::
+### 闭合标签 {#self-closing-tags}
 
 我们在上面的例子中已经使用过了闭合标签 (self-closing tag)：
 
@@ -590,7 +586,7 @@ const BlogPost = {
 
 ### 元素位置限制 {#element-placement-restrictions}
 
-当前在 HTML 元素中不支持嵌套自定义组件，例如 `div` 中不能放置 `Input` 等自定义组件，可以使用 `VBox` 或 `HBox` 替代 div 作为一种解决方案。
+当前原生 HTML 元素中不支持嵌套自定义组件，例如 `div` 中不能放置 `Input` 等自定义组件，可以使用 `VBox` 或 `HBox` 替代 div 作为一种解决方案。
 
 ```vue-html
 <!-- 错误 -->
