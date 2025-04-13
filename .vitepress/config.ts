@@ -40,9 +40,12 @@ const nav: ThemeConfig['nav'] = [
     link: '/api/'
   },
   {
-    text: 'UI 组件',
-    activeMatch: `^/ipywui/`,
-    link: '/ipywui/overview'
+    text: '组件库',
+    activeMatch: `^/(ipywui|vleaflet)/`,
+    items: [
+      { text: 'IPywUI', link: '/ipywui/overview' },
+      { text: 'vleaflet', link: '/vleaflet/overview' },
+    ]
   },
   // {
   //   text: '演练场',
@@ -74,6 +77,7 @@ const nav: ThemeConfig['nav'] = [
         text: '官方库',
         items: [
           { text: 'IPywUI', link: '/ipywui/overview' },
+          { text: 'vleaflet', link: '/vleaflet/overview' },
           // { text: 'Vue Router', link: 'https://router.vuejs.org/zh/' },
           // { text: 'Pinia', link: 'https://pinia.vuejs.org/zh/' },
           // { text: '工具链指南', link: '/guide/scaling-up/tooling.html' }
@@ -265,6 +269,7 @@ export const sidebar: ThemeConfig['sidebar'] = {
       text: '组件库',
       items: [
         { text: 'ipywui 组件库', link: '/ipywui/overview' },
+        { text: 'vleaflet 组件库', link: '/vleaflet/overview' },
         { text: '集成 anywidget', link: '/guide/Integration-with-anywidget' },
         // { text: 'Transition', link: '/guide/built-ins/transition' },
         // {
@@ -478,7 +483,7 @@ export const sidebar: ThemeConfig['sidebar'] = {
   ],
   '/ipywui/': [
     {
-      text: 'Overview 组件总揽',
+      text: 'Overview 组件总览',
       items: [
         {text: 'IPywUI UI 组件', link: '/ipywui/overview'},
       ]
@@ -550,6 +555,69 @@ export const sidebar: ThemeConfig['sidebar'] = {
         {text: '集成第三方小组件', link: '/ipywui/display'},
       ]
     },
+  ],
+  '/vleaflet/': [
+    {
+      text: 'Overview 组件总览',
+      items: [
+        {text: 'VLeaflet 组件总览', link: '/vleaflet/overview'},
+      ]
+    },
+    {
+      text: 'Basic 基础组件',
+      items: [
+        {text: '🔥 快速上手', link: '/vleaflet/quick-start'},
+        {text: 'Map 地图', link: '/vleaflet/map'},
+        {text: 'Basemaps 底图', link: '/vleaflet/basemaps'},
+      ]
+    },
+    {
+      text: 'Layers 图层组件',
+      items: [
+        {text: 'TileLayer 瓦片图层', link: '/vleaflet/layers/tile-layer'},
+        {text: 'LocalTileLayer 本地瓦片图层', link: '/vleaflet/layers/local-tile-layer'},
+        {text: 'MagnifyingGlass 放大镜', link: '/vleaflet/layers/magnifying-glass'},
+        {text: 'Marker 标记', link: '/vleaflet/layers/marker'},
+        {text: 'MarkerCluster 标记聚合', link: '/vleaflet/layers/marker-cluster'},
+        {text: 'Icon 图标', link: '/vleaflet/layers/icon'},
+        {text: 'DivIcon 自定义图标', link: '/vleaflet/layers/div-icon'},
+        {text: 'AwesomeIcon 字体图标', link: '/vleaflet/layers/awesome-icon'},
+        {text: 'Popup 弹出框', link: '/vleaflet/layers/popup'},
+        {text: 'WMS Layer WMS图层', link: '/vleaflet/layers/wms-layer'},
+        {text: 'ImageOverly 图片覆盖层', link: '/vleaflet/layers/image-overly'},
+        {text: 'ImageService 图片服务', link: '/vleaflet/layers/image-service'},
+        {text: 'AntPath 蚂蚁线', link: '/vleaflet/layers/ant-path'},
+        {text: 'Polyline 折线', link: '/vleaflet/layers/polyline'},
+        {text: 'Polygon 多边形', link: '/vleaflet/layers/polygon'},
+        {text: 'Rectangle 矩形', link: '/vleaflet/layers/rectangle'},
+        {text: 'Circle 圆形', link: '/vleaflet/layers/circle'},
+        {text: 'CircleMarker 圆形标记', link: '/vleaflet/layers/circle-marker'},
+        {text: 'Heatmap 热力图', link: '/vleaflet/layers/heatmap'},
+        {text: 'Velocity 速度场图层', link: '/vleaflet/layers/velocity'},
+        {text: 'LayerGroup 图层组', link: '/vleaflet/layers/layer-group'},
+        {text: 'GeoJson GeoJSON数据', link: '/vleaflet/layers/geo-json'},
+        {text: 'GeoData 地理数据', link: '/vleaflet/layers/geo-data'},
+        {text: 'Choropleth 等值区域图', link: '/vleaflet/layers/choropleth'},
+        {text: 'VectorTileLayer 矢量瓦片图层', link: '/vleaflet/layers/vector-tile-layer'},
+        {text: 'WKTLayer WKT图层', link: '/vleaflet/layers/wkt-layer'},
+        {text: 'LayerLikeObjects 图层对象', link: '/vleaflet/layers/layer-like-objects'},
+      ]
+    },
+    {
+      text: 'Controls 控件组件',
+      items: [
+        {text: 'Zoom 缩放控件', link: '/vleaflet/controls/zoom'},
+        {text: 'Scale 比例尺', link: '/vleaflet/controls/scale'},
+        {text: 'Layers 图层控制', link: '/vleaflet/controls/layers'},
+        {text: 'Fullscreen 全屏', link: '/vleaflet/controls/fullscreen'},
+        {text: 'Measure 测量工具', link: '/vleaflet/controls/measure'},
+        {text: 'SplitMap 分屏地图', link: '/vleaflet/controls/split-map'},
+        {text: 'GeomanDraw 绘图工具', link: '/vleaflet/controls/geoman-draw'},
+        {text: 'Widget 小部件', link: '/vleaflet/controls/widget'},
+        {text: 'Legend 图例', link: '/vleaflet/controls/legend'},
+        {text: 'Search 搜索控件', link: '/vleaflet/controls/search'},
+      ]
+    }
   ],
   '/examples/': [
     {
