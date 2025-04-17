@@ -2,7 +2,8 @@
   <div id="api-index">
 <!--    <div class="header">-->
     <div>
-      <h1><img class="logo" src="/images/vleaflet-logo.svg" alt="vleaflet-logo" width="50">
+      <h1>
+        <img class="logo" src="/images/vleaflet-logo.svg" alt="vleaflet-logo" style='margin-bottom: 10px'>
         vleaflet 组件总览
       </h1>
       <p style='margin: 2.5em 0 1em 0;'>vleaflet 是基于 Vue.py 和 <a href='https://ipyleaflet.readthedocs.io/en/latest/index.html' target='_blank'>ipyleaflet </a> 开发的响应式地图组件库，在 Jupyter 中实现交互式地图。vleaflet 中的每个对象（包括地图、TileLayers、图层、控件等）都是响应式的：您可以从 Python 或浏览器动态更新属性。</p>
