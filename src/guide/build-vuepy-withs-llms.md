@@ -7,8 +7,13 @@
 ## 准备文档 {#preparing-the-documentation}
 
 在开始之前，请收集必要的文档以帮助 DeepSeek 了解 Vuepy：
-1. 访问 https://www.vuepy.org/llms-ctx.txt 并复制完整文档文本
-2. 将这些文档粘贴到您与 DeepSeek 的对话中
+1. 访问 https://www.vuepy.org/llms-ctx.txt 下载 `llms-ctx.txt` 文件
+2. 将这些文档粘贴到您与 DeepSeek 的对话中 或 直接上传该文件
+
+> 如需创建 `vleaflet` 应用需要额外上传 https://www.vuepy.org/llms-ctx-vleaflet.txt 文件
+
+![](./_images/deepseek-upload.png)
+
 
 ## 描述您的需求 {#describign-your-requirements}
 
@@ -25,6 +30,10 @@
 - 界面采用双栏布局：左侧是参数面板。右侧是历史记录，底部是消息发送和清楚
 - 实现流式响应
 ```
+
+自动生成代码如下：
+
+![](./_images/deepseek-response.png)
 
 ## 使用 DeepSeek 协同工作 {#working-with-deepseek}
 

@@ -86,10 +86,10 @@ pip install vuepy-core
   :::
 
 可以在 JupyterLab 中通过运行`app.ipynb`加载应用，也可以在已有的 `notebook` 中通过以下方法运行应用：
-* `import_sfc` 函数从`文件`加载组件，再使用 `create_app` 创建应用并运行。
-* `%vuepy_import` 魔法方法从`文件`加载组件，再使用 `create_app` 创建应用并运行。
-* `%vuepy_run` 直接从`文件`创建应用并运行。
-* `%%vuepy_run` 从`源码字符串`创建应用并运行。
+* [`import_sfc`](/api/sfc-import-sfc) 函数从`文件`加载组件，再使用 `create_app` 创建应用并运行。
+* [`%vuepy_import`](/api/ipython-magic.html#vuepy_import) 魔法方法从`文件`加载组件，再使用 `create_app` 创建应用并运行。
+* [`%vuepy_run`](/api/ipython-magic.html#vuepy_run) 直接从`文件`创建应用并运行。
+* [`%%vuepy_run`](/api/ipython-magic.html#vuepy_run_cell) 从`源码字符串`创建应用并运行。
 
 <VTCodeGroup>
   <VTCodeGroupTab label="import_sfc">
@@ -168,10 +168,10 @@ from vuepy.utils import magic
     <p class="next-steps-caption">该指南会带你深入了解框架所有方面的细节。</p>
   </a>
 
-[//]: # (  <a class="vt-box" href="/tutorial/">)
-[//]: # (    <p class="next-steps-link">尝试互动教程</p>)
-[//]: # (    <p class="next-steps-caption">适合喜欢边动手边学的读者。</p>)
-[//]: # (  </a>)
+  <a class="vt-box" :href="withBase('/guide/build-vuepy-withs-llms')">
+    <p class="next-steps-link">LLMs 生成式 UI</p>
+    <p class="next-steps-caption">介绍如何使用 LLMs 构建 Vuepy 应用。</p>
+  </a>
 
 [//]: # (  <a class="vt-box" href="/examples/">)
 [//]: # (    <p class="next-steps-link">查看示例</p>)
