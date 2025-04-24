@@ -26,7 +26,9 @@ import { withBase } from 'vitepress'
 pip install vuepy-core
 ```
 
-## 创建一个 Vue.py 应用 {#creating-a-vue-application}
+## 创建一个 Vue.py 应用（可选） {#creating-a-vue-application}
+
+该步骤为可选步骤，也可以直接创建 vue 文件并运行（如：`%%vuepy_run`方式，[见下文](#run-vue-application)）。
 
 :::tip 前提条件
 
