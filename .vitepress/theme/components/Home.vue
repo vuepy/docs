@@ -139,7 +139,7 @@ onMounted(async () => {
     <div class="vt-box">
       <h2>内置 UI 组件库</h2>
       <p>
-        IPywUI 包含 37+常用 UI 组件。Display 组件可方便集成 Plotly、ipyleaflet、bqplot 等第三方组件。
+        IPywUI 包含 37+常用 UI 组件。Display 组件可方便集成 Plotly、Bokeh、Panel、bqplot 等第三方组件。
       </p>
     </div>
 

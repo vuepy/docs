@@ -77,7 +77,7 @@ def get(cls, app_name: str) -> Type[VueComponent] | SFCType:
 
 - **示例 1**
 
-```jupyter
+```python
 # 获取已注册的组件
 from vuepy import VuepyAppStore
 
