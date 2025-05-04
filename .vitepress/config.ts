@@ -323,6 +323,10 @@ export const sidebar: ThemeConfig['sidebar'] = {
         //   link: '/guide/best-practices/accessibility'
         // },
         {
+          text: '使用 LLMs 辅助开发 vleaflet',
+          link: '/guide/best-practices/dev-vleaflet-with-llms'
+        },
+        {
           text: '安全',
           link: '/guide/best-practices/security'
         }
