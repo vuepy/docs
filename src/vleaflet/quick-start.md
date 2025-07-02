@@ -30,7 +30,7 @@ pip install 'vuepy-core[vleaflet]'
 <VTCodeGroup>
   <VTCodeGroupTab label="use 插件方式">
 
-  ```python{2,7}
+  ```python{2,6}
 from vuepy import create_app, import_sfc
 from vleaflet import leaflet
 
