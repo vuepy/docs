@@ -34,6 +34,10 @@ pip install 'vuepy-core[panel]'
 - 已安装 JupyterLab
   :::
 
+:::tip
+使用`panel-vuepy`时，强烈推荐`panel`作为`backend`。
+:::
+
 <VTCodeGroup>
   <VTCodeGroupTab label="%%vuepy_run">
 
@@ -42,7 +46,7 @@ from vuepy.utils import magic
 from panel_vuepy import vpanel
 
 # -- cell --
-%%vuepy_run --plugins vpanel
+%%vuepy_run --plugins vpanel --backend=panel
 <template>
   <PnButton name='click'/>
 </template>
@@ -55,7 +59,7 @@ from panel_vuepy import vpanel
 from vuepy.utils import magic
 from panel_vuepy import vpanel
 
-%vuepy_run app.vue --plugins vpanel
+%vuepy_run app.vue --plugins vpanel --backend=panel
   ```
   </VTCodeGroupTab>
 
@@ -72,7 +76,7 @@ App = import_sfc("""
 """, raw_content=True)
 # or
 # App = import_sfc('App.vue')  # 根据 App.vue 实际位置修改
-app = create_app(App)
+app = create_app(App, backend='panel')
 app.use(vpanel)
 app.mount()
   ```

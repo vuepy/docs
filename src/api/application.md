@@ -9,12 +9,28 @@
   ```py
   RootComponent = Type[VueComponent] | SFCType | dict
   
-  def create_app(component: RootComponent, **root_props) -> App:
+  def create_app(
+      root_component: RootComponent, 
+      use_wui: bool = True,
+      backend: str = codegen_backends.ipywidgets.NAME,
+      servable: bool = False,
+      debug: bool = False,
+      **root_props
+  ) -> App:
   ```
 
 - **详细信息**
 
-  第一个参数是根组件。第二个参数可选，它是要传递给根组件的 props。
+|  参数           | 说明                              | 类型        | 默认值      |
+| -------------- | --------------------------------- | ---------- | ----------- |
+| root_component | 根组件，可以是组件类型、SFC类型或字典形式的组件选项  | ^[RootComponnet]`Type[VueComponent] \| SFCType \| dict` | — |
+| use_wui        | 是否使用ipywui插件                  | ^[bool]    | True     |
+| backend        | 代码生成后端，如`ipywidgets`、`panel` | ^[str]`ipywidgets, panel`  | 'ipywidgets' |
+| servable       | 是否启用可服务模式                   | ^[bool]    | False    |
+| debug          | 是否启用调试模式                     | ^[bool]    | False    |
+| root_props   | 传递给根组件的属性，预留参数             | ^[dict]    | {}     |
+
+tips: 当使用`panel-vuepy`组件库时，建议使用`panel`作为`backend`。
 
 - **示例**
 
@@ -463,7 +479,7 @@ print(app.config)
 :::
 <!-- end revered_text -->
 
-设置此项为 `true` 可以在浏览器开发工具的“性能/时间线”页中启用对组件初始化、编译、渲染和修补的性能表现追踪。仅在开发模式和支持 [performance.mark](https://developer.mozilla.org/en-US/docs/Web/API/Performance/mark) API 的浏览器中工作。
+设置此项为 `true` 可以在浏览器开发工具的"性能/时间线"页中启用对组件初始化、编译、渲染和修补的性能表现追踪。仅在开发模式和支持 [performance.mark](https://developer.mozilla.org/en-US/docs/Web/API/Performance/mark) API 的浏览器中工作。
 
 - **类型**：`boolean`
 
@@ -519,7 +535,7 @@ print(app.config)
 
 - **详细信息**
 
-  Vue 移除/缩短了模板中的空格以求更高效的模板输出。默认的策略是“缩短”，表现行为如下：
+  Vue 移除/缩短了模板中的空格以求更高效的模板输出。默认的策略是"缩短"，表现行为如下：
 
   1. 元素中开头和结尾的空格字符将被缩短为一个空格。
   2. 包含换行的元素之间的空白字符会被删除。

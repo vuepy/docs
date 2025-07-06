@@ -70,6 +70,20 @@
 
 在 IPython 中运行 Vuepy 应用, `vue_file` 为 vue 文件。
 
+  ```py
+  %vuepy_run vue_file [--plugins p1] [--app app] [--backend backend] [--servable] [--show-code]
+  ```
+
+|  参数           | 说明                              | 类型        | 默认值      |
+| -------------- | --------------------------------- | ---------- | ----------- |
+| vue_file       | Vue文件路径或组件变量（使用$$前缀）   | ^[str]     | —          |
+| --plugins      | 指定应用使用的插件，多个插件用逗号或空格分隔 | ^[list[str]] | []       |
+| --app          | 将App对象赋值给指定的变量名          | ^[str]     | —          |
+| --backend      | 代码生成后端，如`ipywidgets`、`panel` | ^[str]     | 'ipywidgets' |
+| --servable     | 是否启用可服务模式                   | ^[bool]    | False       |
+| --show-code    | 是否显示生成的代码                   | ^[bool]    | False       |
+
+
 - **类型**
   ```py
   %vuepy_run vue_file
@@ -125,6 +139,19 @@
 ## %%vuepy_run {#vuepy_run_cell}
 
 在 IPython 中运行 Vuepy 应用。
+
+  ```py
+  %%vuepy_run [--plugins p1] [--app app] [--backend backend] [--servable] [--show-code]
+  {sfc}
+  ```
+
+|  参数           | 说明                              | 类型        | 默认值      |
+| -------------- | --------------------------------- | ---------- | ----------- |
+| --plugins      | 指定应用使用的插件，多个插件用逗号或空格分隔 | ^[list[str]] | []       |
+| --app          | 将App对象赋值给指定的变量名          | ^[str]     | —          |
+| --backend      | 代码生成后端，如`ipywidgets`、`panel` | ^[str]     | 'ipywidgets' |
+| --servable     | 是否启用可服务模式                   | ^[bool]    | False       |
+| --show-code    | 是否显示生成的代码                   | ^[bool]    | False       |
 
 - **类型**
   ```py
