@@ -774,12 +774,12 @@ export const sidebar: ThemeConfig['sidebar'] = {
         {text: 'PanelCallbackHandler 回调处理器', link: '/panel_vuepy/chat/PanelCallbackHandler'},
       ]
     },
-    // {
-    //   text: 'Global 组件',
-    //   items: [
-    //     {text: '', link: ''},
-    //   ]
-    // },
+    {
+      text: 'Global 组件',
+      items: [
+        {text: 'Notifications 通知', link: '/panel_vuepy/global/Notifications'},
+      ]
+    },
     {
       text: 'Indicators 组件',
       items: [
