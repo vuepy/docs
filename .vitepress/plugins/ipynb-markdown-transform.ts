@@ -25,6 +25,18 @@ function replaceEntityInDocsJson(input, entity) {
   );
 }
 
+/**
+ * 替换以var docs_json开头的行中的指定HTML实体
+ * @param {string} input - 输入文本
+ * @param {string} entity - 要替换的实体名称
+ * @returns {string} 处理后的文本
+ */
+function replaceEntityInDocsJsonScript(input, entity) {
+  return input.replace(/var docs_json.*$/gm, line =>
+    line.replace(new RegExp(`&${entity};`, 'g'), `&amp;${entity}`)
+  );
+}
+
 function replaceLast(str, search, replacement) {
   const pos = str.lastIndexOf(search);
   if (pos === -1) return str;
@@ -111,6 +123,12 @@ function widgetOutputHtml(output, widgetState, fileId) {
       _html = _html.replace(
         'return (Bokeh != null && Bokeh.Panel !== undefined)',
         'return (Bokeh != null && Bokeh.Panel !== undefined && window.Plotly !== undefined)');
+    } else if (fileId.includes('Perspective.ipynb')) {
+      _html = _html.replace(
+        'return (Bokeh != null && Bokeh.Panel !== undefined',
+        'return (Bokeh != null && Bokeh.Panel !== undefined && window.perspective !== undefined');
+    } else if (fileId.includes('ChatFeed.ipynb')) {
+      _html = replaceEntityInDocsJsonScript(_html, 'quot');
     }
 
     _html = prettier.format(_html, {
@@ -121,6 +139,10 @@ function widgetOutputHtml(output, widgetState, fileId) {
     _html = _html.replace(/<\/script>/g, '<\/component>');
     _html = _html.replace(/<style/g, '<component :is="\'style\'"');
     _html = _html.replace(/<\/style>/g, '<\/component>');
+    _html = _html.replace(/<enter>/g, 'enter');
+    _html = _html.replace(/<class 'panel.layout.base.Column'>/g, 'class \'panel.layout.base.Column\'');
+    _html = _html.replace(/callback=<bound method ChatInterface/g, 'callback=bound method ChatInterface');
+    _html = _html.replace(/<PowerCurve PowerCurve(\d+)>/g, 'PowerCurve PowerCurve$1');
 
     // 替换以var docs_json中html的&quot;为&amp;quot;
     _html = replaceEntityInDocsJson(_html, 'quot');
@@ -144,6 +166,16 @@ function widgetOutputHtml(output, widgetState, fileId) {
         'window.Plotly = Plotly',
         'if (Plotly) { window.Plotly = Plotly; }',
       );
+    }
+    if (fileId.includes('Perspective.ipynb')) {
+      script_content = script_content.replace(
+        'window.perspective = perspective',
+        'if (perspective) { window.perspective = perspective; }',
+      );
+      // script_content = script_content.replace(
+      //  "window.requirejs.config({'packages': {}, 'paths': {'perspective': 'https://cdn.jsdelivr.net/npm/@finos/perspective@2.9.0/dist/cdn/perspective', 'perspective-worker': 'https://cdn.jsdelivr.net/npm/@finos/perspective@2.9.0/dist/cdn/perspective.worker', 'perspective-viewer': 'https://cdn.jsdelivr.net/npm/@finos/perspective-viewer@2.9.0/dist/cdn/perspective-viewer', 'perspective-viewer-datagrid': 'https://cdn.jsdelivr.net/npm/@finos/perspective-viewer-datagrid@2.9.0/dist/cdn/perspective-viewer-datagrid', 'perspective-viewer-d3fc': 'https://cdn.jsdelivr.net/npm/@finos/perspective-viewer-d3fc@2.9.0/dist/cdn/perspective-viewer-d3fc', 'tabulator': 'https://cdn.jsdelivr.net/npm/tabulator-tables@6.3.1/dist/js/tabulator.min', 'moment': 'https://cdn.jsdelivr.net/npm/luxon/build/global/luxon.min'}, 'shim': {}});",
+      //  "window.requirejs.config({'packages': {}, 'paths': {'perspective': 'https://cdn.holoviz.org/panel/1.7.2/dist/bundled/perspective/@finos/perspective@3.6.1/dist/cdn/perspective.js', 'perspective-worker': '', 'perspective-viewer': 'https://cdn.holoviz.org/panel/1.7.2/dist/bundled/perspective/@finos/perspective-viewer@3.6.1/dist/cdn/perspective-viewer.js', 'perspective-viewer-datagrid': 'https://cdn.holoviz.org/panel/1.7.2/dist/bundled/perspective/@finos/perspective-viewer-datagrid@3.6.1/dist/cdn/perspective-viewer-datagrid.js', 'perspective-viewer-d3fc': 'https://cdn.holoviz.org/panel/1.7.2/dist/bundled/perspective/@finos/perspective-viewer-d3fc@3.6.1/dist/cdn/perspective-viewer-d3fc.js', 'tabulator': 'https://cdn.jsdelivr.net/npm/tabulator-tables@6.3.1/dist/js/tabulator.min', 'moment': 'https://cdn.jsdelivr.net/npm/luxon/build/global/luxon.min'}, 'shim': {}});\n",
+      // )
     }
     script_content = removeComments(script_content);
     script_content = prettier.format(script_content, {semi: true, parser: "babel"});
@@ -187,7 +219,15 @@ function cellToRawCode(cell, md, env) {
 }
 
 function cellToIpynbDemo(cell, md, widgetState, fileId) {
+  let source = cell.source.join('')
   let code
+  if (source.startsWith('##controls')) {
+    code = {
+      vue: '',
+      setup: source,
+    }
+  }
+
   let widgetHtml = []
   let _out;
   try {
@@ -216,16 +256,21 @@ function cellToIpynbDemo(cell, md, widgetState, fileId) {
     }
   } catch (e) {
     // for empty ipynb cell
-    console.error(`gen cellToIpynbDemo failed, ${_out.text[0]}`);
+    if (_out && _out.text) {
+      console.error(`gen cellToIpynbDemo failed, ${_out.text[0]}`);
+    }
     console.error(e)
-    console.error('gen cellToIpynbDemo end');
+    console.error(`gen cellToIpynbDemo end`);
     return ''
   }
   if (!code) {
     return '';
   }
   const { vue, setup} = code;
-  let vueHtml = md.render(`\`\`\`vue\n${vue}\n\`\`\`\n`)
+  if (!!!vue) {
+    console.info('');
+  }
+  let vueHtml = !! vue ? md.render(`\`\`\`vue\n${vue}\n\`\`\`\n`) : '';
   let setupHtml = !!setup ? md.render(`\`\`\`python\n${setup}\n\`\`\`\n`) : '';
 
   return `
@@ -334,65 +379,24 @@ export const mdPlugin = (md: MarkdownIt) => {
         scripts = `<component :is="'script'" src="https://cdn.jsdelivr.net/npm/jsoneditor@10.0.1/dist/jsoneditor.min.js"></component>`;
       } else if (fileId.includes('ECharts.ipynb')) {
         scripts = `<component :is="'script'" src="https://cdn.holoviz.org/panel/1.6.3/dist/bundled/echarts/echarts@5.4.1/dist/echarts.min.js"></component>`;
+      } else if (fileId.includes('Perspective.ipynb')) {
+        scripts = `
+<component :is="'script'" src="https://cdn.holoviz.org/panel/1.6.3/dist/bundled/perspective/@finos/perspective@2.9.0/dist/cdn/perspective.js" type="module"></component>
+<component :is="'script'" src="https://cdn.holoviz.org/panel/1.6.3/dist/bundled/perspective/@finos/perspective-viewer@2.9.0/dist/cdn/perspective-viewer.js" type="module"></component>
+<component :is="'script'" src="https://cdn.holoviz.org/panel/1.6.3/dist/bundled/perspective/@finos/perspective-viewer-datagrid@2.9.0/dist/cdn/perspective-viewer-datagrid.js" type="module"></component>
+<component :is="'script'" src="https://cdn.holoviz.org/panel/1.6.3/dist/bundled/perspective/@finos/perspective-viewer-d3fc@2.9.0/dist/cdn/perspective-viewer-d3fc.js" type="module"></component>
+<component :is="'script'" type="module">
+    import perspective from "https://cdn.holoviz.org/panel/1.6.3/dist/bundled/perspective/@finos/perspective@2.9.0/dist/cdn/perspective.js";
+    window.perspective = perspective;
+</component>
+<component :is="'script'" type="module">
+    import perspective_viewer from "https://cdn.holoviz.org/panel/1.6.3/dist/bundled/perspective/@finos/perspective-viewer@2.9.0/dist/cdn/perspective-viewer.js";
+    window.perspective_viewer = perspective_viewer;
+</component>
+        `;
       }
 
-      return `
-      ${scripts}\n
-      <!--
-      <component :is="'script'" type="text/javascript">
-        if (!window.require) {
-          var require = {
-            enforceDefine: true,
-            paths: {
-            /*
-              'katex': "https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.6.0/katex.min.js"
-              'anywidget': "https://cdn.jsdelivr.net/npm/anywidget@0.9.3/dist/index.min",
-              'anywidget.js': "https://cdn.jsdelivr.net/npm/anywidget@0.9.3/dist/index.min.js",
-            */
-            },
-          };
-        }
-        console.info('require')
-      </component>
-      <component :is="'script'" src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.6.0/katex.min.js"></component>
-      <component :is="'script'" src="https://cdn.jsdelivr.net/npm/katex@0.10.1/dist/contrib/auto-render.min.js"></component>
-      -->
-
-      <component :is="'script'" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></component>
-
-      <component :is="'script'" type="text/javascript">
-      (function() {
-          console.info('addWidgetsRenderer');
-          function addWidgetsRenderer() {
-              var mimeElement = document.querySelector('script[type="application/vnd.jupyter.widget-view+json"]');
-              var scriptElement = document.createElement('script');
-              scriptElement.setAttribute('data-jupyter-widgets-cdn-only', '');
-
-              var widgetRendererSrc = 'https://unpkg.com/@jupyter-widgets/html-manager@*/dist/embed-amd.js';
-
-              var widgetState;
-
-              /* Fallback for older version: */
-              try {
-                  widgetState = mimeElement && JSON.parse(mimeElement.innerHTML);
-                  if (widgetState && (widgetState.version_major < 2 || !widgetState.version_major)) {
-                      var widgetRendererSrc = 'https://unpkg.com/@jupyter-js-widgets@*/dist/embed.js';
-                  }
-              } catch (e) {};
-
-              scriptElement.src = widgetRendererSrc;
-              document.body.appendChild(scriptElement);
-          }
-
-          document.addEventListener('DOMContentLoaded', addWidgetsRenderer);
-          if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', addWidgetsRenderer);
-          } else {
-            addWidgetsRenderer();
-          }
-      }());
-      </component>\n
-
+      /*
       <!-- Load mathjax
       1. load_libs中通过require(["autoLoad"], function(renderMathInElement) { window.renderMathInElement = renderMathInElement
       2. panel.js class d extends l.PanelMarkupView { render()调用renderMathInElement渲染公式
@@ -431,6 +435,44 @@ export const mdPlugin = (md: MarkdownIt) => {
       </component>
       -->
       <!-- End of mathjax configuration -->
+      */
+
+      return `
+      ${scripts}\n
+      <component :is="'script'" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></component>
+
+      <component :is="'script'" type="text/javascript">
+      (function() {
+          console.info('addWidgetsRenderer');
+          function addWidgetsRenderer() {
+              var mimeElement = document.querySelector('script[type="application/vnd.jupyter.widget-view+json"]');
+              var scriptElement = document.createElement('script');
+              scriptElement.setAttribute('data-jupyter-widgets-cdn-only', '');
+
+              var widgetRendererSrc = 'https://unpkg.com/@jupyter-widgets/html-manager@*/dist/embed-amd.js';
+
+              var widgetState;
+
+              /* Fallback for older version: */
+              try {
+                  widgetState = mimeElement && JSON.parse(mimeElement.innerHTML);
+                  if (widgetState && (widgetState.version_major < 2 || !widgetState.version_major)) {
+                      var widgetRendererSrc = 'https://unpkg.com/@jupyter-js-widgets@*/dist/embed.js';
+                  }
+              } catch (e) {};
+
+              scriptElement.src = widgetRendererSrc;
+              document.body.appendChild(scriptElement);
+          }
+
+          document.addEventListener('DOMContentLoaded', addWidgetsRenderer);
+          if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', addWidgetsRenderer);
+          } else {
+            addWidgetsRenderer();
+          }
+      }());
+      </component>\n
 
       ${demosMarkdown}\n
       ${_widgetStateHtml}\n
