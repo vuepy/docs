@@ -156,13 +156,13 @@ panel server app.ipynb
 $ panel serve app.ipynb --dev
 2025-07-02 00:06:21,186 Starting Bokeh server version 3.7.2 (running on Tornado 6.3.3)
 2025-07-02 00:06:21,186 User authentication hooks NOT provided (default user enabled)
-2025-07-02 00:06:21,189 Bokeh app running at: http://localhost:5006/Column-test
+2025-07-02 00:06:21,189 Bokeh app running at: http://localhost:5006/app
 2025-07-02 00:06:21,189 Starting Bokeh server with process id: 39710
 ```
 
-打开 http://localhost:5006/app
+浏览器打开 `http://localhost:5006/app` 即可访问。
 
-![]()
+<!-- todo add img -->
 
 参考：
 * [Panel: Serve Apps](https://panel.holoviz.org/tutorials/intermediate/serve.html)
