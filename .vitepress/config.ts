@@ -639,9 +639,9 @@ export const sidebar: ThemeConfig['sidebar'] = {
     {
       text: 'Chat 组件',
       items: [
+        {text: 'ChatInterface 聊天界面', link: '/panel_vuepy/chat/ChatInterface'},
         {text: 'ChatAreaInput 聊天输入区域', link: '/panel_vuepy/chat/ChatAreaInput'},
         {text: 'ChatFeed 聊天信息流', link: '/panel_vuepy/chat/ChatFeed'},
-        {text: 'ChatInterface 聊天界面', link: '/panel_vuepy/chat/ChatInterface'},
         {text: 'ChatMessage 聊天消息', link: '/panel_vuepy/chat/ChatMessage'},
         {text: 'ChatStep 聊天步骤', link: '/panel_vuepy/chat/ChatStep'},
         {text: 'PanelCallbackHandler 回调处理器', link: '/panel_vuepy/chat/PanelCallbackHandler'},
