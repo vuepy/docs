@@ -622,7 +622,10 @@ const BlogPost = {
 当使用在原生 HTML 元素上时，`is` 的值必须加上前缀 `vue:` 才可以被解析为一个 Vue.py 组件。这一点是必要的，为了避免和原生的[自定义内置元素](https://html.spec.whatwg.org/multipage/custom-elements.html#custom-elements-customized-builtin-example)相混淆。
 :::
 
-以上就是你需要了解的关于 DOM 内模板解析的所有注意事项，同时也是 Vue.py *基础*部分的所有内容。祝贺你！虽然还有很多需要学习的，但你可以先暂停一下，去用 Vue.py 做一些有趣的东西，或者研究一些[示例](/examples/)。
+以上就是你需要了解的关于 DOM 内模板解析的所有注意事项，同时也是 Vue.py *基础*部分的所有内容。祝贺你！虽然还有很多需要学习的，但你可以先暂停一下，去用 Vue.py 做一些有趣的东西
+<!-- todo 暂不支持
+，或者研究一些[示例](/examples/)。
+-->
 
 完成了本页的阅读后，回顾一下你刚才所学到的知识，如果还想知道更多细节，我们推荐你继续阅读关于组件的完整指引。
 

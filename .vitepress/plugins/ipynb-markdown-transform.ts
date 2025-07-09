@@ -285,6 +285,12 @@ function cellToIpynbDemo(cell, md, widgetState, fileId) {
         ${setupHtml}\n
       </template>
     </IpywuiDemo>
+
+    <noscript>
+      ${vueHtml}\n
+      <hr/>
+      ${setupHtml}\n
+    </noscript>
     `;
 }
 

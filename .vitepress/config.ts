@@ -1,5 +1,7 @@
 import fs from 'fs'
 import path from 'path'
+import * as cheerio from 'cheerio'
+import he from 'he'
 import { defineConfigWithTheme } from 'vitepress'
 import type { Config as ThemeConfig } from '@vue/theme'
 import baseConfig from '@vue/theme/config'
@@ -20,7 +22,7 @@ const nav: ThemeConfig['nav'] = [
       { text: '深度指南', link: '/guide/introduction' },
       // { text: '互动教程', link: '/tutorial/' },
       { text: '快速上手', link: '/guide/quick-start' },
-      { text: '示例', link: '/examples/' },  // todo 仅用于提供思路，添加python部分的实现
+      // { text: '示例', link: '/examples/' },  // todo 仅用于提供思路，添加python部分的实现
       // { text: '风格指南', link: '/style-guide/' },
       { text: '术语表', link: '/glossary/' },
       // { text: '错误码参照表', link: '/error-reference/' },
@@ -44,8 +46,8 @@ const nav: ThemeConfig['nav'] = [
     activeMatch: `^/(ipywui|vleaflet|panel_vuepy)/`,
     items: [
       { text: 'IPywUI', link: '/ipywui/overview' },
-      { text: 'vleaflet', link: '/vleaflet/overview' },
       { text: 'Panel-vuepy', link: '/panel_vuepy/quick-start' },
+      { text: 'vleaflet', link: '/vleaflet/overview' },
     ]
   },
   // {
@@ -78,8 +80,8 @@ const nav: ThemeConfig['nav'] = [
         text: '官方库',
         items: [
           { text: 'IPywUI', link: '/ipywui/overview' },
-          { text: 'vleaflet', link: '/vleaflet/overview' },
           { text: 'Panel-vuepy', link: '/panel_vuepy/quick-start' },
+          { text: 'vleaflet', link: '/vleaflet/overview' },
           // { text: 'Vue Router', link: 'https://router.vuejs.org/zh/' },
           // { text: 'Pinia', link: 'https://pinia.vuejs.org/zh/' },
           // { text: '工具链指南', link: '/guide/scaling-up/tooling.html' }
@@ -271,8 +273,8 @@ export const sidebar: ThemeConfig['sidebar'] = {
       text: '组件库',
       items: [
         { text: 'ipywui 组件库', link: '/ipywui/overview' },
-        { text: 'vleaflet 组件库', link: '/vleaflet/overview' },
         { text: 'Panel-vuepy 组件库', link: '/panel_vuepy/quick-start' },
+        { text: 'vleaflet 组件库', link: '/vleaflet/overview' },
         { text: '集成 anywidget', link: '/guide/Integration-with-anywidget' },
         // { text: 'Transition', link: '/guide/built-ins/transition' },
         // {
@@ -635,6 +637,17 @@ export const sidebar: ThemeConfig['sidebar'] = {
       ]
     },
     {
+      text: 'Chat 组件',
+      items: [
+        {text: 'ChatAreaInput 聊天输入区域', link: '/panel_vuepy/chat/ChatAreaInput'},
+        {text: 'ChatFeed 聊天信息流', link: '/panel_vuepy/chat/ChatFeed'},
+        {text: 'ChatInterface 聊天界面', link: '/panel_vuepy/chat/ChatInterface'},
+        {text: 'ChatMessage 聊天消息', link: '/panel_vuepy/chat/ChatMessage'},
+        {text: 'ChatStep 聊天步骤', link: '/panel_vuepy/chat/ChatStep'},
+        {text: 'PanelCallbackHandler 回调处理器', link: '/panel_vuepy/chat/PanelCallbackHandler'},
+      ]
+    },
+    {
       text: 'Widgets 组件',
       items: [
         {text: 'ArrayInput 数组输入框', link: '/panel_vuepy/widgets/ArrayInput'},
@@ -764,17 +777,6 @@ export const sidebar: ThemeConfig['sidebar'] = {
       ]
     },
     {
-      text: 'Chat 组件',
-      items: [
-        {text: 'ChatAreaInput 聊天输入区域', link: '/panel_vuepy/chat/ChatAreaInput'},
-        {text: 'ChatFeed 聊天信息流', link: '/panel_vuepy/chat/ChatFeed'},
-        {text: 'ChatInterface 聊天界面', link: '/panel_vuepy/chat/ChatInterface'},
-        {text: 'ChatMessage 聊天消息', link: '/panel_vuepy/chat/ChatMessage'},
-        {text: 'ChatStep 聊天步骤', link: '/panel_vuepy/chat/ChatStep'},
-        {text: 'PanelCallbackHandler 回调处理器', link: '/panel_vuepy/chat/PanelCallbackHandler'},
-      ]
-    },
-    {
       text: 'Global 组件',
       items: [
         {text: 'Notifications 通知', link: '/panel_vuepy/global/Notifications'},
@@ -796,108 +798,108 @@ export const sidebar: ThemeConfig['sidebar'] = {
       ]
     },
   ],
-  '/examples/': [
-    {
-      text: '基础',
-      items: [
-        {
-          text: '你好，世界',
-          link: '/examples/#hello-world'
-        },
-        {
-          text: '处理用户输入',
-          link: '/examples/#handling-input'
-        },
-        {
-          text: 'Attribute 绑定',
-          link: '/examples/#attribute-bindings'
-        },
-        {
-          text: '条件与循环',
-          link: '/examples/#conditionals-and-loops'
-        },
-        {
-          text: '表单绑定',
-          link: '/examples/#form-bindings'
-        },
-        {
-          text: '简单组件',
-          link: '/examples/#simple-component'
-        }
-      ]
-    },
-    {
-      text: '实战',
-      items: [
-        {
-          text: 'Markdown 编辑器',
-          link: '/examples/#markdown'
-        },
-        {
-          text: '获取数据',
-          link: '/examples/#fetching-data'
-        },
-        {
-          text: '带有排序和过滤器的网格',
-          link: '/examples/#grid'
-        },
-        {
-          text: '树状视图',
-          link: '/examples/#tree'
-        },
-        {
-          text: 'SVG 图像',
-          link: '/examples/#svg'
-        },
-        {
-          text: '带过渡动效的模态框',
-          link: '/examples/#modal'
-        },
-        {
-          text: '带过渡动效的列表',
-          link: '/examples/#list-transition'
-        },
-        {
-          text: 'TodoMVC',
-          link: '/examples/#todomvc'
-        }
-      ]
-    },
-    {
-      // https://eugenkiss.github.io/7guis/
-      text: '7 GUIs',
-      items: [
-        {
-          text: '计数器',
-          link: '/examples/#counter'
-        },
-        {
-          text: '温度转换器',
-          link: '/examples/#temperature-converter'
-        },
-        {
-          text: '机票预订',
-          link: '/examples/#flight-booker'
-        },
-        {
-          text: '计时器',
-          link: '/examples/#timer'
-        },
-        {
-          text: 'CRUD',
-          link: '/examples/#crud'
-        },
-        {
-          text: '画圆',
-          link: '/examples/#circle-drawer'
-        },
-        {
-          text: '单元格',
-          link: '/examples/#cells'
-        }
-      ]
-    }
-  ],
+  // '/examples/': [
+  //   {
+  //     text: '基础',
+  //     items: [
+  //       {
+  //         text: '你好，世界',
+  //         link: '/examples/#hello-world'
+  //       },
+  //       {
+  //         text: '处理用户输入',
+  //         link: '/examples/#handling-input'
+  //       },
+  //       {
+  //         text: 'Attribute 绑定',
+  //         link: '/examples/#attribute-bindings'
+  //       },
+  //       {
+  //         text: '条件与循环',
+  //         link: '/examples/#conditionals-and-loops'
+  //       },
+  //       {
+  //         text: '表单绑定',
+  //         link: '/examples/#form-bindings'
+  //       },
+  //       {
+  //         text: '简单组件',
+  //         link: '/examples/#simple-component'
+  //       }
+  //     ]
+  //   },
+  //   {
+  //     text: '实战',
+  //     items: [
+  //       {
+  //         text: 'Markdown 编辑器',
+  //         link: '/examples/#markdown'
+  //       },
+  //       {
+  //         text: '获取数据',
+  //         link: '/examples/#fetching-data'
+  //       },
+  //       {
+  //         text: '带有排序和过滤器的网格',
+  //         link: '/examples/#grid'
+  //       },
+  //       {
+  //         text: '树状视图',
+  //         link: '/examples/#tree'
+  //       },
+  //       {
+  //         text: 'SVG 图像',
+  //         link: '/examples/#svg'
+  //       },
+  //       {
+  //         text: '带过渡动效的模态框',
+  //         link: '/examples/#modal'
+  //       },
+  //       {
+  //         text: '带过渡动效的列表',
+  //         link: '/examples/#list-transition'
+  //       },
+  //       {
+  //         text: 'TodoMVC',
+  //         link: '/examples/#todomvc'
+  //       }
+  //     ]
+  //   },
+  //   {
+  //     // https://eugenkiss.github.io/7guis/
+  //     text: '7 GUIs',
+  //     items: [
+  //       {
+  //         text: '计数器',
+  //         link: '/examples/#counter'
+  //       },
+  //       {
+  //         text: '温度转换器',
+  //         link: '/examples/#temperature-converter'
+  //       },
+  //       {
+  //         text: '机票预订',
+  //         link: '/examples/#flight-booker'
+  //       },
+  //       {
+  //         text: '计时器',
+  //         link: '/examples/#timer'
+  //       },
+  //       {
+  //         text: 'CRUD',
+  //         link: '/examples/#crud'
+  //       },
+  //       {
+  //         text: '画圆',
+  //         link: '/examples/#circle-drawer'
+  //       },
+  //       {
+  //         text: '单元格',
+  //         link: '/examples/#cells'
+  //       }
+  //     ]
+  //   }
+  // ],
   '/style-guide/': [
     {
       text: 'Style Guide',
@@ -972,7 +974,10 @@ export default defineConfigWithTheme<ThemeConfig>({
   },
   description: 'Vue.py - 渐进式的 Python 框架',
   srcDir: 'src',
-  srcExclude: ['tutorial/**/description.md'],
+  srcExclude: [
+    'tutorial/**/description.md',
+    'examples/**',
+  ],
 
   head: [
     // ['link', { rel: "icon", type: "image/png", sizes: "16x16", href: "/assets/favicons/favicon-16x16.png"}],
@@ -1176,6 +1181,7 @@ export default defineConfigWithTheme<ThemeConfig>({
   },
 
   markdown: {
+    // html: true,
     theme: 'github-dark',
     config(md) {
       // @ts-ignore
@@ -1185,6 +1191,15 @@ export default defineConfigWithTheme<ThemeConfig>({
       md.use(headerPlugin)
       // .use(textAdPlugin)
     }
+  },
+
+  transformHtml: (code, id, context) => {
+    const $ = cheerio.load(code)
+    $('script').each((i, el) => {
+      const content = $(el).text();
+      $(el).text(he.decode(content));
+    })
+    return $.html();
   },
 
   vite: {
@@ -1207,8 +1222,29 @@ export default defineConfigWithTheme<ThemeConfig>({
       }
     },
     build: {
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (id.includes('panel_vuepy/widgets/')) {
+              let n = id.split('/').pop()
+              return `panel_vuepy_widget-${n}`;
+            }
+            if (id.includes('panel_vuepy/panes/')) {
+              let n = id.split('/').pop()
+              return `panel_vuepy_pane-${n}`;
+            }
+            if (id.includes('panel_vuepy/layouts/')) {
+              return 'panel_vuepy_layouts';
+            }
+            if (id.includes('panel_vuepy/chat/')) {
+              return 'panel_vuepy_chat';
+            }
+          }
+        }
+      },
       minify: 'terser',
-      chunkSizeWarningLimit: Infinity
+      chunkSizeWarningLimit: Infinity,
+      // sourcemap: false,
     },
     json: {
       stringify: true

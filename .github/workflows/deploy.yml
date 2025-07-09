@@ -25,6 +25,8 @@ jobs:
   # 构建工作
   build:
     runs-on: ubuntu-latest
+    env:
+      NODE_OPTIONS: --max_old_space_size=6200
     steps:
       - name: Checkout
         uses: actions/checkout@v4
