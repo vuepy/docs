@@ -1,8 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg"
      style="background-color: transparent;"
      width="128" height="128"
-     viewBox="-2 0 128 128"
+     viewBox="0 0 128 128"
 >
+  <!-- google search icon https://developers.google.com/search/docs/appearance/favicon-in-search?hl=zh-cn -->
 	<defs>
 		<style><![CDATA[
 		.line {
