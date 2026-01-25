@@ -9,8 +9,9 @@
 
       <div class='op-btns'>
         <a class='op-btn'
-           href='https://github.com/vuepy/ipywui-docs/tree/main/component'
+           :href='demoUrl'
            title='在 Github 中编辑'
+           target='_blank'
         >
           <VTIconGitHub class='close' />
         </a>
@@ -50,6 +51,12 @@ import CaretTop from './icons/CaretTop.vue'
 import { useToggle } from '@vueuse/core'
 
 const [sourceVisible, toggleSourceVisible] = useToggle()
+const props = defineProps({
+  demoUrl: {
+    type: String,
+    default: '',
+  },
+})
 
 const onSourceVisibleKeydown = (e) => {
   if (['Enter', 'Space'].includes(e.code)) {

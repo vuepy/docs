@@ -6,6 +6,7 @@ import fs from 'fs'
 import path from 'path'
 import crypto from 'node:crypto'
 import prettier from 'prettier'
+import { REPO_URL } from '../config'
 
 const removeComments = (code) => {
   return code.replace(/(['"])(?:\\.|.)*?\1|\/\/.*$/gm, (match) => {
@@ -220,6 +221,7 @@ function cellToRawCode(cell, md, env) {
 
 function cellToIpynbDemo(cell, md, widgetState, fileId) {
   let source = cell.source.join('')
+  let ipynbEditUrl = `${REPO_URL}${path.relative(process.cwd(), `${fileId}`)}`
   let code
   if (source.startsWith('##controls')) {
     code = {
@@ -274,7 +276,7 @@ function cellToIpynbDemo(cell, md, widgetState, fileId) {
   let setupHtml = !!setup ? md.render(`\`\`\`python\n${setup}\n\`\`\`\n`) : '';
 
   return `
-    <IpywuiDemo>
+    <IpywuiDemo demo-url='${ipynbEditUrl}'>
       <template #output>
         ${widgetHtml}\n
       </template>

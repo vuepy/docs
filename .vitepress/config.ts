@@ -14,6 +14,8 @@ import { generateLLMSTXTPlugin } from './plugins/generate-llms'
 
 const { BASE: base = '/' } = process.env
 
+export const REPO_URL = 'https://github.com/vuepy/docs/blob/main/'
+
 const nav: ThemeConfig['nav'] = [
   {
     text: '文档',
@@ -988,11 +990,11 @@ export default defineConfigWithTheme<ThemeConfig>({
     // ['link', { rel: "icon", type: "image/svg+xml", href: "/favicon.svg"}],
     // ['link', { rel: "shortcut icon", href: "/favicon.svg"}],
     ['meta', { name: 'theme-color', content: '#16B8F3' }],
-    ['meta', { property: 'og:url', content: 'https://www.vuepy.org/' }],
+    ['meta', { property: 'og:url', content: 'https://vuepy.org/' }],
     ['meta', { property: 'og:type', content: 'website' }],
     ['meta', { property: 'og:title', content: 'Vue.py' }],
     ['meta', { property: 'og:description', content: 'Vue.py - 响应式 Python 框架, 易学易用，性能出色，适用场景丰富的 Jupyter Notebook UI 框架' }],
-    ['meta', { property: 'og:image', content: 'https://www.vuepy.org/images/vuepy-logo.png' }],
+    ['meta', { property: 'og:image', content: 'https://vuepy.org/images/vuepy-logo.png' }],
     ['meta', { name: 'twitter:site', content: '@vuepy-org' }],
     ['meta', { name: 'twitter:card', content: 'summary' }],
     ['meta', { name: 'google-site-verification', content: 'FKvvfZEgCQTC6aMGsz-DP2O8Hrf29q1frWoClysKcvA' }],
