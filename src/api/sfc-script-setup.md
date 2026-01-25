@@ -21,7 +21,7 @@ print('hello script setup')
 
 ### 顶层的绑定会被暴露给模板 {#top-level-bindings-are-exposed-to-template}
 
-当使用 `<script lang='py'>` 的时候，任何在 `<script lang='py'>` 声明的顶层的绑定 (包括变量，函数声明，以及 import 导入的内容) 都能在模板中直接使用，props, context, app等变量会自动传入，也会自动暴露给模板，script内可以直接使用：
+当使用 `<script lang='py'>` 的时候，任何在 `<script lang='py'>` 声明的顶层的绑定 (包括变量，函数声明，以及 import 导入的内容) 都能在模板中直接使用，props, context, app(应用实例对象)等变量会自动传入(在setup函数中作为参数传入)，也会自动暴露给模板，script内可以直接使用：
 
 ```vue
 <template>
@@ -34,8 +34,10 @@ msg = 'Hello!'
 
 # 函数
 def log():
-  print(msg)
-  
+  print(msg) # Hello!
+  print(props) # {}
+  print(context) # {}
+  print(app) # <vuepy.runtime.core.api_create_app.App object>
 </script>
 ```
 
