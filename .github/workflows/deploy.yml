@@ -55,7 +55,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install # 或 npm ci / pnpm install / yarn install / bun install
       - name: Build with VitePress
-        run: pnpm run build # 或 pnpm docs:build / yarn docs:build / bun run docs:build
+        run: |
+          node -e "const v8=require('v8'); console.log('heap_size_limit_MB=', (v8.getHeapStatistics().heap_size_limit/1024/1024).toFixed(0))"
+          pnpm run build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

@@ -7,7 +7,7 @@
   "type": "module",
   "scripts": {
     "dev": "vitepress",
-    "build": "NODE_OPTIONS=--max_old_space_size=6200 vitepress build",
+    "build": "NODE_OPTIONS=--max-old-space-size=12288 vitepress build",
     "preview": "vitepress preview",
     "lint": "zhlint 'src/{api,about,guide,sponsor,translations,tutorial}/**/*.md'",
     "clean": "rm -rf .vitepress/dist",
