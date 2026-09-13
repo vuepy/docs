@@ -1064,6 +1064,8 @@ const i18n: ThemeConfig['i18n'] = {
 
 export default defineConfigWithTheme<ThemeConfig>({
   extends: baseConfig,
+  // 降低 SSR 渲染并发，减轻 CI 峰值内存（大文档站 OOM 常见缓解手段）
+  buildConcurrency: 32,
   appearance: 'dark',
   lang: 'zh-CN',
   title: 'Vue.py',

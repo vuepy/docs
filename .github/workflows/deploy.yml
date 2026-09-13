@@ -25,13 +25,21 @@ jobs:
   # 构建工作
   build:
     runs-on: ubuntu-latest
+    # 文档站体量大，VitePress 构建峰值可超过 runner 物理内存（~7GB）
     env:
-      NODE_OPTIONS: --max_old_space_size=6200
+      NODE_OPTIONS: --max-old-space-size=12288
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0 # 如果未启用 lastUpdated，则不需要
+      - name: Configure swap (8GB)
+        run: |
+          sudo fallocate -l 8G /mnt/swapfile
+          sudo chmod 600 /mnt/swapfile
+          sudo mkswap /mnt/swapfile
+          sudo swapon /mnt/swapfile
+          free -h
       - name: Install pnpm
         uses: pnpm/action-setup@v3 # 如果使用 pnpm，请取消注释
         with:
