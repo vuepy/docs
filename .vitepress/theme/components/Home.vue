@@ -30,7 +30,7 @@ onMounted(async () => {
       <br />Python 框架
     </h1>
     <p class="description">
-      用于在 Jupyter Notebook 中构建 Web 界面应用
+      构建 <strong>Jupyter Web 界面</strong> 与 <strong>终端 TUI 应用</strong> 的响应式 Python 框架
 <!--      易学易用，性能出色，适用场景丰富的 Jupyter Notebook UI 框架。-->
 <!--      <sup><img class='logo' src='/images/vuepy-logo.svg' alt='vuepy-logo' width='50' style='display: inline'></sup>-->
     </p>
@@ -58,8 +58,11 @@ onMounted(async () => {
           <path fill="currentColor" fill-rule="evenodd"
                 d="M7.293 14.707a1 1 0 0 1 0-1.414L10.586 10L7.293 6.707a1 1 0 0 1 1.414-1.414l4 4a1 1 0 0 1 0 1.414l-4 4a1 1 0 0 1-1.414 0Z" clip-rule="evenodd">
           </path>
-        </svg> pip install vuepy-core
+        </svg> pip install 'vuepy-core[all]'
         </span>
+      </a>
+      <a class="tui-link" :href="withBase('/textual_vuepy/quick-start')">
+        <span>⚡ 终端 TUI 应用</span>
       </a>
     </p>
   </section>
@@ -116,12 +119,20 @@ onMounted(async () => {
 
   <section id="highlights" class="vt-box-container">
     <div class="vt-box">
+      <h2>API 兼容</h2>
+      <p>
+        提供了一套声明式、组件化的 Python 编程模型，与 Vue3.js 组合式 API 几乎完全兼容。
+      </p>
+    </div>
+
+    <div class="vt-box">
       <h2>易学易用</h2>
       <p>
         基于 Python、HTML、CSS 和 ipywidgets 构建，
         提供容易上手的 API 和一流的文档。
       </p>
     </div>
+
     <div class="vt-box">
       <h2>性能出色</h2>
       <p>经过编译器优化、完全响应式的渲染系统，无需手动优化。</p>
@@ -144,16 +155,16 @@ onMounted(async () => {
     </div>
 
     <div class="vt-box">
-      <h2>多平台支持</h2>
+      <h2>终端 TUI 应用</h2>
       <p>
-        支持在 Jupyter、JupyterLab、VS Code、Cursor、Google Colab、Pycharm 等平台上运行。
+        <a :href="withBase('/textual_vuepy/quick-start')">Textual-vuepy</a> 使用相同的 <code>.vue</code> 文件语法构建终端 TUI 应用，支持 TCSS 样式、键鼠事件与 Web 部署。
       </p>
     </div>
 
     <div class="vt-box">
-      <h2>API 兼容</h2>
+      <h2>多平台支持</h2>
       <p>
-        提供了一套声明式、组件化的 Python 编程模型，与 Vue3.js 组合式 API 几乎完全兼容。
+        Jupyter / JupyterLab / VS Code / Cursor / Google Colab / PyCharm 等平台，以及终端 CLI 环境。
       </p>
     </div>
 
@@ -379,6 +390,27 @@ html:not(.dark) .accent,
 
 .dark .actions .get-started:hover,
 .dark .actions .setup:hover {
+  background-color: var(--vt-c-gray-dark-3);
+}
+
+.actions .tui-link {
+  font-size: 16px;
+  display: inline-block;
+  border-radius: 8px;
+  transition: background-color 0.5s, color 0.5s;
+  font-weight: 500;
+  background-color: var(--vt-c-bg-mute);
+  color: var(--vt-c-text-code);
+  margin-left: 10px;
+  padding: 8px 1em;
+}
+
+.actions .tui-link:hover {
+  background-color: var(--vt-c-gray-light-4);
+  transition-duration: 0.2s;
+}
+
+.dark .actions .tui-link:hover {
   background-color: var(--vt-c-gray-dark-3);
 }
 

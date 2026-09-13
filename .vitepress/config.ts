@@ -45,10 +45,11 @@ const nav: ThemeConfig['nav'] = [
   },
   {
     text: '组件库',
-    activeMatch: `^/(ipywui|vleaflet|panel_vuepy)/`,
+    activeMatch: `^/(ipywui|vleaflet|panel_vuepy|textual_vuepy)/`,
     items: [
       { text: 'IPywUI', link: '/ipywui/overview' },
       { text: 'Panel-vuepy', link: '/panel_vuepy/quick-start' },
+      { text: 'Textual-vuepy', link: '/textual_vuepy/quick-start' },
       { text: 'vleaflet', link: '/vleaflet/overview' },
     ]
   },
@@ -83,6 +84,7 @@ const nav: ThemeConfig['nav'] = [
         items: [
           { text: 'IPywUI', link: '/ipywui/overview' },
           { text: 'Panel-vuepy', link: '/panel_vuepy/quick-start' },
+          { text: 'Textual-vuepy', link: '/textual_vuepy/quick-start' },
           { text: 'vleaflet', link: '/vleaflet/overview' },
           // { text: 'Vue Router', link: 'https://router.vuejs.org/zh/' },
           // { text: 'Pinia', link: 'https://pinia.vuejs.org/zh/' },
@@ -276,6 +278,7 @@ export const sidebar: ThemeConfig['sidebar'] = {
       items: [
         { text: 'ipywui 组件库', link: '/ipywui/overview' },
         { text: 'Panel-vuepy 组件库', link: '/panel_vuepy/quick-start' },
+        { text: 'Textual-vuepy 终端 TUI 组件库', link: '/textual_vuepy/quick-start' },
         { text: 'vleaflet 组件库', link: '/vleaflet/overview' },
         { text: '集成 anywidget', link: '/guide/Integration-with-anywidget' },
         // { text: 'Transition', link: '/guide/built-ins/transition' },
@@ -797,6 +800,100 @@ export const sidebar: ThemeConfig['sidebar'] = {
         {text: 'TooltipIcon 提示图标', link: '/panel_vuepy/indicators/TooltipIcon'},
         {text: 'Tqdm 进度条', link: '/panel_vuepy/indicators/Tqdm'},
         {text: 'Trend 趋势', link: '/panel_vuepy/indicators/Trend'},
+      ]
+    },
+  ],
+  '/textual_vuepy/': [
+    {
+      text: 'Overview 总览',
+      items: [
+        {text: '🚀 快速上手', link: '/textual_vuepy/quick-start'},
+        {text: 'Textual-vuepy 组件总览', link: '/textual_vuepy/overview'},
+      ]
+    },
+    {
+      text: 'Layout 布局组件',
+      items: [
+        {text: 'VBox / HBox 布局容器', link: '/textual_vuepy/layout-box'},
+        {text: 'Collapsible 折叠容器', link: '/textual_vuepy/collapsible'},
+        {text: 'TabbedContent 标签页容器', link: '/textual_vuepy/tabbed-content'},
+        {text: 'Tabs 标签导航', link: '/textual_vuepy/tabs'},
+        {text: 'ContentSwitcher 内容切换', link: '/textual_vuepy/content-switcher'},
+      ]
+    },
+    {
+      text: 'Basic 基础组件',
+      items: [
+        {text: 'Button 按钮', link: '/textual_vuepy/button'},
+        {text: 'Label 标签', link: '/textual_vuepy/label'},
+        {text: 'Static 静态内容', link: '/textual_vuepy/static'},
+        {text: 'Link 超链接', link: '/textual_vuepy/link'},
+        {text: 'Placeholder 占位符', link: '/textual_vuepy/placeholder'},
+        {text: 'Rule 分隔线', link: '/textual_vuepy/rule'},
+      ]
+    },
+    {
+      text: 'Form 表单组件',
+      items: [
+        {text: 'Input 输入框', link: '/textual_vuepy/input'},
+        {text: 'TextArea 文本编辑器', link: '/textual_vuepy/textarea'},
+        {text: 'MaskedInput 掩码输入', link: '/textual_vuepy/masked-input'},
+        {text: 'Checkbox 复选框', link: '/textual_vuepy/checkbox'},
+        {text: 'RadioButton / RadioSet 单选', link: '/textual_vuepy/radio'},
+        {text: 'Select 下拉选择', link: '/textual_vuepy/select'},
+        {text: 'SelectionList 多选列表', link: '/textual_vuepy/selection-list'},
+        {text: 'Switch 开关', link: '/textual_vuepy/switch'},
+      ]
+    },
+    {
+      text: 'Data 数据展示',
+      items: [
+        {text: 'DataTable 数据表格', link: '/textual_vuepy/data-table'},
+        {text: 'RichLog 富文本日志', link: '/textual_vuepy/rich-log'},
+        {text: 'Log 纯文本日志', link: '/textual_vuepy/log'},
+        {text: 'Markdown 渲染', link: '/textual_vuepy/markdown'},
+        {text: 'Pretty 对象格式化', link: '/textual_vuepy/pretty'},
+        {text: 'Sparkline 迷你折线图', link: '/textual_vuepy/sparkline'},
+        {text: 'Digits 大号数字', link: '/textual_vuepy/digits'},
+        {text: 'ProgressBar 进度条', link: '/textual_vuepy/progress-bar'},
+      ]
+    },
+    {
+      text: 'Navigation 导航组件',
+      items: [
+        {text: 'ListView 列表视图', link: '/textual_vuepy/list-view'},
+        {text: 'OptionList 选项列表', link: '/textual_vuepy/option-list'},
+        {text: 'Tree 树形结构', link: '/textual_vuepy/tree'},
+        {text: 'DirectoryTree 目录树', link: '/textual_vuepy/directory-tree'},
+      ]
+    },
+    {
+      text: 'Feedback 反馈组件',
+      items: [
+        {text: 'Dialog 对话框', link: '/textual_vuepy/dialog'},
+        {text: 'LoadingIndicator 加载动画', link: '/textual_vuepy/loading-indicator'},
+        {text: 'Tooltip 工具提示', link: '/textual_vuepy/tooltip'},
+      ]
+    },
+    {
+      text: 'Structure 结构组件',
+      items: [
+        {text: 'Header / Footer', link: '/textual_vuepy/header-footer'},
+        {text: 'Display 组件展示器', link: '/textual_vuepy/display'},
+        {text: 'Welcome 欢迎页', link: '/textual_vuepy/welcome'},
+      ]
+    },
+    {
+      text: '自定义 SFC 组件',
+      items: [
+        {text: 'ShimmerText 流光文字', link: '/textual_vuepy/shimmer-text'},
+        {text: 'Spinner 加载旋转器', link: '/textual_vuepy/spinner'},
+      ]
+    },
+    {
+      text: 'VueUse 组合式函数',
+      items: [
+        {text: 'onKeyStroke / useMouse', link: '/textual_vuepy/overview#vueuse'},
       ]
     },
   ],

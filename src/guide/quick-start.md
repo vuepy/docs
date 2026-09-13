@@ -1,5 +1,6 @@
 ---
 footer: false
+outline: deep
 ---
 
 <script setup>
@@ -23,7 +24,7 @@ import { withBase } from 'vitepress'
 ## 安装
 
 ```sh
-pip install vuepy-core
+pip install 'vuepy-core[all]'
 ```
 
 ## 创建一个 Vue.py 应用（可选） {#creating-a-vue-application}
@@ -81,6 +82,34 @@ pip install vuepy-core
 
 ## 运行 Vue.py 应用 {#run-vue-application}
 
+### 命令行运行（终端应用）{#run-cli}
+
+通过 `vuepy run` 命令直接从命令行运行 `.vue` 文件（默认使用 Textual 终端后端）：
+
+```sh
+vuepy run App.vue
+```
+
+支持以下选项：
+
+| 选项 | 说明 |
+|------|------|
+| `--backend textual` | 指定后端（默认 `textual`，可选 `ipywidgets`、`panel`）|
+| `--dev` | 开发模式，启用 Textual devtools |
+| `--servable` | 通过 `textual-serve` 以 Web 方式访问（需安装 `textual-serve`）|
+| `--plugins xxx` | 加载插件（如 `textual_vuepy.vtextual`）|
+| `--show-code` | 运行前打印 Vue 源码 |
+
+也可以按名称运行已注册到 `VuepyAppStore` 的内置应用（如 `playground`、`keys`）：
+
+```sh
+vuepy run playground    # 启动内置 Playground
+vuepy run keys          # 启动按键查看器
+vuepy run --help        # 查看所有可用应用名称
+```
+
+### Jupyter 中运行（Jupyter 应用）{#run-jupyter}
+
 :::tip 前提条件
 
 - 已创建 Vue.py 应用
@@ -100,8 +129,8 @@ pip install vuepy-core
 from pathlib import Path
 from vuepy import create_app, import_sfc
 
-# 根据 App.vue 实际位置修改
-App= import_sfc(Path() / 'App.vue')
+# Jupyter 应用（ipywidgets 后端，默认）根据 App.vue 实际位置修改
+App = import_sfc(Path() / 'App.vue')
 app = create_app(App)
 app.mount()
   ```
@@ -152,8 +181,9 @@ from vuepy.utils import magic
 
 你现在应该已经运行起来了你的第一个 Vue.py 项目！下面是一些补充提示：
 
-- 推荐的 IDE 配置是 [Visual Studio Code](https://code.visualstudio.com/) + [Vue - Official 扩展](https://marketplace.visualstudio.com/items?itemName=Vue.volar)。
+- 推荐的 IDE 配置是 [Visual Studio Code](https://code.visualstudio.com/) + [Vuepy Plugin](https://marketplace.visualstudio.com/items?itemName=vuepy.vuepy-plugin)。
 - 另一个推荐的 IDE 配置是 PyCharm + [Vue 插件](https://plugins.jetbrains.com/plugin/9442-vue-js)。如果使用其他编辑器，参考 [IDE 支持章节](/guide/scaling-up/tooling#ide-support)。
+- 想要构建**终端 TUI 应用**？查看 [Textual-vuepy 快速上手](/textual_vuepy/quick-start)。
 
 [//]: # (- 更多工具细节，包括与后端框架的整合，我们会在[工具链指南]&#40;/guide/scaling-up/tooling&#41;进行讨论。)
 [//]: # (- 要了解构建工具 Vite 更多背后的细节，请查看 [Vite 文档]&#40;https://cn.vitejs.dev&#41;。)
@@ -173,6 +203,11 @@ from vuepy.utils import magic
   <a class="vt-box" :href="withBase('/guide/build-vuepy-withs-llms')">
     <p class="next-steps-link">LLMs 生成式 UI</p>
     <p class="next-steps-caption">介绍如何使用 LLMs 构建 Vuepy 应用。</p>
+  </a>
+
+  <a class="vt-box" :href="withBase('/textual_vuepy/quick-start')">
+    <p class="next-steps-link">终端 TUI 应用</p>
+    <p class="next-steps-caption">使用 Textual-vuepy 构建终端交互应用。</p>
   </a>
 
 [//]: # (  <a class="vt-box" href="/examples/">)
