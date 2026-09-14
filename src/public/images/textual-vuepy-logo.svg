@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     style="background-color: transparent;"
+     viewBox="0 0 500 500"
+>
+	<defs>
+		<style><![CDATA[
+		.line {
+			stroke: #008c8c;
+			fill-opacity: 0.8;
+			stroke-opacity: 1;
+			stroke-width: 5;
+		}
+		.line-polygon {
+			stroke: #008c8c;
+			fill: #008c8c;
+			fill-opacity: 0.3;
+			stroke-opacity: 1;
+			stroke-width: 5;
+		}
+		]]></style>
+	</defs>
+	<!--
+def l(p1, p2):
+  print(f'<line x1="{p1[0]}" y1="{p1[1]}" x2="{p2[0]}" y2="{p2[1]}" class="line"/>')
+
+def polygon(*points):
+  print(f'<polygon points="{" ".join(f"{p[0]},{p[1]}" for p in points)}" class="line-polygon"/>')
+
+
+polygon(p0, p3, p7, p11, p12, p8, p5, p4)
+
+p0 = (0, 0)
+p1 = (100, 0)
+p2 = (300, 0)
+p3 = (441, 0)
+p4 = (0, 100)
+p5 = (100, 100)
+p6 = (200, 100)
+p7 = (300, 141)
+p8 = (159, 159)
+p9 = (200, 200)
+p10 = (300, 200)
+p11 = (300, 300)
+p12 = (159, 441)
+
+l(p0, p3)
+l(p0, p4)
+l(p1, p5)
+l(p1, p10)
+l(p2, p11)
+l(p3, p7)
+l(p4, p6)
+l(p5, p11)
+l(p6, p9)
+l(p8, p12)
+l(p11, p12)
+
+	-->
+	<g transform="translate(0, 0) scale(1, 1)">
+<polygon points="0,0 441,0 300,141 300,300 159,441 159,159 100,100 0,100" class="line-polygon"/>
+<line x1="0" y1="0" x2="441" y2="0" class="line"/>
+<line x1="0" y1="0" x2="0" y2="100" class="line"/>
+<line x1="100" y1="0" x2="100" y2="100" class="line"/>
+<line x1="100" y1="0" x2="300" y2="200" class="line"/>
+<line x1="300" y1="0" x2="300" y2="300" class="line"/>
+<line x1="441" y1="0" x2="300" y2="141" class="line"/>
+<line x1="0" y1="100" x2="200" y2="100" class="line"/>
+<line x1="100" y1="100" x2="300" y2="300" class="line"/>
+<line x1="200" y1="100" x2="200" y2="200" class="line"/>
+<line x1="159" y1="159" x2="159" y2="441" class="line"/>
+<line x1="300" y1="300" x2="159" y2="441" class="line"/>
+	</g>
+</svg>

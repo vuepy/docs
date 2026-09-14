@@ -9,7 +9,8 @@ import { withBase } from 'vitepress'
 
 # Textual-vuepy 快速上手 {#quick-start}
 
-Textual-vuepy 是基于 Vue.py 和 [Textual](https://textual.textualize.io/) 构建终端 TUI（Text User Interface）应用的组件库。它让你使用 Vue.py 的响应式开发体验来编写运行在终端中的交互式应用：
+<img style="display: inline; width: 28px" src="/images/textual-vuepy-logo.svg" >
+Textual-vuepy 是基于 Vue.py 和 <a href='https://textual.textualize.io/'>Textual</a> 构建终端 TUI（Text User Interface）应用的组件库。它让你使用 Vue.py 的响应式开发体验来编写运行在终端中的交互式应用：
 
 * **丰富的终端组件** — 直接映射 Textual 所有内置 Widget，开箱即用
 * **响应式 SFC 开发** — 与 IPywUI/Panel-vuepy 使用完全相同的 `.vue` 文件语法
