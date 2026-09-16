@@ -1,0 +1,21 @@
+{
+  "targets": {
+    "open_btn": { "query": "Button", "nth": 0 },
+    "username": { "query": "Input", "nth": 0, "anchor": "topleft", "dx": 2, "dy": 1 },
+    "email": { "query": "Input", "nth": 1, "anchor": "topleft", "dx": 2, "dy": 1 },
+    "submit_btn": { "query": "Button", "nth": 1 }
+  },
+  "steps": [
+    { "wait": 1.0, "marker": "启动应用" },
+    { "click": "open_btn", "marker": "打开对话框" },
+    { "wait": 0.8 },
+    { "click": "username" },
+    { "type": "alice", "marker": "填用户名" },
+    { "click": "email" },
+    { "type": "alice@example.com", "marker": "填邮箱" },
+    { "wait": 0.5 },
+    { "click": "submit_btn", "marker": "提交并关闭" },
+    { "wait": 1.2 },
+    { "key": "ctrl+q", "delay": 0.5 }
+  ]
+}

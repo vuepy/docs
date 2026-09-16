@@ -1,0 +1,17 @@
+{
+  "targets": {
+    "action_btn": { "query": "Button" },
+    "blank": { "query": "VBox", "anchor": "bottomright" }
+  },
+  "steps": [
+    { "wait": 1.0, "marker": "启动应用" },
+    { "move": "action_btn", "marker": "悬停 -> tooltip「点击执行操作」" },
+    { "wait": 1.5 },
+    { "click": "action_btn", "marker": "点击 -> 按钮禁用，tooltip 文案改写" },
+    { "wait": 2.5, "marker": "2 秒后恢复可用" },
+    { "move": "blank", "delay": 0.4 },
+    { "move": "action_btn", "marker": "再次悬停 -> tooltip「操作已完成」" },
+    { "wait": 1.8 },
+    { "key": "ctrl+q", "delay": 0.5 }
+  ]
+}

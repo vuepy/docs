@@ -1,0 +1,16 @@
+{
+  "targets": {
+    "toggle_btn": { "query": "Button" },
+    "collapsible": { "query": "Collapsible", "anchor": "topleft", "dx": 4 }
+  },
+  "steps": [
+    { "wait": 1.0, "marker": "启动应用（默认展开）" },
+    { "click": "toggle_btn", "marker": "按钮折叠 -> v-model 变 True" },
+    { "wait": 1.0 },
+    { "click": "toggle_btn", "marker": "按钮展开" },
+    { "wait": 1.0 },
+    { "click": "collapsible", "marker": "点标题栏折叠 -> 同步回 v-model" },
+    { "wait": 1.0 },
+    { "key": "ctrl+q", "delay": 0.5 }
+  ]
+}

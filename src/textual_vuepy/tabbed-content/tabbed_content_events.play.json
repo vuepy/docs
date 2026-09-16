@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "tab_home": { "query": "Tab", "nth": 0 },
+    "tab_log": { "query": "Tab", "nth": 1 }
+  },
+  "steps": [
+    { "wait": 1.0, "marker": "启动应用（首页）" },
+    { "click": "tab_log", "marker": "切到「日志」-> tab_activated" },
+    { "wait": 1.2 },
+    { "click": "tab_home", "marker": "切回「首页」" },
+    { "wait": 1.0 },
+    { "key": "ctrl+q", "delay": 0.5 }
+  ]
+}

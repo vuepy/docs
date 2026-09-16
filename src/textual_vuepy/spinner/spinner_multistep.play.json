@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "start_btn": { "query": "Button" }
+  },
+  "steps": [
+    { "wait": 1.0, "marker": "启动应用" },
+    { "click": "start_btn", "marker": "开始任务" },
+    { "wait": 1.5, "marker": "步骤 1/3 初始化环境" },
+    { "wait": 1.5, "marker": "步骤 2/3 下载依赖包" },
+    { "wait": 1.5, "marker": "步骤 3/3 构建项目" },
+    { "wait": 1.5, "marker": "任务完成" },
+    { "key": "ctrl+q", "delay": 0.5 }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "targets": {
+    "refresh_btn": { "query": "Button" }
+  },
+  "steps": [
+    { "wait": 1.0, "marker": "启动应用" },
+    { "click": "refresh_btn", "marker": "刷新数据（滑动窗口前移）" },
+    { "wait": 0.5 },
+    { "click": "refresh_btn" },
+    { "wait": 0.5 },
+    { "click": "refresh_btn" },
+    { "wait": 0.5 },
+    { "click": "refresh_btn", "marker": "两条 Sparkline 同步更新" },
+    { "wait": 1.0 },
+    { "key": "ctrl+q", "delay": 0.5 }
+  ]
+}

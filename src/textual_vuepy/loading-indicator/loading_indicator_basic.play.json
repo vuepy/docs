@@ -1,0 +1,12 @@
+{
+  "targets": {
+    "load_btn": { "query": "Button" }
+  },
+  "steps": [
+    { "wait": 1.0, "marker": "启动应用" },
+    { "click": "load_btn", "marker": "点击「模拟加载」" },
+    { "wait": 2.5, "marker": "加载动画（2 秒）" },
+    { "wait": 1.0, "marker": "加载完成，显示内容" },
+    { "key": "ctrl+q", "delay": 0.5 }
+  ]
+}

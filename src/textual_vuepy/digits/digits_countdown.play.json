@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "start_btn": { "query": "Button", "nth": 0 },
+    "reset_btn": { "query": "Button", "nth": 1 }
+  },
+  "steps": [
+    { "wait": 1.0, "marker": "启动应用" },
+    { "click": "start_btn", "marker": "开始倒计时" },
+    { "wait": 4.0, "marker": "大号数字逐秒跳动" },
+    { "click": "reset_btn", "marker": "重置回 00:10" },
+    { "wait": 1.0 },
+    { "key": "ctrl+q", "delay": 0.5 }
+  ]
+}

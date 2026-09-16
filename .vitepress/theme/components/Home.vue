@@ -61,7 +61,7 @@ onMounted(async () => {
         </svg> pip install 'vuepy-core[all]'
         </span>
       </a>
-      <a class="tui-link" :href="withBase('/textual_vuepy/quick-start')">
+      <a class="tui-link" :href="withBase('/textual_vuepy/quick-start/quick-start')">
         <span>⚡ 终端 TUI 应用</span>
       </a>
     </p>
@@ -157,7 +157,7 @@ onMounted(async () => {
     <div class="vt-box">
       <h2>终端 TUI 应用</h2>
       <p>
-        <a :href="withBase('/textual_vuepy/quick-start')">Textual-vuepy</a> 使用相同的 <code>.vue</code> 文件语法构建终端 TUI 应用，支持 TCSS 样式、键鼠事件与 Web 部署。
+        <a :href="withBase('/textual_vuepy/quick-start/quick-start')">Textual-vuepy</a> 使用相同的 <code>.vue</code> 文件语法构建终端 TUI 应用，支持 TCSS 样式、键鼠事件与 Web 部署。
       </p>
     </div>
 

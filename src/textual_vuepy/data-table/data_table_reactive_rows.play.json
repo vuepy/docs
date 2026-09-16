@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "reload_btn": { "query": "Button" }
+  },
+  "steps": [
+    { "wait": 1.2, "marker": "启动应用（3 行数据）" },
+    { "click": "reload_btn", "marker": "刷新 -> rows 整体替换（状态变化 + 新增一行）" },
+    { "wait": 1.5 },
+    { "key": "ctrl+q", "delay": 0.5 }
+  ]
+}

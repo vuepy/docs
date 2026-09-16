@@ -1,0 +1,15 @@
+{
+  "targets": {
+    "rust_item": { "query": "ListItem", "nth": 2 }
+  },
+  "steps": [
+    { "wait": 1.0, "marker": "启动应用" },
+    { "key": "down", "delay": 0.6, "marker": "方向键移动高亮" },
+    { "key": "down", "delay": 0.6 },
+    { "key": "enter", "delay": 0.6, "marker": "回车触发 list_view_selected" },
+    { "wait": 0.8 },
+    { "click": "rust_item", "marker": "鼠标点击同样会选中" },
+    { "wait": 1.0 },
+    { "key": "ctrl+q", "delay": 0.5 }
+  ]
+}

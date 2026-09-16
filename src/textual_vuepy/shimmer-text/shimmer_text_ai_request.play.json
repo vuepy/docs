@@ -1,0 +1,15 @@
+{
+  "targets": {
+    "question": { "query": "Input", "anchor": "topleft", "dx": 2, "dy": 1 },
+    "send_btn": { "query": "Button" }
+  },
+  "steps": [
+    { "wait": 1.0, "marker": "启动应用" },
+    { "click": "question" },
+    { "type": "hello", "marker": "输入问题" },
+    { "click": "send_btn", "marker": "发送（按钮禁用 + 流光动画）" },
+    { "wait": 2.5, "marker": "等待响应" },
+    { "wait": 1.2, "marker": "RichLog 写入回答" },
+    { "key": "ctrl+q", "delay": 0.5 }
+  ]
+}

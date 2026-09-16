@@ -183,7 +183,7 @@ from vuepy.utils import magic
 
 - 推荐的 IDE 配置是 [Visual Studio Code](https://code.visualstudio.com/) + [Vuepy Plugin](https://marketplace.visualstudio.com/items?itemName=vuepy.vuepy-plugin)。
 - 另一个推荐的 IDE 配置是 PyCharm + [Vue 插件](https://plugins.jetbrains.com/plugin/9442-vue-js)。如果使用其他编辑器，参考 [IDE 支持章节](/guide/scaling-up/tooling#ide-support)。
-- 想要构建**终端 TUI 应用**？查看 [Textual-vuepy 快速上手](/textual_vuepy/quick-start)。
+- 想要构建**终端 TUI 应用**？查看 [Textual-vuepy 快速上手](/textual_vuepy/quick-start/quick-start)。
 
 [//]: # (- 更多工具细节，包括与后端框架的整合，我们会在[工具链指南]&#40;/guide/scaling-up/tooling&#41;进行讨论。)
 [//]: # (- 要了解构建工具 Vite 更多背后的细节，请查看 [Vite 文档]&#40;https://cn.vitejs.dev&#41;。)
@@ -205,7 +205,7 @@ from vuepy.utils import magic
     <p class="next-steps-caption">介绍如何使用 LLMs 构建 Vuepy 应用。</p>
   </a>
 
-  <a class="vt-box" :href="withBase('/textual_vuepy/quick-start')">
+  <a class="vt-box" :href="withBase('/textual_vuepy/quick-start/quick-start')">
     <p class="next-steps-link">终端 TUI 应用</p>
     <p class="next-steps-caption">使用 Textual-vuepy 构建终端交互应用。</p>
   </a>

@@ -92,7 +92,7 @@ def show(panel: str):
 
 ## 配合 Tabs 使用
 
-ContentSwitcher 与 Tabs 配合是构建自定义标签页布局的推荐方式，详见 [Tabs 文档](./tabs)。
+ContentSwitcher 与 Tabs 配合是构建自定义标签页布局的推荐方式，详见 [Tabs 文档](../tabs/tabs)。
 
 :::textual-vuepy-demo content_switcher_with_tabs
 ```vue

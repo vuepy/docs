@@ -257,7 +257,7 @@ vuepy run keys
 
 <div class="vt-box-container next-steps">
 
-  <a class="vt-box" :href="withBase('/textual_vuepy/overview')">
+  <a class="vt-box" :href="withBase('/textual_vuepy/overview/overview')">
     <p class="next-steps-link">Textual-vuepy 组件总览</p>
     <p class="next-steps-caption">浏览所有可用的终端 UI 组件。</p>
   </a>

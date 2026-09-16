@@ -1,0 +1,15 @@
+{
+  "targets": {
+    "select": { "query": "Select", "anchor": "topleft", "dx": 4, "dy": 1 }
+  },
+  "steps": [
+    { "wait": 1.0, "marker": "启动应用" },
+    { "click": "select", "marker": "点击展开下拉列表" },
+    { "wait": 1.0 },
+    { "key": "down", "delay": 0.5 },
+    { "key": "down", "delay": 0.5, "marker": "方向键浏览选项" },
+    { "key": "enter", "delay": 0.5, "marker": "回车选中 -> v-model 更新 Label" },
+    { "wait": 1.2 },
+    { "key": "ctrl+q", "delay": 0.5 }
+  ]
+}

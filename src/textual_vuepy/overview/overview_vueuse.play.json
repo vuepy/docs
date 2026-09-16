@@ -1,0 +1,25 @@
+{
+  "targets": {
+    "p1": { "xy": [6, 3] },
+    "p2": { "xy": [22, 7] },
+    "p3": { "xy": [42, 12] },
+    "p4": { "xy": [64, 17] },
+    "p5": { "xy": [84, 22] },
+    "p6": { "xy": [95, 27] },
+    "p7": { "xy": [50, 14] },
+    "p8": { "xy": [12, 25] }
+  },
+  "steps": [
+    { "wait": 1.0, "marker": "启动应用" },
+    { "move": "p1", "delay": 0.5, "marker": "useMouse 实时跟踪鼠标坐标" },
+    { "move": "p2", "delay": 0.1 },
+    { "move": "p3", "delay": 0.1 },
+    { "move": "p4", "delay": 0.1 },
+    { "move": "p5", "delay": 0.1 },
+    { "move": "p6", "delay": 0.1, "marker": "移到右下角" },
+    { "move": "p7", "delay": 0.1 },
+    { "move": "p8", "delay": 0.1, "marker": "移到左下角" },
+    { "wait": 0.5 },
+    { "key": "ctrl+t", "delay": 0.5, "marker": "onKeyStroke('ctrl+t') 退出" }
+  ]
+}

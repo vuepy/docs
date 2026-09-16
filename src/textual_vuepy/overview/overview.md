@@ -324,6 +324,6 @@ Textual-vuepy 支持 Textual 原生事件，通过 `@事件名` 绑定：
 
 ## 深入了解
 
-- [快速上手](/textual_vuepy/quick-start) — 安装、运行、第一个应用
+- [快速上手](/textual_vuepy/quick-start/quick-start) — 安装、运行、第一个应用
 - [Textual 官方文档](https://textual.textualize.io/) — 了解底层 Widget 的完整属性与事件
 - [Vue.py 指南](/guide/introduction) — 响应式、组件通信、插槽等核心概念

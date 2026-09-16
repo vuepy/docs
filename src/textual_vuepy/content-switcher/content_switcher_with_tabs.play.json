@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "tab_dashboard": { "query": "Tab", "nth": 0 },
+    "tab_config": { "query": "Tab", "nth": 1 }
+  },
+  "steps": [
+    { "wait": 1.0, "marker": "启动应用（仪表盘）" },
+    { "click": "tab_config", "marker": "切到「配置」-> ContentSwitcher 换页" },
+    { "wait": 1.2 },
+    { "click": "tab_dashboard", "marker": "切回「仪表盘」" },
+    { "wait": 1.0 },
+    { "key": "ctrl+q", "delay": 0.5 }
+  ]
+}
