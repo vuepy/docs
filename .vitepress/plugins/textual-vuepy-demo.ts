@@ -156,7 +156,7 @@ export const textualVuepyDemoPlugin = (md: MarkdownIt) => {
       }
       markAsDependency(env, vueFile)
       const vueSource = fs.readFileSync(vueFile, 'utf-8').trimEnd()
-      const vueHtml = md.render(`\`\`\`vue\n${vueSource}\n\`\`\`\n`, { headers: [] })
+      const vueHtml = md.render(`\`\`\`vue\n<!-- ${demoName}.vue -->\n${vueSource}\n\`\`\`\n`, { headers: [] })
 
       let widgetHtml = ''
       if (fs.existsSync(castFile)) {
