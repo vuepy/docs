@@ -350,6 +350,28 @@ def _set_winsize(fd: int, cols: int, rows: int) -> None:
     fcntl.ioctl(fd, termios.TIOCSWINSZ, struct.pack("HHHH", rows, cols, 0, 0))
 
 
+def _become_session_leader() -> None:
+    """新建会话，并把 stdin 的 pty 认领为控制终端。
+
+    只 setsid 而不认领控制终端时，asciinema 3 打不开 /dev/tty，会自动降级成
+    headless：不读 stdin，注入的按键 / 鼠标序列全部丢失（应用也就永远不退出）。
+    """
+    os.setsid()
+    with contextlib.suppress(OSError, AttributeError):
+        fcntl.ioctl(0, termios.TIOCSCTTY, 0)
+
+
+def _asciinema_major(asciinema_bin: str) -> int:
+    """asciinema 主版本号，取不到时按 2 处理（不传 3.x 才有的参数）。"""
+    try:
+        out = subprocess.run(
+            [asciinema_bin, "--version"], capture_output=True, text=True, timeout=10
+        ).stdout
+        return int(out.strip().split()[-1].split(".")[0])
+    except Exception:
+        return 2
+
+
 class _OutputDrain(threading.Thread):
     """持续读走子进程输出，否则 pty 缓冲写满会让被录制进程卡住。
 
@@ -406,8 +428,11 @@ def record(
         vue_path.stem,
         "--command",
         shlex.join(inner_cmd),
-        str(cast_path),
     ]
+    if _asciinema_major(asciinema_bin) >= 3:
+        # 3.x 会按 .txt 后缀选 txt 格式，而播放器读的是 asciicast v2
+        cmd += ["--output-format", "asciicast-v2"]
+    cmd.append(str(cast_path))
 
     master_fd, slave_fd = os.openpty()
     _set_winsize(slave_fd, cols, rows)
@@ -420,7 +445,7 @@ def record(
         cwd=cwd,
         env=build_env(),
         close_fds=True,
-        start_new_session=True,
+        preexec_fn=_become_session_leader,
     )
     os.close(slave_fd)
 
