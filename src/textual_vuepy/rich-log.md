@@ -11,6 +11,7 @@ RichLog 是支持 Rich markup 的滚动日志组件，可自动语法高亮，�
 
 ## 基本用法
 
+:::textual-vuepy-demo rich_log_basic
 ```vue
 <template>
   <VBox style="height: 1fr;">
@@ -34,6 +35,7 @@ def clear_log():
     log_ref.value.unwrap().clear()
 </script>
 ```
+:::
 
 ## Props
 
@@ -68,6 +70,7 @@ RichLog 本身不触发特殊事件，通过 `ref` 方式操作内容。
 | `.write(text)` | 写入一条内容（支持 Rich 对象、Markup、字符串） |
 | `.clear()` | 清空所有日志内容 |
 
+:::textual-vuepy-demo rich_log_ref_methods
 ```vue
 <template>
   <VBox style="height: 1fr;">
@@ -100,6 +103,7 @@ def clear():
     log_ref.value.unwrap().clear()
 </script>
 ```
+:::
 
 ## 通用属性
 

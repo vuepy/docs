@@ -11,6 +11,7 @@ Dialog 是模态对话框组件，在应用前端弹出覆盖层，阻止背景�
 
 ## 基本用法
 
+:::textual-vuepy-demo dialog_basic
 ```vue
 <template>
   <VBox>
@@ -43,6 +44,7 @@ def confirm():
     close_dialog()
 </script>
 ```
+:::
 
 ## Props
 
@@ -61,6 +63,7 @@ def confirm():
 
 通过 `v-model:value` 控制对话框的显示/隐藏状态（`True` 为打开，`False` 为关闭）。
 
+:::textual-vuepy-demo dialog_vmodel
 ```vue
 <template>
   <VBox>
@@ -76,6 +79,7 @@ from vuepy import ref
 show_dialog = ref(False)
 </script>
 ```
+:::
 
 ## 事件
 
@@ -92,6 +96,7 @@ show_dialog = ref(False)
 
 ## 表单对话框示例
 
+:::textual-vuepy-demo dialog_form
 ```vue
 <template>
   <VBox>
@@ -133,6 +138,7 @@ def submit():
     form_dialog.value.unwrap().close()
 </script>
 ```
+:::
 
 ## 通用属性
 

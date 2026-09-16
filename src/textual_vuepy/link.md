@@ -7,33 +7,30 @@ titleTemplate: :title | Textual-vuepy
 
 在终端界面中显示可点击链接的组件，点击后会使用系统默认浏览器打开对应 URL。
 
-> 底层：Textual `Link`
+> 底层：Textual [Link](https://textual.textualize.io/widgets/link/)
 
 ## 基本用法
 
+:::textual-vuepy-demo link_basic
 ```vue
 <template>
   <VBox>
-    <Link url="https://vuepy.org" label="Vue.py 官网" />
-    <Link url="https://textual.textualize.io" />
+    <Link url="https://vuepy.org" text="Vue.py 官网" />
   </VBox>
 </template>
 ```
+:::
 
 ## Props
 
 | 属性 | 类型 | 默认值 | 说明 |
 |------|------|--------|------|
+| `text` | `str` | `""` | 链接显示文字（必填） |
 | `url` | `str` | `""` | 链接地址（必填） |
-| `label` | `str` | 与 `url` 相同 | 链接显示文字；若不设置则直接显示 `url` 本身 |
 
 ## v-model
 
-`v-model` 默认绑定属性：`url`
-
-```vue
-<Link v-model="target_url.value" label="点击访问" />
-```
+无
 
 ## 事件
 

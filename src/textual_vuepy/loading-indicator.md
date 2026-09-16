@@ -11,6 +11,7 @@ LoadingIndicator 显示一个全屏或容器内的旋转加载动画，在数据
 
 ## 基本用法
 
+:::textual-vuepy-demo loading_indicator_basic
 ```vue
 <template>
   <VBox style="height: 1fr;">
@@ -34,14 +35,13 @@ def simulate_load():
     app.tt_app.set_timer(2, done)
 </script>
 ```
+:::
 
 ## Props
 
-LoadingIndicator 除通用属性外无特殊 Props，仅需通过 `v-if` / `v-show` 控制其显示状态。
-
 | 属性 | 类型 | 默认值 | 说明 |
 |------|------|--------|------|
-| — | — | — | 无特殊 Props（通过 `v-if`/`v-show` 控制显示）|
+| `show` | bool | `True` | 是否显示加载指示器（映射到 Textual `display`）|
 
 ## v-model
 
@@ -49,19 +49,25 @@ LoadingIndicator 除通用属性外无特殊 Props，仅需通过 `v-if` / `v-sh
 
 通过 `v-model` 直接控制加载指示器的显示状态。
 
+:::textual-vuepy-demo loading_indicator_vmodel
 ```vue
 <template>
   <VBox style="height: 1fr;">
-    <LoadingIndicator v-model="loading.value" />
-    <Button label="切换" @click="loading.value = not loading.value" />
+    <Button label="切换" @click="toggle()" />
+    <Label :label="f'show={loading.value}'" />
+    <LoadingIndicator v-model="loading.value" style="height: 5;" />
   </VBox>
 </template>
 
 <script lang="py">
 from vuepy import ref
 loading = ref(False)
+
+def toggle():
+    loading.value = not loading.value
 </script>
 ```
+:::
 
 ## 事件
 
@@ -73,17 +79,15 @@ loading = ref(False)
 
 将 `LoadingIndicator` 与内容区同时渲染，使用绝对定位覆盖效果：
 
+:::textual-vuepy-demo loading_indicator_overlay
 ```vue
 <template>
   <VBox style="height: 1fr;">
-    <!-- 数据加载中覆盖整个内容区 -->
-    <LoadingIndicator v-if="loading.value" style="height: 1fr;" />
-    <VBox v-else style="height: 1fr;" border_title="数据列表">
+    <Button label="刷新数据" @click="reload()" />
+    <VBox style="height: 1fr;" border_title="数据列表">
       <DataTable :cols="['ID', '名称', '状态']" :rows="data_rows.value" style="height: 1fr;" />
+      <LoadingIndicator v-model="loading.value" style="height: 1fr; dock: top;" />
     </VBox>
-    <HBox style="height: 3;">
-      <Button label="刷新数据" @click="reload()" />
-    </HBox>
   </VBox>
 </template>
 
@@ -101,7 +105,6 @@ def reload():
     loading.value = True
 
     def on_done():
-        # 模拟从后端获取新数据
         data_rows.value = [
             ("001", "任务 A", "完成"),
             ("002", "任务 B", "完成"),
@@ -113,6 +116,7 @@ def reload():
     app.tt_app.set_timer(1.5, on_done)
 </script>
 ```
+:::
 
 ## 通用属性
 

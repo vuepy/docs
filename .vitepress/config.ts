@@ -7,6 +7,7 @@ import type { Config as ThemeConfig } from '@vue/theme'
 import baseConfig from '@vue/theme/config'
 import { headerPlugin } from './headerMdPlugin'
 import { mdPlugin } from './plugins/ipynb-markdown-transform'
+import { textualVuepyDemoPlugin } from './plugins/textual-vuepy-demo'
 import tableWrapper from './plugins/table-wrapper'
 import tooltip from './plugins/tooltip'
 import { generateLLMSTXTPlugin } from './plugins/generate-llms'
@@ -1289,6 +1290,7 @@ export default defineConfigWithTheme<ThemeConfig>({
       md.use(tableWrapper)
       md.use(tooltip)
       mdPlugin(md)
+      textualVuepyDemoPlugin(md)
       md.use(headerPlugin)
       // .use(textAdPlugin)
     }

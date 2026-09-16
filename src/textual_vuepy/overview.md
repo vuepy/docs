@@ -25,6 +25,7 @@ Textual-vuepy 将 [Textual](https://textual.textualize.io/) 全部内置 Widget 
 | `TabPane` | 标签页内容区域 | `title`, `id` |
 | `ContentSwitcher` | 根据 ID 切换显示内容 | `initial` |
 
+:::textual-vuepy-demo overview_layout
 ```vue
 <template>
   <VBox style="height: 1fr;">
@@ -37,6 +38,7 @@ Textual-vuepy 将 [Textual](https://textual.textualize.io/) 全部内置 Widget 
   </VBox>
 </template>
 ```
+:::
 
 ---
 
@@ -50,6 +52,7 @@ Textual-vuepy 将 [Textual](https://textual.textualize.io/) 全部内置 Widget 
 | `Link` | `url` | 超链接 | `url`, `label` |
 | `Placeholder` | — | 占位符 | `label` |
 
+:::textual-vuepy-demo overview_basic
 ```vue
 <template>
   <VBox>
@@ -58,6 +61,7 @@ Textual-vuepy 将 [Textual](https://textual.textualize.io/) 全部内置 Widget 
   </VBox>
 </template>
 ```
+:::
 
 ---
 
@@ -75,6 +79,7 @@ Textual-vuepy 将 [Textual](https://textual.textualize.io/) 全部内置 Widget 
 | `SelectionList` | `selected` | 多选列表 | — |
 | `Switch` | `value` | 开关 | `value`, `animate` |
 
+:::textual-vuepy-demo overview_form
 ```vue
 <template>
   <VBox>
@@ -95,6 +100,7 @@ enabled = ref(True)
 agreed = ref(False)
 </script>
 ```
+:::
 
 ---
 
@@ -111,6 +117,7 @@ agreed = ref(False)
 | `RichLog` | `lines` | 富文本滚动日志 | `markup`, `wrap`, `highlight` |
 | `Log` | `lines` | 纯文本滚动日志 | — |
 
+:::textual-vuepy-demo overview_data
 ```vue
 <template>
   <VBox style="height: 1fr;">
@@ -128,6 +135,7 @@ def write_log():
     log_ref.value.unwrap().write("[bold cyan]事件发生[/bold cyan]")
 </script>
 ```
+:::
 
 ---
 
@@ -141,7 +149,6 @@ def write_log():
 | `ListItem` | 列表项（在 `ListView` 内使用）| — |
 | `OptionList` | 可选项列表 | — |
 | `Option` | 选项项（在 `OptionList` 内使用）| `prompt`, `id` |
-| `OptionGroup` | 选项分组 | `name` |
 | `SelectionList` | 多选列表 | — |
 | `Selection` | 多选项（在 `SelectionList` 内使用）| `prompt`, `value` |
 | `Tree` | 树形结构 | `label` |
@@ -158,6 +165,7 @@ def write_log():
 | `ProgressBar` | 进度条 | `progress`, `total`, `show_eta` |
 | `Tooltip` | 工具提示 | `message` |
 
+:::textual-vuepy-demo overview_feedback
 ```vue
 <template>
   <VBox>
@@ -179,6 +187,7 @@ dialog_ref = ref(None)
 progress = ref(0)
 </script>
 ```
+:::
 
 ---
 
@@ -211,6 +220,7 @@ Textual-vuepy 提供两个开箱即用的 SFC 自定义组件（位于 `textual_
 | `interval` | float | `0.1` | 动画帧间隔（秒）|
 | `running` | bool | `False` | 是否运行动画 |
 
+:::textual-vuepy-demo overview_shimmer_text
 ```vue
 <template>
   <ShimmerText text="AI 正在思考..." :running="is_loading.value" />
@@ -220,11 +230,12 @@ Textual-vuepy 提供两个开箱即用的 SFC 自定义组件（位于 `textual_
 from vuepy import ref
 from vuepy import import_sfc
 from pathlib import Path
+from textual_vuepy.comps import ShimmerText
 
-ShimmerText = import_sfc(Path('textual_vuepy') / 'components' / 'ShimmerText.vue')
 is_loading = ref(True)
 </script>
 ```
+:::
 
 ### Spinner — 加载旋转器
 
@@ -261,18 +272,19 @@ vuepy run keys        # 启动按键查看器
 
 | 函数 | 说明 | 返回值 |
 |------|------|--------|
-| `onKeyStroke(key, cb)` | 注册全局按键监听（在 `onMounted` 后生效）| — |
+| `onKeyStroke(key, cb)` | 注册全局按键监听（在 `onMounted` 后生效），`cb` 不接收参数 | — |
 | `useMouse()` | 追踪鼠标屏幕坐标 | `(x: Ref[int], y: Ref[int])` |
 
+:::textual-vuepy-demo overview_vueuse
 ```vue
 <script lang="py">
 from textual_vuepy.vueuse import onKeyStroke, useMouse
 
 # 全局按键监听
-def handle_ctrl_c(event):
+def handle_quit():
     app.tt_app.exit()
 
-onKeyStroke('ctrl+c', handle_ctrl_c)
+onKeyStroke('ctrl+t', handle_quit)
 
 # 鼠标坐标追踪
 mouse_x, mouse_y = useMouse()
@@ -282,6 +294,10 @@ mouse_x, mouse_y = useMouse()
   <Label :label="f'鼠标位置: ({mouse_x.value}, {mouse_y.value})'" />
 </template>
 ```
+:::
+
+`onKeyStroke` 通过 Textual 的 binding 实现，因此被 Textual 自己占用的按键监听不到：`ctrl+c` 会弹出
+"Press ctrl+q to quit" 提示，`ctrl+q` 直接退出应用，`ctrl+p` 打开命令面板。挑一个未被占用的键即可。
 
 ---
 
@@ -289,6 +305,7 @@ mouse_x, mouse_y = useMouse()
 
 Textual-vuepy 支持 Textual 原生事件，通过 `@事件名` 绑定：
 
+:::textual-vuepy-demo overview_event_handling
 ```vue
 <template>
   <Input @input_submitted="on_submit" />
@@ -296,6 +313,7 @@ Textual-vuepy 支持 Textual 原生事件，通过 `@事件名` 绑定：
   <VBox @mouse_move="on_mouse_move" @mouse_up="on_mouse_up" />
 </template>
 ```
+:::
 
 事件名使用**蛇形命名（snake_case）**，对应 Textual Message 类名转小写，如：
 - `Input.Submitted` → `@input_submitted`

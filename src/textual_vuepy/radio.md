@@ -11,6 +11,7 @@ titleTemplate: :title | Textual-vuepy
 
 ## 基本用法
 
+:::textual-vuepy-demo radio_basic
 ```vue
 <template>
   <VBox>
@@ -36,6 +37,7 @@ opt_b = ref(False)
 selected = ref(0)
 </script>
 ```
+:::
 
 ## RadioButton Props
 

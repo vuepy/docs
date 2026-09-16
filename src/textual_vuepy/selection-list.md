@@ -11,6 +11,7 @@ titleTemplate: :title | Textual-vuepy
 
 ## 基本用法
 
+:::textual-vuepy-demo selection_list_basic
 ```vue
 <template>
   <VBox>
@@ -34,6 +35,7 @@ def on_change(event):
         selected_str.value = str(list_ref.value.unwrap().selected)
 </script>
 ```
+:::
 
 ## SelectionList Props
 
@@ -68,6 +70,7 @@ def on_change(event):
 | `.clear_selections()` | 清除所有选中状态 |
 | `.select_all()` | 选中所有选项 |
 
+:::textual-vuepy-demo selection_list_ref_access
 ```vue
 <template>
   <VBox>
@@ -97,6 +100,7 @@ def clear_all():
         lang_list.value.unwrap().clear_selections()
 </script>
 ```
+:::
 
 ## 通用属性
 

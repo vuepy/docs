@@ -11,6 +11,7 @@ titleTemplate: :title | Textual-vuepy
 
 ## 基本用法
 
+:::textual-vuepy-demo header_footer_basic
 ```vue
 <template>
   <VBox style="height: 1fr;">
@@ -23,6 +24,7 @@ titleTemplate: :title | Textual-vuepy
   </VBox>
 </template>
 ```
+:::
 
 ## Props
 
@@ -51,6 +53,7 @@ Footer 没有特殊 Props，自动读取应用中注册的键盘绑定（`Bindin
 
 ## 带时钟的完整应用布局
 
+:::textual-vuepy-demo header_footer_with_clock
 ```vue
 <template>
   <VBox style="height: 1fr;">
@@ -74,9 +77,11 @@ Footer 没有特殊 Props，自动读取应用中注册的键盘绑定（`Bindin
   </VBox>
 </template>
 ```
+:::
 
 ## 动态修改标题示例
 
+:::textual-vuepy-demo header_footer_dynamic_title
 ```vue
 <template>
   <VBox style="height: 1fr;">
@@ -109,6 +114,7 @@ def toggle_title():
     app_subtitle.value = s
 </script>
 ```
+:::
 
 ## 通用属性
 

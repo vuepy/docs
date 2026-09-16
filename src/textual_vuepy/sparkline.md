@@ -11,6 +11,7 @@ Sparkline 在终端中渲染一条迷你折线图，用于直观展示数值序�
 
 ## 基本用法
 
+:::textual-vuepy-demo sparkline_basic
 ```vue
 <template>
   <VBox>
@@ -31,6 +32,7 @@ def update():
     cpu_history.value = new_data
 </script>
 ```
+:::
 
 ## Props
 
@@ -45,6 +47,7 @@ def update():
 
 通过 `v-model` 可双向绑定数据列表，响应式更新后折线图自动重绘。
 
+:::textual-vuepy-demo sparkline_vmodel
 ```vue
 <template>
   <VBox>
@@ -58,6 +61,7 @@ from vuepy import ref
 metrics = ref([10, 25, 30, 15, 40, 55, 20, 60, 45, 30])
 </script>
 ```
+:::
 
 ## 事件
 
@@ -67,6 +71,7 @@ metrics = ref([10, 25, 30, 15, 40, 55, 20, 60, 45, 30])
 
 ## 实时监控示例
 
+:::textual-vuepy-demo sparkline_realtime
 ```vue
 <template>
   <VBox style="height: 1fr;">
@@ -99,6 +104,7 @@ def tick():
     net_out.value = net_out.value[1:] + [random.uniform(0, 200)]
 </script>
 ```
+:::
 
 ## 通用属性
 

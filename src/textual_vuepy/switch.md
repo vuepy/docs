@@ -11,6 +11,7 @@ titleTemplate: :title | Textual-vuepy
 
 ## 基本用法
 
+:::textual-vuepy-demo switch_basic
 ```vue
 <template>
   <VBox>
@@ -27,6 +28,7 @@ dark_mode = ref(False)
 auto_save = ref(True)
 </script>
 ```
+:::
 
 ## Props
 

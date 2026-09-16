@@ -11,6 +11,7 @@ ProgressBar 显示任务的完成进度，支持百分比、预计剩余时间�
 
 ## 基本用法
 
+:::textual-vuepy-demo progress_bar_basic
 ```vue
 <template>
   <VBox>
@@ -35,6 +36,7 @@ def reset():
     progress.value = 0
 </script>
 ```
+:::
 
 ## Props
 
@@ -52,6 +54,7 @@ def reset():
 
 通过 `v-model` 可双向绑定当前进度值，响应式更新后进度条自动刷新。
 
+:::textual-vuepy-demo progress_bar_vmodel
 ```vue
 <template>
   <VBox>
@@ -66,6 +69,7 @@ progress    = ref(0)
 total_steps = 200
 </script>
 ```
+:::
 
 ## 事件
 
@@ -82,6 +86,7 @@ total_steps = 200
 
 ## 模拟下载进度示例
 
+:::textual-vuepy-demo progress_bar_download
 ```vue
 <template>
   <VBox style="height: 1fr;">
@@ -126,6 +131,7 @@ def reset():
     status.value = "就绪"
 </script>
 ```
+:::
 
 ## 通用属性
 

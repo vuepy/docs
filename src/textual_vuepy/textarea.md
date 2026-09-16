@@ -11,6 +11,7 @@ titleTemplate: :title | Textual-vuepy
 
 ## 基本用法
 
+:::textual-vuepy-demo textarea_basic
 ```vue
 <template>
   <TextArea
@@ -29,6 +30,7 @@ code = ref("""def hello():
 """)
 </script>
 ```
+:::
 
 ## Props
 
@@ -65,6 +67,7 @@ code = ref("""def hello():
 | `.selection` | 当前选区范围（`Selection` 对象）|
 | `.cursor_location` | 光标位置 `(行, 列)` |
 
+:::textual-vuepy-demo textarea_ref_access
 ```vue
 <template>
   <VBox>
@@ -85,6 +88,7 @@ def get_selected():
         print(f"选中内容: {widget.selected_text}")
 </script>
 ```
+:::
 
 ## 通用属性
 

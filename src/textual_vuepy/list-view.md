@@ -11,6 +11,7 @@ titleTemplate: :title | Textual-vuepy
 
 ## 基本用法
 
+:::textual-vuepy-demo list_view_basic
 ```vue
 <template>
   <ListView @list_view_selected="on_select" style="height: 1fr;">
@@ -25,6 +26,7 @@ def on_select(event):
     print(f"选中了第 {event.list_view.index} 项")
 </script>
 ```
+:::
 
 ## Props
 
@@ -54,6 +56,7 @@ def on_select(event):
 
 ## 动态列表示例
 
+:::textual-vuepy-demo list_view_dynamic
 ```vue
 <template>
   <VBox style="height: 1fr;">
@@ -65,7 +68,7 @@ def on_select(event):
       style="height: 1fr;"
       border_title="任务列表"
     >
-      <ListItem v-for="task in tasks.value" :key="task">
+      <ListItem v-for="task in tasks.value">
         <Label :label="task" />
       </ListItem>
     </ListView>
@@ -93,6 +96,7 @@ def on_highlight(event):
     pass  # 高亮变化时触发，可在此更新预览
 </script>
 ```
+:::
 
 ## 通用属性
 

@@ -11,58 +11,34 @@ Pretty 使用 Rich 的 `Pretty` 渲染器将任意 Python 对象（dict、list�
 
 ## 基本用法
 
+:::textual-vuepy-demo pretty_basic
 ```vue
 <template>
   <VBox>
-    <Pretty :data="sample_data" />
-    <Button label="刷新" @click="refresh()" />
+    <Pretty :object="sample_data" />
   </VBox>
 </template>
 
 <script lang="py">
-from vuepy import ref
-
-sample_data = ref({
+sample_data = {
     "name": "Vue.py",
     "version": "0.1.0",
     "features": ["reactive", "components", "TUI"],
     "stats": {"users": 1000, "stars": 500},
-})
-
-def refresh():
-    sample_data.value = {"updated": True, "timestamp": "now"}
+}
 </script>
 ```
+:::
 
 ## Props
 
 | 属性 | 类型 | 默认值 | 说明 |
 |------|------|--------|------|
-| `data` | any | `None` | 要展示的 Python 对象，支持任意类型（dict、list、tuple、dataclass 等）|
+| `object` | any | `None` | 要展示的 Python 对象，支持任意类型（dict、list、tuple、dataclass 等）|
 
 ## v-model
 
-`v-model` 默认绑定属性：`data`
-
-通过 `v-model` 可双向绑定展示的对象，当绑定的响应式数据发生变化时，展示内容自动更新。
-
-```vue
-<template>
-  <VBox>
-    <Pretty v-model="config.value" style="height: 10;" />
-    <Button label="添加字段" @click="add_field()" />
-  </VBox>
-</template>
-
-<script lang="py">
-from vuepy import ref
-
-config = ref({"host": "localhost", "port": 8080})
-
-def add_field():
-    config.value = {**config.value, "debug": True, "workers": 4}
-</script>
-```
+不支持
 
 ## 事件
 
@@ -72,11 +48,12 @@ def add_field():
 
 ## 展示复杂对象示例
 
+:::textual-vuepy-demo pretty_complex
 ```vue
 <template>
   <VBox style="height: 1fr;">
     <Label label="请求详情：" />
-    <Pretty :data="request_info" style="height: 1fr;" border_title="Request" />
+    <Pretty :object="request_info" style="height: 1fr;" border_title="Request" />
   </VBox>
 </template>
 
@@ -98,6 +75,7 @@ request_info = RequestInfo(
 )
 </script>
 ```
+:::
 
 ## 通用属性
 

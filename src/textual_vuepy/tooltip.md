@@ -11,6 +11,7 @@ Tooltip 在鼠标悬停或聚焦组件时显示提示文字。在 Textual-vuepy 
 
 ## 基本用法
 
+:::textual-vuepy-demo tooltip_basic
 ```vue
 <template>
   <VBox>
@@ -19,7 +20,7 @@ Tooltip 在鼠标悬停或聚焦组件时显示提示文字。在 Textual-vuepy 
     <Switch v-model="flag.value" tooltip="开启/关闭某功能" />
 
     <!-- 作为独立组件 -->
-    <Tooltip message="独立 Tooltip 组件" />
+    <Tooltip content="独立 Tooltip 组件" />
   </VBox>
 </template>
 
@@ -28,12 +29,13 @@ from vuepy import ref
 flag = ref(False)
 </script>
 ```
+:::
 
 ## Props
 
 | 属性 | 类型 | 默认值 | 说明 |
 |------|------|--------|------|
-| `message` | str | `""` | 提示文字内容（用于独立 `<Tooltip>` 组件）|
+| `content` | str | `""` | 提示文字内容（用于独立 `<Tooltip>` 组件）|
 
 > **推荐方式**：为任意组件添加 `tooltip="提示文字"` 属性，无需单独使用 `<Tooltip>` 组件。
 
@@ -51,6 +53,7 @@ flag = ref(False)
 
 所有 Textual-vuepy 组件都支持通过 `tooltip` 属性添加悬停提示：
 
+:::textual-vuepy-demo tooltip_various
 ```vue
 <template>
   <VBox style="padding: 2 4;">
@@ -92,9 +95,11 @@ def reset():
     notify.value = True
 </script>
 ```
+:::
 
 ## 动态 Tooltip 示例
 
+:::textual-vuepy-demo tooltip_dynamic
 ```vue
 <template>
   <VBox>
@@ -122,6 +127,7 @@ def do_action():
     app.tt_app.set_timer(2, done)
 </script>
 ```
+:::
 
 ## 通用属性
 

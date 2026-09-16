@@ -11,6 +11,7 @@ Log 是只支持纯文本的滚动日志组件，轻量高效，适合输出大�
 
 ## 基本用法
 
+:::textual-vuepy-demo log_basic
 ```vue
 <template>
   <VBox style="height: 1fr;">
@@ -30,6 +31,7 @@ def append():
     log_ref.value.unwrap().write_line(f"[{now}] 事件发生")
 </script>
 ```
+:::
 
 ## Props
 
@@ -60,6 +62,7 @@ Log 本身不触发特殊事件，通过 `ref` 方式操作内容。
 | `.write_lines(lines)` | 批量写入多行内容（传入字符串列表）|
 | `.clear()` | 清空所有日志内容 |
 
+:::textual-vuepy-demo log_ref_methods
 ```vue
 <template>
   <VBox style="height: 1fr;">
@@ -90,6 +93,7 @@ def clear():
     log_ref.value.unwrap().clear()
 </script>
 ```
+:::
 
 ## RichLog vs Log 对比
 

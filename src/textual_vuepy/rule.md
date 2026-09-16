@@ -11,6 +11,7 @@ titleTemplate: :title | Textual-vuepy
 
 ## 基本用法
 
+:::textual-vuepy-demo rule_basic
 ```vue
 <template>
   <VBox>
@@ -24,6 +25,7 @@ titleTemplate: :title | Textual-vuepy
   </VBox>
 </template>
 ```
+:::
 
 ## Props
 

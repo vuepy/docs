@@ -11,6 +11,7 @@ titleTemplate: :title | Textual-vuepy
 
 ## 基本用法
 
+:::textual-vuepy-demo input_basic
 ```vue
 <template>
   <VBox>
@@ -32,6 +33,7 @@ def submit():
     print(f"用户名: {username.value}, 年龄: {age.value}")
 </script>
 ```
+:::
 
 ## Props
 

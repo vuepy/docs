@@ -11,6 +11,7 @@ ShimmerText 是内置的 SFC 自定义组件，以动画效果逐字高亮文字
 
 ## 基本用法
 
+:::textual-vuepy-demo shimmer_text_basic
 ```vue
 <template>
   <VBox>
@@ -28,6 +29,7 @@ from vuepy import ref
 is_loading = ref(False)
 </script>
 ```
+:::
 
 ## Props
 
@@ -37,6 +39,7 @@ is_loading = ref(False)
 | `highlight_width` | int | `3` | 同时高亮的字符数（光晕宽度）|
 | `interval` | float | `0.1` | 动画每帧间隔，单位秒，越小动画越快 |
 | `running` | bool | `False` | 是否运行动画；`False` 时文字静止显示，`True` 时启动流光效果 |
+| `style` | str | `""` | 应用到内部 Label 的 TCSS 内联样式（如 `height`、`color`）|
 
 ## v-model
 
@@ -50,6 +53,7 @@ ShimmerText 无 `v-model`。通过 `:running` prop 控制动画状态，通过 `
 
 ## 配合 AI 请求使用
 
+:::textual-vuepy-demo shimmer_text_ai_request
 ```vue
 <template>
   <VBox style="height: 1fr;">
@@ -93,9 +97,11 @@ def send():
     app.tt_app.set_timer(2, on_response)
 </script>
 ```
+:::
 
 ## 自定义样式示例
 
+:::textual-vuepy-demo shimmer_text_custom_style
 ```vue
 <template>
   <VBox style="height: 1fr; align: center middle;">
@@ -104,11 +110,21 @@ def send():
       :highlight_width="4"
       :interval="0.05"
       :running="True"
-      style="height: 3; text-style: bold;"
+      style="height: 3;"
+      class="bold"
     />
   </VBox>
 </template>
+<script lang="py">
+</script>
+<style lang="tcss">
+.bold {
+  text-style: bold;
+  color: cyan;
+}
+</style>
 ```
+:::
 
 ## 通用属性
 

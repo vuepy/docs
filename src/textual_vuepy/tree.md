@@ -11,6 +11,7 @@ Tree 以可折叠的树形结构展示层级数据，支持键盘导航和节点
 
 ## 基本用法
 
+:::textual-vuepy-demo tree_basic
 ```vue
 <template>
   <Tree ref="tree_ref" label="根节点" style="height: 1fr;"
@@ -36,6 +37,7 @@ def on_select(event):
     print(f"选中: {event.node.label}")
 </script>
 ```
+:::
 
 ## Props
 
@@ -74,6 +76,7 @@ def on_select(event):
 
 ## 复杂树示例
 
+:::textual-vuepy-demo tree_complex
 ```vue
 <template>
   <VBox style="height: 1fr;">
@@ -119,6 +122,7 @@ def on_expand(event):
     pass  # 可在展开时懒加载子节点
 </script>
 ```
+:::
 
 ## 通用属性
 

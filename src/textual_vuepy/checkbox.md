@@ -11,6 +11,7 @@ titleTemplate: :title | Textual-vuepy
 
 ## 基本用法
 
+:::textual-vuepy-demo checkbox_basic
 ```vue
 <template>
   <VBox>
@@ -28,6 +29,7 @@ remember = ref(False)
 agreed = ref(False)
 </script>
 ```
+:::
 
 ## Props
 

@@ -13,6 +13,7 @@ Tabs 是独立的标签导航栏组件，仅负责渲染可点击的标签，不
 
 Tabs 单独使用时，仅展示标签栏并触发切换事件：
 
+:::textual-vuepy-demo tabs_basic
 ```vue
 <template>
   <VBox style="height: 1fr;">
@@ -34,6 +35,7 @@ def on_tab_change(event):
     active.value = str(event.tab.id)
 </script>
 ```
+:::
 
 ## Props
 
@@ -54,7 +56,7 @@ Tabs 本身没有特有 Props，通过通用属性（`style`、`id` 等）控制
 
 ## v-model
 
-- **Tabs** `v-model` 默认绑定属性：`tabs`（当前激活标签的 ID）
+- **Tabs** `v-model` 默认绑定属性：`active`（当前激活标签的 ID）
 - **Tab** `v-model` 默认绑定属性：`label`（标签文字）
 
 ## 事件
@@ -68,6 +70,7 @@ Tabs 本身没有特有 Props，通过通用属性（`style`、`id` 等）控制
 
 Tabs 最常见的用法是与 `ContentSwitcher` 配合，实现标签栏与内容区域完全解耦的布局：
 
+:::textual-vuepy-demo tabs_with_switcher
 ```vue
 <template>
   <VBox style="height: 1fr;">
@@ -76,7 +79,7 @@ Tabs 最常见的用法是与 `ContentSwitcher` 配合，实现标签栏与内�
       <Tab label="B 面板" id="b" />
       <Tab label="C 面板" id="c" />
     </Tabs>
-    <ContentSwitcher :initial="active_tab.value" style="height: 1fr;">
+    <ContentSwitcher v-model="active_tab.value" style="height: 1fr;">
       <VBox id="a" style="padding: 1;">
         <Label label="这是 A 面板的内容" />
       </VBox>
@@ -100,6 +103,7 @@ def on_tab_change(event):
     active_tab.value = str(event.tab.id)
 </script>
 ```
+:::
 
 ## 与 TabbedContent 的区别
 

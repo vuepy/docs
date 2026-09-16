@@ -11,6 +11,7 @@ titleTemplate: :title | Textual-vuepy
 
 ## 基本用法
 
+:::textual-vuepy-demo masked_input_basic
 ```vue
 <template>
   <VBox>
@@ -28,6 +29,7 @@ date = ref("")
 phone = ref("")
 </script>
 ```
+:::
 
 ## Props
 
@@ -65,6 +67,7 @@ phone = ref("")
 
 ## 更多示例
 
+:::textual-vuepy-demo masked_input_more
 ```vue
 <template>
   <VBox>
@@ -90,6 +93,7 @@ def confirm():
     print(f"身份证: {id_card.value}, IP: {ip.value}")
 </script>
 ```
+:::
 
 ## 通用属性
 

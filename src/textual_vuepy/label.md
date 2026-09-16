@@ -11,6 +11,7 @@ titleTemplate: :title | Textual-vuepy
 
 ## 基本用法
 
+:::textual-vuepy-demo label_basic
 ```vue
 <template>
   <VBox>
@@ -28,6 +29,7 @@ from vuepy import ref
 count = ref(0)
 </script>
 ```
+:::
 
 ## Props
 

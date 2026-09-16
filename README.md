@@ -42,3 +42,37 @@ pnpm run dev
 ## 版权声明
 
 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />本作品采用<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议  (CC BY-NC-SA 4.0) </a>进行许可。
+
+## ipynb 文档转换方案
+
+实现了将ipynb文件转换为md文件，并保留ipynb中已渲染的小组件.
+
+外层md使用 `ipywui-demo` 容器，里面包含一个ipynb文件。
+
+```md
+:::ipywui-demo test
+src/examples/ipywui/component/accordion
+:::
+```
+
+之后会使用 [`ipynb-markdown-transform`](./.vitepress/plugins/ipynb-markdown-transform.ts) 插件将ipynb文件转换为md文件，并替换到 `ipywui-demo` 容器中。
+大致的流程为:
+
+读取 `src/examples/ipywui/component/accordion.ipynb` 文件, 本质是json文件,结构为:
+```json
+{
+    "cells": [
+        {
+            "cell_type": "markdown" | "code" | "raw",
+            "source": ["# 标题"],
+            "metadata": {}
+        }
+    ]
+}
+```
+* 当cell_type为markdown时,渲染为markdown文件
+* 当cell_type为code时,渲染为代码文件,使用‵<IpywuiDemo></IpywuiDemo>‵容器包裹,并使用‵<template #src>‵和‵<template #output>‵包裹代码和输出(对应代码渲染好的组件)。
+* 当cell_type为raw时,渲染为原始文件。
+
+## textual 文档转换方案
+

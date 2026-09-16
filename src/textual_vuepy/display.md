@@ -11,6 +11,7 @@ Display 是桥接组件，用于将 Python 代码中创建的原生 Textual Widg
 
 ## 基本用法
 
+:::textual-vuepy-demo display_basic
 ```vue
 <template>
   <VBox style="height: 1fr;">
@@ -22,24 +23,27 @@ Display 是桥接组件，用于将 Python 代码中创建的原生 Textual Widg
 </template>
 
 <script lang="py">
-from textual.widgets import DataTable
+from textual.widgets import Button, Welcome as WelcomeWidget
 
-# 创建一个普通 Textual Widget 实例
-my_widget = DataTable()
-my_widget.add_columns("A", "B")
-my_widget.add_row("1", "2")
+# 创建普通 Textual Widget 实例后直接嵌入
+my_widget = Button(label="from instance")
 
-# 或者传入类
-from textual.widgets import Welcome as WelcomeWidget
+# 或者传入类（Display 会自动实例化）
 MyWidget = WelcomeWidget
 </script>
 ```
+:::
+
+::: tip
+部分 Widget（如 `DataTable.add_columns`）在构造后立刻调用方法会依赖已激活的 App。
+这类初始化请放到 `@onMounted` 中（见下方 DataTable 示例）。
+:::
 
 ## Props
 
 | 属性 | 类型 | 默认值 | 说明 |
 |------|------|--------|------|
-| `obj` | Widget \| type[Widget] | — | **必填**。传入 Textual Widget **实例**时直接显示；传入 Widget **类**时自动实例化后显示 |
+| `obj` | Widget \| type[Widget] | — | **必填**。传入 Textual Widget **实例**时直接显示；传入 Widget **类**时自动实例化后显示，不支持动态切换 |
 
 ## v-model
 
@@ -55,6 +59,7 @@ Display 无 `v-model`，内容完全由 `obj` 控制。
 
 ### 场景一：预配置的 DataTable
 
+:::textual-vuepy-demo display_datatable
 ```vue
 <template>
   <VBox style="height: 1fr;">
@@ -64,12 +69,19 @@ Display 无 `v-model`，内容完全由 `obj` 控制。
 </template>
 
 <script lang="py">
+from vuepy import onMounted
 from textual.widgets import DataTable
 
 table_widget = DataTable(zebra_stripes=True, show_cursor=True)
-table_widget.add_columns("序号", "名称", "状态", "时间")
-table_widget.add_row("001", "任务 A", "完成", "09:00")
-table_widget.add_row("002", "任务 B", "进行中", "10:30")
+
+# DataTable.add_columns 需要 active app，放到 onMounted
+@onMounted
+def init_table():
+    if table_widget.columns:
+        return
+    table_widget.add_columns("序号", "名称", "状态", "时间")
+    table_widget.add_row("001", "任务 A", "完成", "09:00")
+    table_widget.add_row("002", "任务 B", "进行中", "10:30")
 
 def add_row():
     import datetime
@@ -82,58 +94,37 @@ def add_row():
     )
 </script>
 ```
+:::
 
 ### 场景二：第三方 Textual 组件
 
+:::textual-vuepy-demo display_third_party
 ```vue
 <template>
   <VBox style="height: 1fr;">
-    <Label label="以下为第三方 Textual 组件：" />
+    <Label label="以下为自定义 Textual Widget：" />
     <Display :obj="ThirdPartyWidget" style="height: 1fr;" />
   </VBox>
 </template>
 
 <script lang="py">
-# 假设存在一个第三方 Textual 组件
-from some_textual_library import AdvancedChart
+from textual.widgets import Static
 
-ThirdPartyWidget = AdvancedChart
+# 任意 Textual Widget 类均可传给 Display（自动实例化）
+class ThirdPartyWidget(Static):
+    DEFAULT_CSS = """
+    ThirdPartyWidget {
+        content-align: center middle;
+        height: 1fr;
+        border: solid green;
+    }
+    """
+
+    def __init__(self, **kwargs):
+        super().__init__("Hello from custom Widget", **kwargs)
 </script>
 ```
-
-### 场景三：动态切换 Widget
-
-```vue
-<template>
-  <VBox style="height: 1fr;">
-    <Display :obj="current_widget.value" style="height: 1fr;" />
-    <HBox style="height: 3;">
-      <Button label="显示表格" @click="show_table()" />
-      <Button label="显示日志" @click="show_log()" />
-    </HBox>
-  </VBox>
-</template>
-
-<script lang="py">
-from vuepy import ref
-from textual.widgets import DataTable, RichLog
-
-_table = DataTable()
-_table.add_columns("名称", "值")
-_table.add_row("示例", "数据")
-
-_log = RichLog(markup=True)
-_log.write("[green]系统启动[/green]")
-
-current_widget = ref(_table)
-
-def show_table():
-    current_widget.value = _table
-
-def show_log():
-    current_widget.value = _log
-</script>
-```
+:::
 
 ## 通用属性
 

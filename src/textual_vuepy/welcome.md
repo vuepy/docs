@@ -11,11 +11,13 @@ Welcome 是 Textual 框架内置的欢迎/介绍页面组件，展示 Textual �
 
 ## 基本用法
 
+:::textual-vuepy-demo welcome_basic
 ```vue
 <template>
   <Welcome style="height: 1fr;" />
 </template>
 ```
+:::
 
 ## Props
 
@@ -39,6 +41,7 @@ Welcome 无 `v-model`。
 
 将 Welcome 作为"帮助"或"关于"标签页的内容：
 
+:::textual-vuepy-demo welcome_in_tabs
 ```vue
 <template>
   <VBox style="height: 1fr;">
@@ -57,11 +60,13 @@ Welcome 无 `v-model`。
   </VBox>
 </template>
 ```
+:::
 
 ## 条件显示示例
 
 首次启动时展示欢迎页，用户确认后进入主界面：
 
+:::textual-vuepy-demo welcome_conditional
 ```vue
 <template>
   <VBox style="height: 1fr;">
@@ -84,6 +89,7 @@ def dismiss():
     show_welcome.value = False
 </script>
 ```
+:::
 
 ## 通用属性
 

@@ -11,6 +11,7 @@ Collapsible 是一个可以展开或收起内容区域的容器组件，适合�
 
 ## 基本用法
 
+:::textual-vuepy-demo collapsible_basic
 ```vue
 <template>
   <Collapsible title="详细信息" v-model="is_collapsed.value">
@@ -25,6 +26,7 @@ from vuepy import ref
 is_collapsed = ref(False)
 </script>
 ```
+:::
 
 ## Props
 
@@ -39,6 +41,7 @@ is_collapsed = ref(False)
 
 `v-model` 绑定的值为 `bool` 类型，`True` 表示折叠，`False` 表示展开。
 
+:::textual-vuepy-demo collapsible_vmodel
 ```vue
 <template>
   <VBox>
@@ -58,6 +61,7 @@ def toggle():
     collapsed.value = not collapsed.value
 </script>
 ```
+:::
 
 ## 事件
 
@@ -68,6 +72,7 @@ def toggle():
 
 ### 事件使用示例
 
+:::textual-vuepy-demo collapsible_events
 ```vue
 <template>
   <Collapsible
@@ -92,11 +97,13 @@ def on_expanded(event):
     print("已展开")
 </script>
 ```
+:::
 
 ## 嵌套使用
 
 Collapsible 支持多层嵌套，适合构建树形折叠菜单：
 
+:::textual-vuepy-demo collapsible_nested
 ```vue
 <template>
   <VBox style="height: 1fr; padding: 1;">
@@ -113,6 +120,7 @@ Collapsible 支持多层嵌套，适合构建树形折叠菜单：
   </VBox>
 </template>
 ```
+:::
 
 ## 通用属性
 

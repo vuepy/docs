@@ -11,6 +11,7 @@ titleTemplate: :title | Textual-vuepy
 
 ## 基本用法
 
+:::textual-vuepy-demo select_basic
 ```vue
 <template>
   <VBox>
@@ -29,6 +30,7 @@ from vuepy import ref
 language = ref("py")
 </script>
 ```
+:::
 
 ## Props
 
@@ -63,6 +65,7 @@ language = ref("py")
 
 ## 更多示例
 
+:::textual-vuepy-demo select_more
 ```vue
 <template>
   <VBox>
@@ -89,6 +92,7 @@ city_options = ref([
 selected_city = ref("BJ")
 </script>
 ```
+:::
 
 ## 通用属性
 

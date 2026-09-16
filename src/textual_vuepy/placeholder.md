@@ -11,6 +11,7 @@ titleTemplate: :title | Textual-vuepy
 
 ## 基本用法
 
+:::textual-vuepy-demo placeholder_basic
 ```vue
 <template>
   <VBox style="height: 1fr;">
@@ -19,6 +20,7 @@ titleTemplate: :title | Textual-vuepy
   </VBox>
 </template>
 ```
+:::
 
 ## Props
 

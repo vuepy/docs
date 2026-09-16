@@ -13,12 +13,13 @@ ContentSwitcher 根据子组件的 `id` 切换显示哪个子组件，同一时�
 
 通过按钮点击切换 ContentSwitcher 中显示的内容面板：
 
+:::textual-vuepy-demo content_switcher_basic
 ```vue
 <template>
   <VBox style="height: 1fr;">
     <HBox style="height: 3;">
-      <Button label="显示 A" @click="switcher_ref.value.unwrap().current = 'panel-a'" />
-      <Button label="显示 B" @click="switcher_ref.value.unwrap().current = 'panel-b'" />
+      <Button label="显示 A" @click="show('panel-a')" />
+      <Button label="显示 B" @click="show('panel-b')" />
     </HBox>
     <ContentSwitcher ref="switcher_ref" initial="panel-a" style="height: 1fr;">
       <VBox id="panel-a" style="padding: 1;">
@@ -35,26 +36,37 @@ ContentSwitcher 根据子组件的 `id` 切换显示哪个子组件，同一时�
 from vuepy import ref
 
 switcher_ref = ref(None)
+
+def show(panel: str):
+    switcher_ref.value.unwrap().current = panel
 </script>
 ```
+:::
 
 ## Props
 
 | 属性 | 类型 | 默认值 | 说明 |
 |------|------|--------|------|
-| `initial` | `str` | `""` | 初始显示的子组件 `id`；留空则显示第一个子组件 |
+| `initial` | `str \| None` | `None` | 初始显示的子组件 `id`；不传则初始不显示任何子组件 |
+
+所有参与切换的子组件都需要唯一的 `id`；没有 `id` 的子组件会被隐藏并忽略。
 
 ## v-model
 
-`v-model` 默认绑定属性：`index`（当前显示的子组件 ID）
+`v-model` 默认绑定属性：`current`（当前显示的子组件 ID，类型为 `str \| None`）
 
 通过 `v-model` 可读取或设置当前显示的子组件 ID：
 
+:::textual-vuepy-demo content_switcher_vmodel
 ```vue
 <template>
   <VBox style="height: 1fr;">
-    <Label :label="`当前面板：${current_panel.value}`" />
-    <ContentSwitcher v-model="current_panel.value" style="height: 1fr;">
+    <HBox style="height: 3;">
+      <Button label="首页" @click="show('home')" />
+      <Button label="设置" @click="show('settings')" />
+    </HBox>
+    <Label>当前面板：{{ current_panel.value }}</Label>
+    <ContentSwitcher v-model="current_panel.value" ref='cs_ref' style="height: 1fr;">
       <VBox id="home"><Label label="首页" /></VBox>
       <VBox id="settings"><Label label="设置" /></VBox>
     </ContentSwitcher>
@@ -64,40 +76,25 @@ switcher_ref = ref(None)
 <script lang="py">
 from vuepy import ref
 
-current_panel = ref("home")
+current_panel = ref("settings")
+cs_ref = ref(None)
+
+def show(panel: str):
+    cs_ref.value.unwrap().current = panel
+
 </script>
 ```
+:::
 
 ## 事件
 
-| 事件 | 参数 | 说明 |
-|------|------|------|
-| `@content_switcher_switched` | `ContentSwitcher.Switched` | 显示内容切换后触发；`event.index` 为新显示内容的索引，`event.item` 为对应的 Widget |
-
-### 事件使用示例
-
-```vue
-<template>
-  <ContentSwitcher
-    initial="view-a"
-    @content_switcher_switched="on_switch"
-    style="height: 1fr;"
-  >
-    <VBox id="view-a"><Label label="视图 A" /></VBox>
-    <VBox id="view-b"><Label label="视图 B" /></VBox>
-  </ContentSwitcher>
-</template>
-
-<script lang="py">
-def on_switch(event):
-    print(f"切换到索引 {event.index}，组件：{event.item}")
-</script>
-```
+无
 
 ## 配合 Tabs 使用
 
 ContentSwitcher 与 Tabs 配合是构建自定义标签页布局的推荐方式，详见 [Tabs 文档](./tabs)。
 
+:::textual-vuepy-demo content_switcher_with_tabs
 ```vue
 <template>
   <VBox style="height: 1fr;">
@@ -105,7 +102,7 @@ ContentSwitcher 与 Tabs 配合是构建自定义标签页布局的推荐方式�
       <Tab label="仪表盘" id="dashboard" />
       <Tab label="配置" id="config" />
     </Tabs>
-    <ContentSwitcher :initial="active.value" style="height: 1fr;">
+    <ContentSwitcher v-model="active.value" style="height: 1fr;">
       <VBox id="dashboard" style="padding: 1;">
         <Label label="仪表盘内容" />
       </VBox>
@@ -126,11 +123,13 @@ def on_tab_change(event):
     active.value = str(event.tab.id)
 </script>
 ```
+:::
 
 ## 编程式切换
 
 通过 `ref` 获取组件实例后，可直接设置 `.current` 属性切换内容：
 
+:::textual-vuepy-demo content_switcher_programmatic
 ```vue
 <template>
   <VBox style="height: 1fr;">
@@ -162,6 +161,7 @@ def next():
     sw.value.unwrap().current = steps[current_index.value]
 </script>
 ```
+:::
 
 ## 通用属性
 

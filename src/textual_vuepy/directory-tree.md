@@ -5,12 +5,13 @@ titleTemplate: :title | Textual-vuepy
 
 # DirectoryTree 目录树
 
-DirectoryTree 以树形结构展示文件系统目录，支持文件/目录点击选中事件，以及通过 `filter_pattern` 进行 glob 模式过滤，适合构建文件浏览器或项目浏览工具。
+DirectoryTree 以树形结构展示文件系统目录，支持文件/目录点击选中事件，以及通过 `filter_query` 按文件名子串过滤，适合构建文件浏览器或项目浏览工具。
 
-> 底层：Textual `FilterableDirectoryTree`（扩展自 DirectoryTree，带过滤功能）
+> 底层：Textual `DirectoryTree`（`textual_vuepy` 扩展为可过滤的 `FilterableDirectoryTree`）
 
 ## 基本用法
 
+:::textual-vuepy-demo directory_tree_basic
 ```vue
 <template>
   <VBox style="height: 1fr;">
@@ -32,13 +33,14 @@ def on_file_select(event):
     selected_file.value = str(event.path)
 </script>
 ```
+:::
 
 ## Props
 
 | 属性 | 类型 | 默认值 | 说明 |
 |------|------|--------|------|
 | `path` | str \| Path | — | **必填**，要展示的根目录路径（绝对路径或相对路径均可）|
-| `filter_pattern` | str | `None` | 文件名过滤模式（glob 格式，如 `"*.py"`），默认显示全部文件 |
+| `filter_query` | str | `""` | 文件名过滤子串（大小写不敏感）；空字符串表示不过滤。变更后会自动 `reload` |
 
 ## v-model
 
@@ -55,17 +57,18 @@ def on_file_select(event):
 
 ## 文件过滤示例
 
+:::textual-vuepy-demo directory_tree_filter
 ```vue
 <template>
   <VBox style="height: 1fr;">
     <HBox style="height: 3;">
       <Button label="全部" @click="set_filter('')" />
-      <Button label="仅 Python" @click="set_filter('*.py')" />
-      <Button label="仅 Markdown" @click="set_filter('*.md')" />
+      <Button label="仅 py" @click="set_filter('py')" />
+      <Button label="仅 md" @click="set_filter('md')" />
     </HBox>
     <DirectoryTree
-      :path="root_path"
-      :filter_pattern="filter_pattern.value"
+      path="./"
+      :filter_query="filter_query.value"
       style="height: 1fr;"
       border_title="文件浏览器"
       @directory_tree_file_selected="on_file"
@@ -77,14 +80,12 @@ def on_file_select(event):
 
 <script lang="py">
 from vuepy import ref
-import os
 
-root_path      = os.path.expanduser("~/")
-filter_pattern = ref("")
-status         = ref("（未选择）")
+filter_query = ref("")
+status = ref("（未选择）")
 
-def set_filter(pattern):
-    filter_pattern.value = pattern
+def set_filter(query):
+    filter_query.value = query
 
 def on_file(event):
     status.value = f"📄 {event.path}"
@@ -93,6 +94,7 @@ def on_dir(event):
     status.value = f"📁 {event.path}"
 </script>
 ```
+:::
 
 ## 与 Tree 组件对比
 
@@ -100,7 +102,7 @@ def on_dir(event):
 |------|:---:|:---:|
 | 数据来源 | 文件系统（自动） | 手动构建 |
 | 懒加载子目录 | ✓（自动）| 可手动实现 |
-| 文件过滤 | ✓（glob 模式）| — |
+| 文件过滤 | ✓（`filter_query` 子串）| — |
 | 自定义节点数据 | — | ✓ |
 
 ## 通用属性

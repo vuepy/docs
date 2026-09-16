@@ -14,6 +14,7 @@ import SponsorsAside from './components/SponsorsAside.vue'
 import WwAds from './components/WwAds.vue'
 // import TextAd from './components/TextAd.vue'
 import IpywuiDemo from '../vitepress/components/IpywuiDemo.vue'
+import AsciinemaPlayer from '../vitepress/components/AsciinemaPlayer.vue'
 import VPAPITyping from '@theme/components/VPAPITyping.vue'
 import VPTooltip from '@theme/components/VPTooltip.vue'
 
@@ -35,6 +36,7 @@ export default Object.assign({}, VPTheme, {
     app.provide('prefer-sfc', preferSFC)
     app.provide('filter-headers', filterHeadersByPreference)
     app.component('IpywuiDemo', IpywuiDemo)
+    app.component('AsciinemaPlayer', AsciinemaPlayer)
     app.component('VPTooltip', VPTooltip)
     app.component('VPAPITyping', VPAPITyping)
     // app.component('VueSchoolLink', VueSchoolLink)

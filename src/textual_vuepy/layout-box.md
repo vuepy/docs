@@ -7,13 +7,14 @@ titleTemplate: :title | Textual-vuepy
 
 VBox、HBox 是 Textual-vuepy 最基础的布局容器，用于将子组件分别沿**垂直方向**或**水平方向**排列。Slot 是 VBox 的别名，通常用作 slot 占位容器。
 
-> 底层：[Textual `Vertical`](https://textual.textualize.io/widgets/vertical/) /
-> [Textual `Horizontal`](https://textual.textualize.io/widgets/horizontal/)
+> 底层：[Textual `Vertical`](https://textual.textualize.io/api/containers/#textual.containers.VerticalScroll) /
+> [Textual `Horizontal`](https://textual.textualize.io/api/containers/#textual.containers.HorizontalScroll)
 
 ## 基本用法
 
 使用 `VBox` 垂直排列子组件，使用 `HBox` 水平排列子组件，两者可以任意嵌套。
 
+:::textual-vuepy-demo layout_box_basic
 ```vue
 <template>
   <VBox style="height: 1fr; padding: 1;">
@@ -26,6 +27,7 @@ VBox、HBox 是 Textual-vuepy 最基础的布局容器，用于将子组件分�
   </VBox>
 </template>
 ```
+:::
 
 ## Props
 
@@ -67,6 +69,7 @@ VBox / HBox / Slot 支持 Textual 标准鼠标与点击事件：
 
 使用 `1fr` 将可用空间等分给多个子容器：
 
+:::textual-vuepy-demo layout_box_equal_split
 ```vue
 <template>
   <HBox style="height: 1fr;">
@@ -79,11 +82,13 @@ VBox / HBox / Slot 支持 Textual 标准鼠标与点击事件：
   </HBox>
 </template>
 ```
+:::
 
 ### 使用 Slot 占位
 
 `Slot` 与 `VBox` 完全等价，可用于语义化的 slot 占位：
 
+:::textual-vuepy-demo layout_box_slot
 ```vue
 <template>
   <VBox style="height: 1fr;">
@@ -93,6 +98,7 @@ VBox / HBox / Slot 支持 Textual 标准鼠标与点击事件：
   </VBox>
 </template>
 ```
+:::
 
 ## 通用属性
 

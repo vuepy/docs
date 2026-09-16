@@ -11,6 +11,7 @@ Digits 以仿 LCD 风格渲染大号数字字符，适合展示时钟、计时�
 
 ## 基本用法
 
+:::textual-vuepy-demo digits_basic
 ```vue
 <template>
   <VBox style="align: center middle;">
@@ -42,6 +43,7 @@ def stop_timer():
     running.value = False
 </script>
 ```
+:::
 
 ## Props
 
@@ -65,6 +67,7 @@ def stop_timer():
 
 ## 倒计时示例
 
+:::textual-vuepy-demo digits_countdown
 ```vue
 <template>
   <VBox style="height: 1fr; align: center middle;">
@@ -113,6 +116,7 @@ def reset():
     status_label.value = "就绪"
 </script>
 ```
+:::
 
 ## 通用属性
 

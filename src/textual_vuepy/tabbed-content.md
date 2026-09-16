@@ -11,6 +11,7 @@ TabbedContent 是一个内置标签导航栏的容器组件，配合 TabPane 子
 
 ## 基本用法
 
+:::textual-vuepy-demo tabbed_content_basic
 ```vue
 <template>
   <TabbedContent>
@@ -26,6 +27,7 @@ TabbedContent 是一个内置标签导航栏的容器组件，配合 TabPane 子
   </TabbedContent>
 </template>
 ```
+:::
 
 ## Props
 
@@ -44,11 +46,12 @@ TabbedContent 是一个内置标签导航栏的容器组件，配合 TabPane 子
 
 ## v-model
 
-- **TabbedContent** `v-model` 默认绑定属性：`tabs`（当前激活标签的 ID）
+- **TabbedContent** `v-model` 默认绑定属性：`active`（当前激活标签的 ID）
 - **TabPane** `v-model` 默认绑定属性：`label`（标签文字）
 
 通过 `v-model` 可以读取或控制当前激活的标签：
 
+:::textual-vuepy-demo tabbed_content_vmodel
 ```vue
 <template>
   <VBox style="height: 1fr;">
@@ -70,6 +73,7 @@ from vuepy import ref
 active_tab = ref("pane-a")
 </script>
 ```
+:::
 
 ## 事件
 
@@ -79,6 +83,7 @@ active_tab = ref("pane-a")
 
 ### 事件使用示例
 
+:::textual-vuepy-demo tabbed_content_events
 ```vue
 <template>
   <TabbedContent
@@ -100,6 +105,7 @@ def on_tab_change(event):
     print(f"切换到标签：{tab_id}")
 </script>
 ```
+:::
 
 ## 进阶示例
 
@@ -107,27 +113,31 @@ def on_tab_change(event):
 
 结合响应式数据动态渲染标签页内容：
 
+:::textual-vuepy-demo tabbed_content_dynamic_tabs
 ```vue
 <template>
+  <VBox>
   <TabbedContent initial="tab-users">
     <TabPane title="用户列表" id="tab-users">
-      <DataTable :data="users.value" />
+      <DataTable :rows="users.value" :cols="['name', 'role']" />
     </TabPane>
     <TabPane title="统计" id="tab-stats">
-      <Label :label="`共 ${users.value|length} 位用户`" />
+      <Label>共 {{ len(users.value) }} 位用户</Label>
     </TabPane>
   </TabbedContent>
+</VBox>
 </template>
 
 <script lang="py">
 from vuepy import ref
 
 users = ref([
-    {"name": "Alice", "role": "admin"},
-    {"name": "Bob",   "role": "user"},
+    ("Alice", "admin"),
+    ("Bob",   "user"),
 ])
 </script>
 ```
+:::
 
 ## 通用属性
 

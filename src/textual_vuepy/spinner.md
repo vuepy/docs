@@ -11,6 +11,7 @@ Spinner 是内置的 SFC 自定义组件，以 Braille 点阵风格的旋转动�
 
 ## 基本用法
 
+:::textual-vuepy-demo spinner_basic
 ```vue
 <template>
   <VBox>
@@ -31,6 +32,7 @@ def start():
     app.tt_app.set_timer(3, done)
 </script>
 ```
+:::
 
 ## Props
 
@@ -55,6 +57,7 @@ Spinner 无 `v-model`。通过 `:running` prop 控制动画启停，通过 `:tex
 
 ## 多步骤进度示例
 
+:::textual-vuepy-demo spinner_multistep
 ```vue
 <template>
   <VBox style="height: 1fr;">
@@ -94,6 +97,7 @@ def run_task():
     step(0)
 </script>
 ```
+:::
 
 ## 与 ShimmerText 对比
 

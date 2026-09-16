@@ -11,6 +11,7 @@ titleTemplate: :title | Textual-vuepy
 
 ## 基本用法
 
+:::textual-vuepy-demo markdown_basic
 ```vue
 <template>
   <VBox style="height: 1fr;">
@@ -41,6 +42,7 @@ Vue.py 是基于 Python 的响应式框架。
 """
 </script>
 ```
+:::
 
 ## Props
 
@@ -62,6 +64,7 @@ Vue.py 是基于 Python 的响应式框架。
 - `Markdown`：`v-model` 默认绑定属性 `markdown`，可动态更新渲染内容
 - `MarkdownViewer`：`v-model` 默认绑定属性 `markdown`
 
+:::textual-vuepy-demo markdown_vmodel
 ```vue
 <template>
   <VBox style="height: 1fr;">
@@ -82,11 +85,13 @@ def toggle():
     content.value = page_b if content.value == page_a else page_a
 </script>
 ```
+:::
 
 ## Content Slot
 
 除了通过 `markdown` prop 传入内容，也可以直接在组件标签内部书写 Markdown 文本（content slot）：
 
+:::textual-vuepy-demo markdown_content_slot
 ```vue
 <template>
   <Markdown style="height: 1fr;">
@@ -101,6 +106,7 @@ def toggle():
   </Markdown>
 </template>
 ```
+:::
 
 ## 事件
 

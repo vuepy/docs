@@ -18,6 +18,7 @@
     "@vue/repl": "^3.0.0",
     "@vue/theme": "^2.2.5",
     "@vueuse/core": "^9.13.0",
+    "asciinema-player": "^3.17.0",
     "dynamics.js": "^1.1.5",
     "gsap": "^3.9.0",
     "vitepress": "1.0.0-rc.33",

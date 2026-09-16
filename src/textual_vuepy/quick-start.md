@@ -9,8 +9,7 @@ import { withBase } from 'vitepress'
 
 # Textual-vuepy 快速上手 {#quick-start}
 
-<img style="display: inline; width: 28px" src="/images/textual-vuepy-logo.svg" >
-Textual-vuepy 是基于 Vue.py 和 <a href='https://textual.textualize.io/'>Textual</a> 构建终端 TUI（Text User Interface）应用的组件库。它让你使用 Vue.py 的响应式开发体验来编写运行在终端中的交互式应用：
+Textual-vuepy 是基于 Vue.py 和 [Textual](https://textual.textualize.io/) 构建终端 TUI（Text User Interface）应用的组件库。它让你使用 Vue.py 的响应式开发体验来编写运行在终端中的交互式应用：
 
 * **丰富的终端组件** — 直接映射 Textual 所有内置 Widget，开箱即用
 * **响应式 SFC 开发** — 与 IPywUI/Panel-vuepy 使用完全相同的 `.vue` 文件语法
@@ -86,6 +85,7 @@ app.mount()
 
 创建 `App.vue` 文件：
 
+:::textual-vuepy-demo quick_start_first_app
 ```vue
 <template>
   <VBox style="height: 1fr; align: center middle;">
@@ -121,6 +121,7 @@ Button {
 }
 </style>
 ```
+:::
 
 运行：
 
@@ -145,6 +146,7 @@ vuepy run App.vue
 
 通过 `ref` 引用组件，再调用 `.value.unwrap()` 获取底层 Textual Widget 对象：
 
+:::textual-vuepy-demo quick_start_ref_widget
 ```vue
 <template>
   <RichLog ref="log_ref" highlight markup />
@@ -162,11 +164,13 @@ def on_mount():
     widget.focus()
 </script>
 ```
+:::
 
 ## TCSS 样式 {#tcss-style}
 
 在 `<style lang="tcss">` 块中编写 [Textual CSS](https://textual.textualize.io/guide/CSS/)：
 
+:::textual-vuepy-demo quick_start_tcss
 ```vue
 <template>
   <VBox id="container">
@@ -188,6 +192,7 @@ def on_mount():
 }
 </style>
 ```
+:::
 
 也可以在模板中用 `:style` 绑定内联 TCSS：
 

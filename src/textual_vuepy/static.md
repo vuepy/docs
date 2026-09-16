@@ -11,6 +11,7 @@ titleTemplate: :title | Textual-vuepy
 
 ## 基本用法
 
+:::textual-vuepy-demo static_basic
 ```vue
 <template>
   <VBox>
@@ -27,6 +28,7 @@ from vuepy import ref
 status_text = ref("等待中...")
 </script>
 ```
+:::
 
 ## Props
 
