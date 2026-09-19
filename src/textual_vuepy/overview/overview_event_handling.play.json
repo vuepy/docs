@@ -4,7 +4,7 @@
   "targets": {
     "input": { "query": "Input", "anchor": "topleft", "dx": 2, "dy": 1 },
     "tree_file": { "query": "DirectoryTree", "anchor": "topleft", "row": "first_file", "dx": 4 },
-    "box": { "query": "VBox", "anchor": "center" }
+    "box": { "query": "VBox", "anchor": "topleft", "dx": 10, "dy": 2 }
   },
   "steps": [
     { "wait": 1.5, "marker": "启动应用" },

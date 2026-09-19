@@ -10,7 +10,7 @@ def on_submit(event):
     app.message(f"submit: {event.value}")
 
 def on_file_selected(event):
-    app.message(f"file selected: {event.path}")
+    app.message(f"file selected: {event.path.name}")
 
 def on_mouse_up(event):
     app.message(f"mouse up: {event.x}, {event.y}")

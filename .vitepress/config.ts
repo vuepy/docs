@@ -894,7 +894,7 @@ export const sidebar: ThemeConfig['sidebar'] = {
     {
       text: 'VueUse 组合式函数',
       items: [
-        {text: 'onKeyStroke / useMouse', link: '/textual_vuepy/overview/overview#vueuse'},
+        {text: 'onKeyStroke / useMouse', link: '/textual_vuepy/vueuse/vueuse'},
       ]
     },
   ],

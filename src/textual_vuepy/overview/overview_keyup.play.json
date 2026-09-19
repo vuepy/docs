@@ -1,0 +1,23 @@
+{
+  "size": "100x30",
+  "targets": {
+    "m1": { "xy": [20, 8] },
+    "m2": { "xy": [55, 13] },
+    "m3": { "xy": [84, 22] },
+    "m4": { "xy": [12, 25] }
+  },
+  "steps": [
+    { "wait": 1.2, "marker": "启动应用，onMounted 里已 focus 容器" },
+    { "key": "r", "delay": 0.9, "marker": "@keyup.r -> 红色" },
+    { "key": "g", "delay": 0.9, "marker": "@keyup.g -> 绿色" },
+    { "type": ",", "delay": 0.9, "marker": "@keyup.comma（, 的按键名是 comma）" },
+    { "key": "ctrl+a", "delay": 0.9, "marker": "@keyup.ctrl.a" },
+    { "type": "A", "delay": 0.9, "marker": "@keyup.shift.a（大写 A）" },
+    { "move": "m1", "delay": 0.5, "marker": "@mouse_move 跟踪鼠标坐标" },
+    { "move": "m2", "delay": 0.25 },
+    { "move": "m3", "delay": 0.25 },
+    { "move": "m4", "delay": 0.25 },
+    { "wait": 0.8 },
+    { "key": "ctrl+q", "delay": 0.5, "marker": "ctrl+q 退出（Textual 占用）" }
+  ]
+}

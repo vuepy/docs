@@ -57,7 +57,7 @@ VBox / HBox / Slot 支持 Textual 标准鼠标与点击事件：
 | 事件 | 说明 |
 |------|------|
 | `@click` | 鼠标点击容器时触发 |
-| `@mouse_move` | 鼠标在容器内移动时触发 |
+| `@mouse_move` | 鼠标在容器内移动时触发, 鼠标坐标是通过 `mouse_x` 和 `mouse_y` 属性获取的容器内坐标 |
 | `@mouse_enter` | 鼠标进入容器区域时触发 |
 | `@mouse_leave` | 鼠标离开容器区域时触发 |
 | `@scroll_up` | 容器内向上滚动时触发 |

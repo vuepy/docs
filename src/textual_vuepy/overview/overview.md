@@ -1,5 +1,6 @@
 ---
 title: Textual-vuepy 组件总览
+outline: deep
 footer: false
 ---
 
@@ -296,8 +297,9 @@ mouse_x, mouse_y = useMouse()
 ```
 :::
 
-`onKeyStroke` 通过 Textual 的 binding 实现，因此被 Textual 自己占用的按键监听不到：`ctrl+c` 会弹出
-"Press ctrl+q to quit" 提示，`ctrl+q` 直接退出应用，`ctrl+p` 打开命令面板。挑一个未被占用的键即可。
+`onKeyStroke` 的 `key` 用的是 Textual 按键名（`,` 要写成 `comma`），可以用 `vuepy run keys` 探测；
+被 Textual 占用的键（`ctrl+c` / `ctrl+q` / `ctrl+p`）监听不到。详见
+[VueUse 组合式函数](/textual_vuepy/vueuse/vueuse)。
 
 ---
 
@@ -319,6 +321,116 @@ Textual-vuepy 支持 Textual 原生事件，通过 `@事件名` 绑定：
 - `Input.Submitted` → `@input_submitted`
 - `DirectoryTree.FileSelected` → `@directory_tree_file_selected`
 - `Button.Pressed` → `@click`（Button 有简化别名）
+
+### `@keyup` 监听按键 {#keyup}
+
+按键事件不走 Message 名，而是用 `@keyup.<按键名>` 绑定，修饰键以 `.` 连接、最后一段是主键：
+
+:::textual-vuepy-demo overview_keyup
+```vue
+<template>
+  <VBox
+    id="pad"
+    ref="pad"
+    :can_focus="True"
+    @keyup.r="pick('darkred')"
+    @keyup.g="pick('darkgreen')"
+    @keyup.comma="mark('comma —— , 的按键名')"
+    @keyup.ctrl.a="mark('ctrl+a —— 写成 @keyup.ctrl.a')"
+    @keyup.shift.a="mark('大写 A —— 写成 @keyup.shift.a')"
+    @mouse_move="on_move"
+  >
+    <Label :label="msg.value" />
+    <Label :label="f'鼠标: ({pos.value[0]}, {pos.value[1]})'" />
+  </VBox>
+</template>
+
+<script lang="py">
+from vuepy import onMounted, ref
+
+pad = ref(None)
+msg = ref("按 r / g 换色，再试试 , 、ctrl+a 、A")
+pos = ref((0, 0))
+
+
+def pick(color):
+    app.tt_app.screen.styles.background = color
+    msg.value = f"背景色: {color}"
+
+
+def mark(name):
+    msg.value = f"按下了 {name}"
+
+
+def on_move(event):
+    pos.value = (event.screen_x, event.screen_y)
+
+
+@onMounted
+def focus_pad():
+    pad.value.unwrap().focus()  # @keyup 需要该组件持有焦点
+</script>
+
+<style lang="tcss">
+#pad {
+    width: 1fr;
+    height: 1fr;
+    align: center middle;
+}
+</style>
+```
+:::
+
+底层是 Textual 的 widget binding：`@keyup.ctrl.shift.c` 会在该组件上注册 `ctrl+shift+c` 绑定，按键触发时调用对应表达式。
+
+#### 用 `vuepy run keys` 探测按键名 {#probe-key-name}
+
+按键名是 Textual 的名字，写错了不会报错、只是不触发。不确定时用内置的 keys 应用探一下：
+
+```sh
+vuepy run keys
+```
+
+按下目标按键或组合键，日志会打印本次的 `Key` 事件，其中 **`name=` 的值就是写进 `@keyup.` 的按键名**：
+
+```text
+Key(key='comma', character=',', name='comma', is_printable=True)
+Key(key='question_mark', character='?', name='question_mark', is_printable=True)
+Key(key='ctrl+a', character=None, name='ctrl_a', is_printable=False)
+Key(key='ctrl+shift+c', character=None, name='ctrl_shift_c', is_printable=False)
+Key(key='f5', character=None, name='f5', is_printable=False)
+```
+
+对应写法：
+
+| 实际按键 | keys 应用里的 `name=` | 模板写法 |
+|----------|----------------------|----------|
+| `,` | `comma` | `@keyup.comma` |
+| `?` | `question_mark` | `@keyup.question_mark` |
+| `[` | `left_square_bracket` | `@keyup.left_square_bracket` |
+| `f5` | `f5` | `@keyup.f5` |
+| 大写 `A` | `upper_a` | `@keyup.shift.a` |
+| ctrl+a | `ctrl_a` | `@keyup.ctrl.a` |
+| ctrl+shift+c | `ctrl_shift_c` | `@keyup.ctrl.shift.c` |
+
+规则：把 `name=` 里**分隔修饰键的下划线换成 `.`**，按键名自身的下划线原样保留（`question_mark`、`left_square_bracket`）。`@keyup.ctrl_a` 这种写法不会报错也不会触发，必须写成 `@keyup.ctrl.a`。
+
+大写字母是唯一的例外：keys 应用显示 `name='upper_a'`，但模板里要写 `@keyup.shift.a`（`@keyup.upper_a` 不触发）。
+
+完整的符号名对照表见 [VueUse 文档](/textual_vuepy/vueuse/vueuse#probe-keys)（`onKeyStroke` 与 `@keyup` 用的是同一套按键名，区别只是 `onKeyStroke` 直接写 `'ctrl+a'`）。
+
+#### 焦点决定能不能触发 {#keyup-focus}
+
+widget binding 只在**该组件自身或它的子组件持有焦点**时被检查，因此：
+
+- 容器默认不可聚焦，要加 `:can_focus="True"`，并在 `onMounted` 里主动 `focus()`。应用启动时焦点默认落在最外层滚动容器上，它是你这个容器的**祖先**而不是子组件，不会触发绑定；
+- 按键沿焦点链向**祖先**冒泡，所以把 `@keyup` 挂在外层容器、焦点停在里面的 `Button` 上也能触发；
+- 焦点在 `Input` / `TextArea` 上时，可打印字符被输入控件消费，只有组合键能冒泡到祖先容器；
+- 什么都没聚焦时不触发；需要全局快捷键请改用 [`onKeyStroke`](#vueuse)（注册在 App 上）。
+
+::: warning Textual 占用的按键
+`ctrl+c`（提示退出）、`ctrl+q`（退出应用）、`ctrl+p`（命令面板）被 Textual 自己占用，监听不到，挑其他键即可（例如 `ctrl+t`）。
+:::
 
 ---
 

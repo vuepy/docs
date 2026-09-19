@@ -13,9 +13,10 @@
 
 用法::
 
-    python scripts/extract_textual_vuepy_demos.py
-    python scripts/extract_textual_vuepy_demos.py src/textual_vuepy
-    python scripts/extract_textual_vuepy_demos.py --dry-run
+    # 默认遍历脚本所在的 src/textual_vuepy
+    python src/textual_vuepy/_scripts/extract_textual_vuepy_demos.py
+    python src/textual_vuepy/_scripts/extract_textual_vuepy_demos.py src/textual_vuepy/button
+    python src/textual_vuepy/_scripts/extract_textual_vuepy_demos.py --dry-run
 """
 
 from __future__ import annotations
@@ -34,7 +35,7 @@ DEMO_RE = re.compile(
     re.MULTILINE | re.DOTALL,
 )
 
-DEFAULT_ROOT = Path(__file__).resolve().parent.parent / "src"
+DEFAULT_ROOT = Path(__file__).resolve().parent.parent
 
 
 def extract_demos(md_path: Path) -> list[tuple[str, str]]:
@@ -116,5 +117,7 @@ def main(argv: list[str] | None = None) -> int:
 
 
 if __name__ == "__main__":
+    # 一次性迁移脚本，入口故意停用：示例源码现在以 .vue 为准，md 里的代码块只是节选，
+    # 再跑一遍会把 .vue 覆盖成残缺版本。需要时手动放开下面这行。
     # raise SystemExit(main())
-    print()
+    print(__doc__)

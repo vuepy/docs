@@ -1,0 +1,12 @@
+{
+  "steps": [
+    { "wait": 1.2, "marker": "启动应用，Footer 显示各按键说明" },
+    { "key": "r", "delay": 0.8, "marker": "按 r -> 红色" },
+    { "key": "g", "delay": 0.8, "marker": "按 g -> 绿色" },
+    { "key": "b", "delay": 0.8, "marker": "按 b -> 蓝色" },
+    { "type": ",", "delay": 0.8, "marker": "按 , -> onKeyStroke('comma')" },
+    { "type": ",", "delay": 0.5 },
+    { "type": ",", "delay": 0.5 },
+    { "key": "ctrl+t", "delay": 0.8, "marker": "onKeyStroke('ctrl+t') 退出" }
+  ]
+}

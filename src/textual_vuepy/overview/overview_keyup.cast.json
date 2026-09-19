@@ -1,0 +1,36 @@
+{
+  "markers": [
+    [
+      0.232,
+      "启动应用，onMounted 里已 focus 容器"
+    ],
+    [
+      1.109,
+      "@keyup.r -> 红色"
+    ],
+    [
+      2.01,
+      "@keyup.g -> 绿色"
+    ],
+    [
+      2.915,
+      "@keyup.comma（, 的按键名是 comma）"
+    ],
+    [
+      3.819,
+      "@keyup.ctrl.a"
+    ],
+    [
+      4.724,
+      "@keyup.shift.a（大写 A）"
+    ],
+    [
+      5.233,
+      "@mouse_move 跟踪鼠标坐标"
+    ],
+    [
+      7.306,
+      "ctrl+q 退出（Textual 占用）"
+    ]
+  ]
+}

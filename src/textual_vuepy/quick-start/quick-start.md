@@ -1,5 +1,6 @@
 ---
 footer: false
+outline: deep
 ---
 
 <script setup>
@@ -200,7 +201,9 @@ def on_mount():
 <Button :style="f'width: {width.value}fr;'" label="动态宽度" />
 ```
 
-## 键鼠事件（VueUse）{#vueuse}
+## 键鼠事件
+
+### VueUse 组合式函数 {#vueuse}
 
 Textual-vuepy 提供了 VueUse 风格的组合式函数：
 
@@ -218,6 +221,70 @@ onKeyStroke('ctrl+q', on_ctrl_q)
 mouse_x, mouse_y = useMouse()
 </script>
 ```
+
+### 直接监听键鼠事件 {#direct-listen}
+
+不引入组合式函数时，可以直接在组件上用 `@keyup.<按键名>` 绑定按键，用 `@mouse_move`、`@click` 等绑定鼠标事件：
+
+```vue
+<template>
+  <VBox
+    id="pad"
+    ref="pad"
+    :can_focus="True"
+    @keyup.r="pick('darkred')"
+    @keyup.g="pick('darkgreen')"
+    @keyup.comma="mark('comma —— , 的按键名')"
+    @keyup.ctrl.a="mark('ctrl+a —— 写成 @keyup.ctrl.a')"
+    @keyup.shift.a="mark('大写 A —— 写成 @keyup.shift.a')"
+    @mouse_move="on_move"
+  >
+    <Label :label="msg.value" />
+    <Label :label="f'鼠标: ({pos.value[0]}, {pos.value[1]})'" />
+  </VBox>
+</template>
+
+<script lang="py">
+from vuepy import onMounted, ref
+
+pad = ref(None)
+msg = ref("按 r / g 换色，再试试 , 、ctrl+a 、A")
+pos = ref((0, 0))
+
+
+def pick(color):
+    app.tt_app.screen.styles.background = color
+    msg.value = f"背景色: {color}"
+
+
+def mark(name):
+    msg.value = f"按下了 {name}"
+
+
+def on_move(event):
+    pos.value = (event.screen_x, event.screen_y)
+
+
+@onMounted
+def focus_pad():
+    pad.value.unwrap().focus()  # @keyup 需要该组件持有焦点
+</script>
+
+<style lang="tcss">
+#pad {
+    width: 1fr;
+    height: 1fr;
+    align: center middle;
+}
+</style>
+```
+
+两个要点：
+
+- **需要焦点**：`@keyup` 是挂在组件上的 Textual binding，只有该组件或它的子组件持有焦点时才触发，所以容器要 `:can_focus="True"` 并在 `onMounted` 里 `focus()`。想要不依赖焦点的全局快捷键，用 [`onKeyStroke`](/textual_vuepy/vueuse/vueuse)。
+- **按键名用 `vuepy run keys` 探测**：按下目标按键，日志里 `name=` 的值就是要写的名字（`,` 是 `comma`）；组合键把分隔修饰键的下划线换成 `.`，`ctrl_a` 写成 `@keyup.ctrl.a`。
+
+按键名规则、焦点冒泡细节和对照表见 [组件总览 · `@keyup` 监听按键](/textual_vuepy/overview/overview#keyup)。
 
 ## Provide / Inject {#provide-inject}
 

@@ -37,16 +37,18 @@ Textual 应用。点击坐标先用 Textual 的 headless ``run_test`` 以相同�
 
 用法::
 
-    python scripts/render_textual_vuepy_asciinema.py
-    python scripts/render_textual_vuepy_asciinema.py src/textual_vuepy
-    python scripts/render_textual_vuepy_asciinema.py --only overview_event_handling
-    python scripts/render_textual_vuepy_asciinema.py --mirror   # 同时回显，便于调试
+    # 默认遍历脚本所在的 src/textual_vuepy
+    python src/textual_vuepy/_scripts/render_textual_vuepy_asciinema.py
+    python src/textual_vuepy/_scripts/render_textual_vuepy_asciinema.py src/textual_vuepy/overview
+    python src/textual_vuepy/_scripts/render_textual_vuepy_asciinema.py --only overview_event_handling
+    python src/textual_vuepy/_scripts/render_textual_vuepy_asciinema.py --mirror   # 同时回显，便于调试
 """
 
 from __future__ import annotations
 
 import argparse
 import asyncio
+import bisect
 import contextlib
 import dataclasses
 import fcntl
@@ -54,6 +56,7 @@ import json
 import os
 import shlex
 import shutil
+import statistics
 import struct
 import subprocess
 import sys
@@ -63,7 +66,7 @@ import time
 import traceback
 from pathlib import Path
 
-DEFAULT_ROOT = Path(__file__).resolve().parent.parent / "src" / "textual_vuepy"
+DEFAULT_ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_SIZE = (100, 30)
 PLAY_SUFFIX = ".play.json"
 
@@ -147,7 +150,9 @@ def resolve_target(screen, spec: dict) -> tuple[int, int]:
 
     col += spec.get("dx", 0)
     row += spec.get("dy", 0)
-    return _snap_to_hit(screen, widget, col, row)
+    col, row = _snap_to_hit(screen, widget, col, row)
+    # headless 探测看不到 ToastRack，但真实 tty 上 app.message / notify 会盖住右下角
+    return _avoid_toast_zone(screen, widget, col, row)
 
 
 def _receives_click(screen, widget, col: int, row: int) -> bool:
@@ -161,6 +166,35 @@ def _receives_click(screen, widget, col: int, row: int) -> bool:
             return True
         hit = hit.parent
     return False
+
+
+# ToastRack: dock bottom + align right。单条 toast 约半屏宽，两条叠起来约占底 6 行。
+_TOAST_ZONE_ROWS = 6
+_TOAST_ZONE_COLS = 52
+
+
+def _in_toast_zone(screen, col: int, row: int) -> bool:
+    size = screen.size
+    return row >= size.height - _TOAST_ZONE_ROWS and col >= size.width - _TOAST_ZONE_COLS
+
+
+def _avoid_toast_zone(screen, widget, col: int, row: int) -> tuple[int, int]:
+    """真实录制时 notify toast 会挡住右下角；若落点落在该区域，挪到控件上仍露出的格子。"""
+    if not _in_toast_zone(screen, col, row):
+        return col, row
+    region = widget.region
+    candidates: list[tuple[int, int, int]] = []
+    for r in range(region.y, region.y + region.height):
+        for c in range(region.x, region.x + region.width):
+            if _in_toast_zone(screen, c, r):
+                continue
+            if _receives_click(screen, widget, c, r):
+                candidates.append((abs(r - row) + abs(c - col), c, r))
+    if not candidates:
+        return col, row
+    candidates.sort()
+    _, c, r = candidates[0]
+    return c, r
 
 
 def _snap_to_hit(screen, widget, col: int, row: int) -> tuple[int, int]:
@@ -372,10 +406,14 @@ def _asciinema_major(asciinema_bin: str) -> int:
         return 2
 
 
+CHUNK_LOG_LIMIT = 8 << 20  # 读取记录的字节上限，够长的录屏也只有几百 KB
+
+
 class _OutputDrain(threading.Thread):
     """持续读走子进程输出，否则 pty 缓冲写满会让被录制进程卡住。
 
-    同时记录首个输出字节的时刻，用于把 marker 的挂钟时间对齐到 cast 时间轴。
+    同时按 (monotonic, bytes) 记录每次读到的输出，用于把 marker 的挂钟时间对齐
+    到 cast 时间轴（见 :func:`_cast_time_origin`）。
     """
 
     def __init__(self, master_fd: int, mirror: bool) -> None:
@@ -383,6 +421,8 @@ class _OutputDrain(threading.Thread):
         self.master_fd = master_fd
         self.mirror = mirror
         self.first_output_at: float | None = None
+        self.chunks: list[tuple[float, bytes]] = []
+        self._logged = 0
 
     def run(self) -> None:
         out = sys.stdout.buffer
@@ -393,8 +433,14 @@ class _OutputDrain(threading.Thread):
                 break
             if not data:
                 break
+            now = time.monotonic()
             if self.first_output_at is None:
-                self.first_output_at = time.monotonic()
+                self.first_output_at = now
+            if self._logged < CHUNK_LOG_LIMIT:
+                self.chunks.append((now, data))
+                self._logged += len(data)
+            else:
+                print(f"warning: too many output bytes, dropped {len(data)} bytes", file=sys.stderr)
             if self.mirror:
                 out.write(data)
                 out.flush()
@@ -418,7 +464,13 @@ def record(
         )
 
     cols, rows = size
-    inner_cmd = [sys.executable, "-m", "vuepy", "run", str(vue_path), "--backend", "textual"]
+    # cwd 已是 .vue 所在目录，用文件名即可，避免 cast 头里写入本机绝对路径
+    vue_arg = (
+        vue_path.name
+        if vue_path.resolve().parent == cwd.resolve()
+        else str(vue_path)
+    )
+    inner_cmd = [sys.executable, "-m", "vuepy", "run", vue_arg, "--backend", "textual"]
     cmd = [
         asciinema_bin,
         "rec",
@@ -473,30 +525,111 @@ def record(
         os.close(master_fd)
         reader.join(timeout=2)
 
-    origin = _cast_time_origin(cast_path, reader.first_output_at, spawned_at)
-    markers = [(round(max(0.0, at - origin), 3), label) for at, label in marked]
-    return proc.returncode or 0, markers
+    events = read_cast_output_events(cast_path)
+    origin = _cast_time_origin(events, reader, spawned_at)
+    markers = [(max(0.0, at - origin), label) for at, label in marked]
+    return proc.returncode or 0, snap_markers_to_frames(markers, events)
 
 
-def _cast_time_origin(
-    cast_path: Path, first_output_at: float | None, spawned_at: float
-) -> float:
-    """返回 cast 时间 0 对应的 monotonic 时刻。
-
-    asciinema 启动自身解释器需要一点时间，直接用 spawn 时刻会让 marker 整体偏后。
-    改用「首个输出字节的 monotonic 时刻」与「cast 内首个事件时间」做对齐。
-    """
-    if first_output_at is None:
-        return spawned_at
+def read_cast_output_events(cast_path: Path) -> list[tuple[float, bytes]]:
+    """读出 cast 里的输出事件 [(cast 时间, 原始字节)]。"""
+    events: list[tuple[float, bytes]] = []
     try:
         with cast_path.open(encoding="utf-8") as fp:
             fp.readline()  # header
             for line in fp:
-                if line.strip():
-                    return first_output_at - json.loads(line)[0]
-    except (OSError, ValueError, IndexError):
-        pass
-    return first_output_at
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    at, kind, data = json.loads(line)
+                except (ValueError, IndexError):
+                    continue
+                if kind == "o":
+                    events.append((float(at), str(data).encode("utf-8", "replace")))
+    except OSError:
+        return []
+    return events
+
+
+# 短小的输出（单个 \r 之类）在流里到处都能匹配上，对齐时只用足够长的事件
+MIN_ALIGN_BYTES = 16
+MIN_ALIGN_SAMPLES = 3
+
+
+def _cast_time_origin(
+    events: list[tuple[float, bytes]], reader: "_OutputDrain", spawned_at: float
+) -> float:
+    """返回 cast 时间 0 对应的 monotonic 时刻。
+
+    asciinema 自己也会往 stdout 写一些不进 cast 的初始化序列，所以「首个读到的
+    字节」并不是「cast 里首个事件」，按它对齐会让 marker 整体偏后一秒左右。这里
+    改成按**输出内容**匹配：在读到的字节流里依次定位每个 cast 事件，用「读到该事件
+    的时刻 - 事件的 cast 时间」的中位数当原点，对个别没匹配上的事件也不敏感。
+    """
+    deltas = _align_deltas(events, reader.chunks)
+    if len(deltas) >= MIN_ALIGN_SAMPLES:
+        return statistics.median(deltas)
+
+    # 退化情况（内容匹配不上）：退回按首个输出字节对齐
+    if reader.first_output_at is None:
+        return spawned_at
+    if events:
+        return reader.first_output_at - events[0][0]
+    return reader.first_output_at
+
+
+def _align_deltas(
+    events: list[tuple[float, bytes]], chunks: list[tuple[float, bytes]]
+) -> list[float]:
+    """把 cast 事件在读到的字节流里逐个定位，返回 monotonic 与 cast 时间之差。"""
+    if not events or not chunks:
+        return []
+
+    stream = b"".join(data for _, data in chunks)
+    # 每个 chunk 在 stream 中的结束偏移，用于按字节偏移反查读到的时刻
+    ends: list[int] = []
+    total = 0
+    for _, data in chunks:
+        total += len(data)
+        ends.append(total)
+
+    deltas: list[float] = []
+    search_from = 0
+    for at, data in events:
+        if len(data) < MIN_ALIGN_BYTES:
+            continue
+        found = stream.find(data, search_from)
+        if found < 0:
+            continue
+        search_from = found + len(data)
+        read_at = chunks[bisect.bisect_right(ends, found)][0]
+        deltas.append(read_at - at)
+    return deltas
+
+
+# marker 与它对应的画面之间只隔一次渲染，超过这个间隔就认为没有对应帧
+SNAP_WINDOW = 0.6
+
+
+def snap_markers_to_frames(
+    markers: list[tuple[float, str]],
+    events: list[tuple[float, bytes]],
+    window: float = SNAP_WINDOW,
+) -> list[tuple[float, str]]:
+    """把 marker 对齐到它之后最近的输出帧上。
+
+    marker 记的是「注入按键的时刻」，画面要等应用响应后的下一帧才变；不对齐的话
+    播放器跳到 marker 时显示的还是上一个状态。
+    """
+    times = [at for at, _ in events]
+    snapped = []
+    for at, label in markers:
+        idx = bisect.bisect_left(times, at)
+        if idx < len(times) and times[idx] - at <= window:
+            at = times[idx]
+        snapped.append((round(at, 3), label))
+    return snapped
 
 
 def write_markers(markers_path: Path, markers: list[tuple[float, str]]) -> None:
@@ -504,6 +637,31 @@ def write_markers(markers_path: Path, markers: list[tuple[float, str]]) -> None:
     payload = {"markers": [[at, label] for at, label in markers]}
     markers_path.write_text(
         json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
+
+
+def sanitize_cast_header(cast_path: Path) -> None:
+    """去掉 cast 头里 command 的本机绝对解释器路径，避免文档静态资源泄露环境信息。"""
+    text = cast_path.read_text(encoding="utf-8")
+    if not text:
+        return
+    first, _, rest = text.partition("\n")
+    try:
+        header = json.loads(first)
+    except ValueError:
+        return
+    cmd = header.get("command")
+    if not isinstance(cmd, str) or " -m vuepy " not in cmd:
+        return
+    # 只保留「python3 -m vuepy run …」这种可移植形式
+    parts = shlex.split(cmd)
+    try:
+        m_idx = parts.index("-m")
+    except ValueError:
+        return
+    header["command"] = shlex.join(["python3", *parts[m_idx:]])
+    cast_path.write_text(
+        json.dumps(header, ensure_ascii=False) + "\n" + rest, encoding="utf-8"
     )
 
 
@@ -535,6 +693,7 @@ def record_one(
     if not cast_path.exists():
         raise RuntimeError(f"asciinema 未生成 {cast_path.name}（exit={code}）")
 
+    sanitize_cast_header(cast_path)
     write_markers(vue_path.with_suffix(".cast.json"), markers)
     for at, label in markers:
         print(f"    marker {at:6.2f}s  {label}")

@@ -27,8 +27,8 @@ def set_filter(query):
     filter_query.value = query
 
 def on_file(event):
-    status.value = f"📄 {event.path}"
+    status.value = f"📄 {event.path.name}"
 
 def on_dir(event):
-    status.value = f"📁 {event.path}"
+    status.value = f"📁 {event.path.name}"
 </script>

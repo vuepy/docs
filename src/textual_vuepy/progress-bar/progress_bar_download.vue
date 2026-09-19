@@ -1,7 +1,6 @@
 <template>
   <VBox style="height: 1fr;">
     <ProgressBar
-      ref="pb_ref"
       :progress="dl_progress.value"
       :total="100"
       :show_eta="True"
@@ -19,9 +18,8 @@
 <script lang="py">
 from vuepy import ref
 
-pb_ref      = ref(None)
 dl_progress = ref(0)
-status      = ref("就绪")
+status = ref("就绪")
 
 def tick():
     if dl_progress.value < 100:

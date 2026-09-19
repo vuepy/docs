@@ -8,5 +8,5 @@
 
 <script lang="py">
 def on_select(event):
-    print(f"选中了第 {event.list_view.index} 项")
+    app.message(f"选中了第 {event.list_view.index} 项")
 </script>

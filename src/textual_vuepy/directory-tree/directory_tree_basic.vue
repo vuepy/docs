@@ -15,5 +15,5 @@ from vuepy import ref
 selected_file = ref("（未选择）")
 
 def on_file_select(event):
-    selected_file.value = str(event.path)
+    selected_file.value = str(event.path.name)
 </script>

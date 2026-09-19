@@ -7,12 +7,13 @@
 
 用法::
 
-    python scripts/render_textual_vuepy_svgs.py
-    python scripts/render_textual_vuepy_svgs.py src/textual_vuepy
-    python scripts/render_textual_vuepy_svgs.py --size 100x30
-    python scripts/render_textual_vuepy_svgs.py --only button_basic
-    python scripts/render_textual_vuepy_svgs.py --only tooltip_basic --tooltips --hover '#sw'
-    python scripts/render_textual_vuepy_svgs.py --dry-run
+    # 默认遍历脚本所在的 src/textual_vuepy
+    python src/textual_vuepy/_scripts/render_textual_vuepy_svgs.py
+    python src/textual_vuepy/_scripts/render_textual_vuepy_svgs.py src/textual_vuepy/button
+    python src/textual_vuepy/_scripts/render_textual_vuepy_svgs.py --size 100x30
+    python src/textual_vuepy/_scripts/render_textual_vuepy_svgs.py --only button_basic
+    python src/textual_vuepy/_scripts/render_textual_vuepy_svgs.py --only tooltip_basic --tooltips --hover '#sw'
+    python src/textual_vuepy/_scripts/render_textual_vuepy_svgs.py --dry-run
 """
 
 from __future__ import annotations
@@ -26,7 +27,7 @@ import sys
 import traceback
 from pathlib import Path
 
-DEFAULT_ROOT = Path(__file__).resolve().parent.parent / "src" / "textual_vuepy"
+DEFAULT_ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_SIZE = (100, 30)
 # Textual App.TOOLTIP_DELAY 默认 0.5s，略加余量
 DEFAULT_TOOLTIP_SETTLE = 0.6
