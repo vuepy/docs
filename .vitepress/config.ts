@@ -11,6 +11,7 @@ import { textualVuepyDemoPlugin } from './plugins/textual-vuepy-demo'
 import tableWrapper from './plugins/table-wrapper'
 import tooltip from './plugins/tooltip'
 import { generateLLMSTXTPlugin } from './plugins/generate-llms'
+import { emitMarkdownBuildEnd, emitMarkdownPlugin } from './plugins/emit-markdown'
 // import { textAdPlugin } from './textAdMdPlugin'
 
 const { BASE: base = '/' } = process.env
@@ -1305,6 +1306,11 @@ export default defineConfigWithTheme<ThemeConfig>({
     return $.html();
   },
 
+  async buildEnd(siteConfig) {
+    // 完整构建成功时再按 pages 精确保底一次（vite 插件可能已提前写出）
+    await emitMarkdownBuildEnd(siteConfig)
+  },
+
   vite: {
     define: {
       __VUE_OPTIONS_API__: false
@@ -1354,6 +1360,7 @@ export default defineConfigWithTheme<ThemeConfig>({
     },
     plugins: [
       generateLLMSTXTPlugin(),
+      emitMarkdownPlugin(),
     ]
   }
 })

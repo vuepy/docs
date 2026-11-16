@@ -8,9 +8,10 @@
   "scripts": {
     "dev": "vitepress",
     "build": "NODE_OPTIONS=--max-old-space-size=12288 vitepress build",
+    "build:md": "node .vitepress/scripts/emit-md.mjs",
     "preview": "vitepress preview",
     "lint": "zhlint 'src/{api,about,guide,sponsor,translations,tutorial}/**/*.md'",
-    "clean": "rm -rf .vitepress/dist",
+    "clean": "rm -rf .vitepress/dist .vitepress/dist_md",
     "sync": "node scripts/sync.js",
     "preinstall": "npx only-allow pnpm"
   },
